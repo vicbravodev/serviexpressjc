@@ -1,13 +1,11 @@
 import { Reveal, RevealGroup, RevealChild } from "@/components/motion-primitives"
 
-// Placeholder client logos - replace with actual client logos
 const clients = [
-  { name: "Cliente 1", logo: "/logistics-company-logo.png" },
-  { name: "Cliente 2", logo: "/manufacturing-company-logo.png" },
-  { name: "Cliente 3", logo: "/abstract-retail-logo.png" },
-  { name: "Cliente 4", logo: "/automotive-company-logo.png" },
-  { name: "Cliente 5", logo: "/generic-tech-logo.png" },
-  { name: "Cliente 6", logo: "/food-company-logo.png" },
+  { name: "Ternium", logo: "/clients/ternium.png" },
+  { name: "Villacero", logo: "/clients/villacero.svg" },
+  { name: "OfertAcero", logo: "/clients/ofertacero.png" },
+  { name: "Aceros BC", logo: "/clients/aceros-bc.png" },
+  { name: "Crown", logo: "/clients/crown.svg" },
 ]
 
 export function ClientsSection() {
@@ -21,7 +19,7 @@ export function ClientsSection() {
           </p>
         </Reveal>
 
-        <RevealGroup className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
+        <RevealGroup className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center">
           {clients.map((client, index) => (
             <RevealChild
               key={index}

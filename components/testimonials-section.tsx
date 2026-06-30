@@ -29,8 +29,8 @@ export function TestimonialsSection() {
               </p>
             </div>
             <div>
-              <p className="font-semibold">Cliente Nacional</p>
-              <p className="text-sm text-muted-foreground">Sector Logística</p>
+              <p className="font-semibold">Ternium</p>
+              <p className="text-sm text-muted-foreground">Logística y Abastecimiento</p>
             </div>
           </Card>
           </RevealChild>
@@ -50,8 +50,8 @@ export function TestimonialsSection() {
               </p>
             </div>
             <div>
-              <p className="font-semibold">Empresa Exportadora</p>
-              <p className="text-sm text-muted-foreground">Comercio Internacional</p>
+              <p className="font-semibold">Villacero</p>
+              <p className="text-sm text-muted-foreground">Cadena de Suministro</p>
             </div>
           </Card>
           </RevealChild>
@@ -70,8 +70,8 @@ export function TestimonialsSection() {
               </p>
             </div>
             <div>
-              <p className="font-semibold">Distribuidor Regional</p>
-              <p className="text-sm text-muted-foreground">Distribución</p>
+              <p className="font-semibold">Aceros BC</p>
+              <p className="text-sm text-muted-foreground">Operaciones y Distribución</p>
             </div>
           </Card>
           </RevealChild>
