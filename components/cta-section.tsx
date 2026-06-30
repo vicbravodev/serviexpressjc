@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { ArrowRight, Briefcase } from "lucide-react"
 import { Reveal, RevealGroup, RevealChild } from "@/components/motion-primitives"
@@ -19,17 +20,40 @@ export function CTASection() {
             </p>
             <form className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
-                <Input placeholder="Nombre completo" />
-                <Input type="email" placeholder="Correo electrónico" />
+                <div className="space-y-2">
+                  <Label htmlFor="cot-nombre">Nombre completo</Label>
+                  <Input id="cot-nombre" name="nombre" autoComplete="name" required placeholder="Ej. María Hernández" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="cot-email">Correo electrónico</Label>
+                  <Input id="cot-email" name="email" type="email" autoComplete="email" required placeholder="nombre@empresa.com" />
+                </div>
               </div>
               <div className="grid md:grid-cols-2 gap-4">
-                <Input placeholder="Teléfono" />
-                <Input placeholder="Empresa" />
+                <div className="space-y-2">
+                  <Label htmlFor="cot-telefono">Teléfono</Label>
+                  <Input id="cot-telefono" name="telefono" type="tel" autoComplete="tel" placeholder="Ej. 81 1234 5678" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="cot-empresa">Empresa</Label>
+                  <Input id="cot-empresa" name="empresa" autoComplete="organization" placeholder="Nombre de tu empresa" />
+                </div>
               </div>
-              <Input placeholder="Origen" />
-              <Input placeholder="Destino" />
-              <Textarea placeholder="Detalles de la carga (tipo, peso, dimensiones)" rows={4} />
-              <Button className="w-full bg-secondary hover:bg-secondary/90" size="lg">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="cot-origen">Origen</Label>
+                  <Input id="cot-origen" name="origen" placeholder="Ciudad de origen" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="cot-destino">Destino</Label>
+                  <Input id="cot-destino" name="destino" placeholder="Ciudad de destino" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="cot-detalles">Detalles de la carga</Label>
+                <Textarea id="cot-detalles" name="detalles" rows={4} placeholder="Tipo, peso y dimensiones de la carga" />
+              </div>
+              <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90" size="lg">
                 Enviar solicitud
                 <ArrowRight className="ml-2" size={18} />
               </Button>
@@ -51,19 +75,34 @@ export function CTASection() {
             </div>
             <form className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
-                <Input placeholder="Nombre completo" />
-                <Input type="email" placeholder="Correo electrónico" />
+                <div className="space-y-2">
+                  <Label htmlFor="post-nombre">Nombre completo</Label>
+                  <Input id="post-nombre" name="nombre" autoComplete="name" required placeholder="Ej. Juan Pérez" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="post-email">Correo electrónico</Label>
+                  <Input id="post-email" name="email" type="email" autoComplete="email" required placeholder="nombre@correo.com" />
+                </div>
               </div>
               <div className="grid md:grid-cols-2 gap-4">
-                <Input placeholder="Teléfono" />
-                <Input placeholder="Puesto de interés" />
+                <div className="space-y-2">
+                  <Label htmlFor="post-telefono">Teléfono</Label>
+                  <Input id="post-telefono" name="telefono" type="tel" autoComplete="tel" placeholder="Ej. 81 1234 5678" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="post-puesto">Puesto de interés</Label>
+                  <Input id="post-puesto" name="puesto" placeholder="Ej. Operador B1" />
+                </div>
               </div>
-              <Textarea placeholder="Cuéntanos sobre tu experiencia" rows={4} />
               <div className="space-y-2">
-                <label className="text-sm font-medium">Adjuntar CV (opcional)</label>
-                <Input type="file" accept=".pdf,.doc,.docx" />
+                <Label htmlFor="post-experiencia">Tu experiencia</Label>
+                <Textarea id="post-experiencia" name="experiencia" rows={4} placeholder="Cuéntanos sobre tu experiencia" />
               </div>
-              <Button className="w-full bg-transparent" size="lg" variant="outline">
+              <div className="space-y-2">
+                <Label htmlFor="post-cv">Adjuntar CV (opcional)</Label>
+                <Input id="post-cv" name="cv" type="file" accept=".pdf,.doc,.docx" />
+              </div>
+              <Button type="submit" className="w-full bg-transparent" size="lg" variant="outline">
                 Enviar postulación
                 <ArrowRight className="ml-2" size={18} />
               </Button>
