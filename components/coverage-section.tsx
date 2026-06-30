@@ -10,13 +10,13 @@ const EASE = [0.16, 1, 0.3, 1] as const
 const MAIN_ROUTE =
   "M330,350 C 380,322 405,308 430,300 C 452,293 462,275 470,265 C 482,250 505,243 520,240 C 565,233 600,250 620,270"
 const BORDER =
-  "M150,362 C 300,332 380,318 430,300 C 520,272 650,224 790,188"
+  "M120,250 C 250,268 360,288 430,300 C 510,313 565,345 615,398"
 const FEEDERS = [
   "M150,470 C 230,432 280,392 330,350", // Guadalajara → MTY
-  "M255,545 C 300,472 315,410 330,350", // CDMX → MTY
+  "M355,548 C 345,470 337,410 330,350", // CDMX → MTY
 ]
 const US_BRANCHES = [
-  "M620,270 C 680,255 715,245 748,236", // Houston → Atlanta
+  "M620,270 C 672,248 712,205 748,175", // Houston → Atlanta
   "M520,240 C 535,210 548,190 560,170", // San Antonio → Dallas
   "M560,170 C 600,135 640,105 666,82", //  Dallas → Chicago
 ]
@@ -29,10 +29,10 @@ const NODES: Node[] = [
   { x: 520, y: 240, label: "SAN ANTONIO", place: "above", kind: "us" },
   { x: 620, y: 270, label: "HOUSTON", place: "right", kind: "us" },
   { x: 560, y: 170, label: "DALLAS", place: "above", kind: "us" },
-  { x: 748, y: 236, label: "ATLANTA", place: "right", kind: "us" },
+  { x: 748, y: 175, label: "ATLANTA", place: "right", kind: "us" },
   { x: 666, y: 82, label: "CHICAGO", place: "above", kind: "us" },
   { x: 150, y: 470, label: "GUADALAJARA", place: "below", kind: "mx" },
-  { x: 255, y: 545, label: "CDMX", place: "below", kind: "mx" },
+  { x: 355, y: 548, label: "CDMX", place: "below", kind: "mx" },
 ]
 
 const labelOffset = (n: Node) => {
@@ -120,7 +120,7 @@ export function CoverageSection() {
                   strokeDasharray="2 7"
                   {...draw(0.1, 1.6)}
                 />
-                <text x="158" y="352" className="fill-white/55 font-mono" fontSize="11" letterSpacing="2">
+                <text x="120" y="238" className="fill-white/55 font-mono" fontSize="11" letterSpacing="2">
                   FRONTERA MX · USA
                 </text>
 
