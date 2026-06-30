@@ -88,7 +88,7 @@ export function CoverageSection() {
           </p>
         </Reveal>
 
-        <div className="grid items-stretch gap-8 lg:grid-cols-5">
+        <div className="grid items-start gap-8 lg:grid-cols-5">
           {/* Animated corridor map */}
           <motion.div
             ref={mapRef}

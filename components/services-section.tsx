@@ -105,13 +105,13 @@ export function ServicesSection() {
 
         {/* Versatilidad de carga */}
         <Reveal>
-          <div className="grid items-stretch overflow-hidden rounded-2xl border border-border bg-card md:grid-cols-2">
-            <div className="relative min-h-[240px]">
+          <div className="grid items-stretch overflow-hidden rounded-2xl border border-border bg-card lg:grid-cols-2">
+            <div className="relative aspect-[16/9] lg:aspect-auto lg:min-h-[320px]">
               <FleetImage
                 src="/fleet/carga-agricola.jpg"
                 alt="Unidad de ServiExpress JC cargada con pacas de forraje agrícola"
                 caption="Carga agrícola · forraje"
-                className="absolute inset-0 h-full w-full object-[center_45%]"
+                className="absolute inset-0 h-full w-full object-cover object-[center_45%]"
               />
             </div>
             <div className="flex flex-col justify-center p-8 sm:p-10">
