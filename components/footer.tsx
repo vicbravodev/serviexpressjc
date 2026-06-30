@@ -13,7 +13,7 @@ export function Footer() {
               <Image src="/logo-blue-bg.png" alt="ServiExpress JC" width={180} height={60} className="h-12 w-auto" />
             </div>
             <h3 className="text-2xl font-bold mb-4">
-              ServiExpress <span className="text-secondary">JC</span>
+              ServiExpress <span className="text-yellow-accent">JC</span>
             </h3>
             <p className="text-primary-foreground/80 mb-4 leading-relaxed">
               Eficiencia sobre ruedas, compromiso sin fronteras

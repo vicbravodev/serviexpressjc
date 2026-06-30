@@ -9,7 +9,7 @@ colors:
   tinta: "oklch(0.15 0.01 240)"
   lienzo: "oklch(0.99 0 0)"
   bruma: "oklch(0.96 0.005 240)"
-  bruma-texto: "oklch(0.5 0.01 240)"
+  bruma-texto: "oklch(0.42 0.012 240)"
   linea: "oklch(0.9 0.005 240)"
   whatsapp: "#25D366"
 typography:
@@ -102,7 +102,7 @@ Una base neutra fría y tranquila, con un único azul de marca que carga la iden
 - **Tinta** (`oklch(0.15 0.01 240)`): texto principal y fondo del hero. Casi negro, tibiamente azulado; nunca `#000`.
 - **Lienzo** (`oklch(0.99 0 0)`): fondo base de página y superficie de tarjetas.
 - **Bruma** (`oklch(0.96 0.005 240)`): fondo de secciones alternas (`bg-muted/30`) que separa el ritmo vertical.
-- **Bruma Texto** (`oklch(0.5 0.01 240)`): texto secundario, descripciones, labels de apoyo.
+- **Bruma Texto** (`oklch(0.42 0.012 240)`): texto secundario, descripciones, labels de apoyo.
 - **Línea** (`oklch(0.9 0.005 240)`): bordes, divisores y los hairlines del panel de certificaciones.
 
 ### Brand exception
