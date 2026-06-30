@@ -1,0 +1,262 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Updated accent color to blue instead of yellow to match logo */
+:root {
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.15 0.01 240);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0.01 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.01 240);
+  /* Primary: Royal Blue from logo (#3f51b5 / rgb(63, 81, 181)) */
+  --primary: oklch(0.45 0.15 264);
+  --primary-foreground: oklch(0.99 0 0);
+  /* Secondary: Lighter blue for variety */
+  --secondary: oklch(0.55 0.12 264);
+  --secondary-foreground: oklch(0.99 0 0);
+  --muted: oklch(0.96 0.005 240);
+  --muted-foreground: oklch(0.5 0.01 240);
+  /* Accent: Also blue to maintain consistency */
+  --accent: oklch(0.5 0.14 264);
+  --accent-foreground: oklch(0.99 0 0);
+  /* Adding yellow as selective accent for highlights */
+  --yellow-accent: oklch(0.75 0.15 85);
+  --yellow-accent-bright: oklch(0.85 0.18 90);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.9 0.005 240);
+  --input: oklch(0.9 0.005 240);
+  --ring: oklch(0.45 0.15 264);
+  --chart-1: oklch(0.45 0.15 264);
+  --chart-2: oklch(0.55 0.12 264);
+  --chart-3: oklch(0.2 0.02 240);
+  --chart-4: oklch(0.65 0.15 50);
+  --chart-5: oklch(0.4 0.09 280);
+  --radius: 0.75rem;
+  /* Custom easing curves — stronger than the built-in CSS defaults */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.12 0.01 240);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.15 0.01 240);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.15 0.01 240);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.55 0.18 264);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.6 0.14 264);
+  --secondary-foreground: oklch(0.99 0 0);
+  --muted: oklch(0.2 0.01 240);
+  --muted-foreground: oklch(0.65 0.01 240);
+  --accent: oklch(0.58 0.16 264);
+  --accent-foreground: oklch(0.99 0 0);
+  /* Yellow accent for dark mode */
+  --yellow-accent: oklch(0.8 0.16 85);
+  --yellow-accent-bright: oklch(0.88 0.18 90);
+  --destructive: oklch(0.5 0.2 27);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.25 0.01 240);
+  --input: oklch(0.25 0.01 240);
+  --ring: oklch(0.55 0.18 264);
+  --chart-1: oklch(0.55 0.18 264);
+  --chart-2: oklch(0.6 0.14 264);
+  --chart-3: oklch(0.3 0.02 240);
+  --chart-4: oklch(0.7 0.15 50);
+  --chart-5: oklch(0.5 0.09 280);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  /* Adding yellow accent colors to theme */
+  --color-yellow-accent: var(--yellow-accent);
+  --color-yellow-accent-bright: var(--yellow-accent-bright);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Adding animation keyframes for scroll effects */
+@layer utilities {
+  .parallax-video {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Added fade-in animation for client logos */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Adding slide-in animation for navbar links */
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Adding pulse animation for active link indicator */
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scaleX(0.95);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s var(--ease-out) both;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.5s var(--ease-out) both;
+  }
+
+  /* Added fade-in animation class */
+  .animate-fade-in {
+    animation: fade-in 0.6s var(--ease-out) both;
+  }
+
+  /* Adding animation classes for navbar */
+  .animate-slide-in {
+    animation: slide-in 0.3s var(--ease-out) both;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 0.4s var(--ease-in-out);
+  }
+
+  /* Hero video fades in once it can play, instead of popping in */
+  .hero-video {
+    opacity: 0;
+    transition: opacity 1.2s var(--ease-out);
+  }
+
+  .hero-video[data-loaded="true"] {
+    opacity: 1;
+  }
+}
+
+/* Respect users who prefer less motion: keep meaning, drop movement */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .parallax-video {
+    transform: none !important;
+  }
+
+  .animate-fade-in-up,
+  .animate-scale-in,
+  .animate-fade-in {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

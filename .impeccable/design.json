@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-30T00:00:00Z",
+  "title": "Design System: ServiExpress JC",
+  "extensions": {
+    "colorMeta": {
+      "azul-ruta": {
+        "role": "primary",
+        "displayName": "Azul Ruta",
+        "canonical": "oklch(0.45 0.15 264)",
+        "tonalRamp": [
+          "oklch(0.18 0.06 264)",
+          "oklch(0.27 0.10 264)",
+          "oklch(0.36 0.13 264)",
+          "oklch(0.45 0.15 264)",
+          "oklch(0.55 0.13 264)",
+          "oklch(0.66 0.11 264)",
+          "oklch(0.80 0.07 264)",
+          "oklch(0.93 0.03 264)"
+        ]
+      },
+      "azul-ruta-claro": {
+        "role": "primary",
+        "displayName": "Azul Ruta Claro",
+        "canonical": "oklch(0.55 0.12 264)",
+        "tonalRamp": [
+          "oklch(0.20 0.06 264)",
+          "oklch(0.30 0.09 264)",
+          "oklch(0.42 0.11 264)",
+          "oklch(0.55 0.12 264)",
+          "oklch(0.64 0.11 264)",
+          "oklch(0.74 0.09 264)",
+          "oklch(0.85 0.05 264)",
+          "oklch(0.94 0.02 264)"
+        ]
+      },
+      "ambar-senal": {
+        "role": "secondary",
+        "displayName": "Ámbar Señal",
+        "canonical": "oklch(0.75 0.15 85)",
+        "tonalRamp": [
+          "oklch(0.30 0.06 85)",
+          "oklch(0.42 0.09 85)",
+          "oklch(0.55 0.12 85)",
+          "oklch(0.68 0.14 85)",
+          "oklch(0.75 0.15 85)",
+          "oklch(0.85 0.18 90)",
+          "oklch(0.91 0.12 90)",
+          "oklch(0.96 0.05 90)"
+        ]
+      },
+      "tinta": {
+        "role": "neutral",
+        "displayName": "Tinta",
+        "canonical": "oklch(0.15 0.01 240)",
+        "tonalRamp": [
+          "oklch(0.12 0.01 240)",
+          "oklch(0.15 0.01 240)",
+          "oklch(0.25 0.01 240)",
+          "oklch(0.40 0.01 240)",
+          "oklch(0.50 0.01 240)",
+          "oklch(0.65 0.01 240)",
+          "oklch(0.80 0.008 240)",
+          "oklch(0.92 0.005 240)"
+        ]
+      },
+      "bruma": {
+        "role": "neutral",
+        "displayName": "Bruma",
+        "canonical": "oklch(0.96 0.005 240)",
+        "tonalRamp": [
+          "oklch(0.85 0.008 240)",
+          "oklch(0.90 0.006 240)",
+          "oklch(0.93 0.005 240)",
+          "oklch(0.96 0.005 240)",
+          "oklch(0.97 0.004 240)",
+          "oklch(0.98 0.003 240)",
+          "oklch(0.99 0.002 240)",
+          "oklch(0.995 0.001 240)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Titular del hero. Máximo 2 líneas en escritorio." },
+      "headline": { "displayName": "Headline", "purpose": "Encabezados de sección." },
+      "title": { "displayName": "Title", "purpose": "Títulos de tarjeta." },
+      "body": { "displayName": "Body", "purpose": "Párrafos y descripciones, 65-75ch." },
+      "label": { "displayName": "Label", "purpose": "Metadatos y atribución." }
+    },
+    "shadows": [
+      { "name": "hover-lift", "value": "0 20px 25px -5px oklch(0.45 0.15 264 / 0.12), 0 8px 10px -6px oklch(0.45 0.15 264 / 0.10)", "purpose": "Elevación de tarjetas solo en hover. Tintada hacia el azul de marca." },
+      { "name": "header-chrome", "value": "0 4px 6px -1px oklch(0.15 0.01 240 / 0.10)", "purpose": "Aparece cuando el header pasa a estado sólido tras el scroll." },
+      { "name": "map-anchor", "value": "0 25px 50px -12px oklch(0.15 0.01 240 / 0.25)", "purpose": "Ancla física de la imagen de cobertura." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "Curva exponencial por defecto para reveals y transiciones de tarjeta." },
+      { "name": "ease-out-quart", "value": "cubic-bezier(0.25, 1, 0.5, 1)", "purpose": "Variante para load-ins." },
+      { "name": "reveal-spring", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Curva de los reveals con Motion (whileInView y entrada del hero)." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "CTA de conversión (cotización, postulación).",
+      "html": "<button class=\"ds-btn-primary\">Solicita tu cotización<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: oklch(0.55 0.12 264); color: oklch(0.99 0 0); height: 3.5rem; padding: 0 2rem; font-size: 1.125rem; font-weight: 500; border: none; border-radius: 10px; cursor: pointer; transition: background 0.2s cubic-bezier(0.23,1,0.32,1), transform 0.1s ease-out; } .ds-btn-primary:hover { background: oklch(0.50 0.12 264); } .ds-btn-primary:hover svg { transform: translateX(2px); } .ds-btn-primary svg { transition: transform 0.2s cubic-bezier(0.23,1,0.32,1); } .ds-btn-primary:active { transform: scale(0.97); } .ds-btn-primary:focus-visible { outline: 3px solid oklch(0.45 0.15 264 / 0.5); outline-offset: 2px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Acción secundaria. Vira a ámbar en hover.",
+      "html": "<button class=\"ds-btn-outline\">Ver servicios</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: oklch(0.15 0.01 240); height: 3.5rem; padding: 0 2rem; font-size: 1.125rem; font-weight: 500; border: 1px solid oklch(0.9 0.005 240); border-radius: 10px; cursor: pointer; transition: border-color 0.2s ease-out, color 0.2s ease-out; } .ds-btn-outline:hover { border-color: oklch(0.85 0.18 90); color: oklch(0.55 0.12 85); } .ds-btn-outline:focus-visible { outline: 3px solid oklch(0.45 0.15 264 / 0.5); outline-offset: 2px; }"
+    },
+    {
+      "name": "Feature Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Tarjeta de ventaja: ícono, título, descripción. Plana en reposo, lift en hover.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-ico\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M10 17h4V5H2v12h3M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5\"/><circle cx=\"7.5\" cy=\"17.5\" r=\"2.5\"/><circle cx=\"17.5\" cy=\"17.5\" r=\"2.5\"/></svg></div><h3 class=\"ds-card-h\">Flota Moderna</h3><p class=\"ds-card-p\">Vehículos con doble placa y remolques de 53 pies con suspensión de aire.</p></div>",
+      "css": ".ds-card { background: oklch(0.99 0 0); border: 1px solid oklch(0.9 0.005 240); border-radius: 16px; padding: 1.5rem; transition: transform 0.3s cubic-bezier(0.23,1,0.32,1), box-shadow 0.3s cubic-bezier(0.23,1,0.32,1); } .ds-card:hover { transform: translateY(-6px); box-shadow: 0 20px 25px -5px oklch(0.45 0.15 264 / 0.12); } .ds-card-ico { width: 3rem; height: 3rem; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: oklch(0.45 0.15 264 / 0.1); color: oklch(0.45 0.15 264); margin-bottom: 1rem; } .ds-card-h { font-size: 1.25rem; font-weight: 600; color: oklch(0.15 0.01 240); margin: 0 0 0.5rem; } .ds-card-p { font-size: 1rem; line-height: 1.625; color: oklch(0.5 0.01 240); margin: 0; }"
+    },
+    {
+      "name": "Trust Strip Cell",
+      "kind": "custom",
+      "refersTo": "card",
+      "description": "Componente firma: certificaciones como franja con hairlines, no grid de cards.",
+      "html": "<div class=\"ds-strip\"><div class=\"ds-strip-cell\"><div class=\"ds-strip-ico\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/></svg></div><h3 class=\"ds-strip-h\">Certificación B1</h3><p class=\"ds-strip-p\">Operadores con licencia federal tipo B1.</p></div><div class=\"ds-strip-cell\"><div class=\"ds-strip-ico\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"8\" r=\"6\"/><path d=\"M8.5 14 7 22l5-3 5 3-1.5-8\"/></svg></div><h3 class=\"ds-strip-h\">Doble Placa</h3><p class=\"ds-strip-p\">Cruce fronterizo México-USA sin complicaciones.</p></div></div>",
+      "css": ".ds-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: oklch(0.9 0.005 240); border: 1px solid oklch(0.9 0.005 240); border-radius: 16px; overflow: hidden; } .ds-strip-cell { background: oklch(0.99 0 0); padding: 2rem; transition: background 0.3s ease-out; } .ds-strip-cell:hover { background: oklch(0.96 0.005 240 / 0.4); } .ds-strip-ico { width: 3rem; height: 3rem; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: oklch(0.45 0.15 264 / 0.1); color: oklch(0.45 0.15 264); margin-bottom: 1rem; } .ds-strip-h { font-size: 1.125rem; font-weight: 600; color: oklch(0.15 0.01 240); margin: 0 0 0.5rem; } .ds-strip-p { font-size: 0.875rem; line-height: 1.6; color: oklch(0.5 0.01 240); margin: 0; }"
+    },
+    {
+      "name": "Input Field",
+      "kind": "input",
+      "refersTo": "card",
+      "description": "Campo de formulario de cotización/postulación. Label arriba, nunca placeholder como label.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Correo electrónico</span><input class=\"ds-input\" type=\"email\" placeholder=\"nombre@empresa.com\"></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 0.5rem; } .ds-field-label { font-size: 0.875rem; font-weight: 500; color: oklch(0.15 0.01 240); } .ds-input { height: 2.75rem; padding: 0 0.875rem; font-size: 1rem; color: oklch(0.15 0.01 240); background: oklch(0.99 0 0); border: 1px solid oklch(0.9 0.005 240); border-radius: 10px; transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out; } .ds-input::placeholder { color: oklch(0.5 0.01 240); } .ds-input:focus-visible { outline: none; border-color: oklch(0.45 0.15 264); box-shadow: 0 0 0 3px oklch(0.45 0.15 264 / 0.3); }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "button-outline",
+      "description": "Enlace de navegación con subrayado ámbar que crece en hover.",
+      "html": "<a class=\"ds-nav\" href=\"#servicios\">Servicios</a>",
+      "css": ".ds-nav { position: relative; font-size: 1rem; font-weight: 500; color: oklch(0.15 0.01 240 / 0.8); text-decoration: none; padding-bottom: 4px; transition: color 0.3s ease-out; } .ds-nav::after { content: ''; position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: oklch(0.85 0.18 90); transition: width 0.3s cubic-bezier(0.23,1,0.32,1); } .ds-nav:hover { color: oklch(0.15 0.01 240); } .ds-nav:hover::after { width: 100%; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El Apretón de Manos en Carretera",
+    "overview": "Cada decisión visual existe para que un cliente o un operador sienta que detrás de la pantalla hay gente real que cumple. La confianza no se declara, se demuestra: credenciales concretas (B1, doble placa, GPS 24/7, más de diez años) sostienen un trato cálido y directo. Sobre una base azul de ruta, profunda y seria, el ámbar de señalética marca lo que importa, alejando a la marca tanto del frío corporativo como del software.",
+    "keyCharacteristics": [
+      "Azul de ruta como identidad, ámbar de señalética como acento escaso y deliberado.",
+      "Calidez sin informalidad; seriedad sin frialdad.",
+      "Tipografía Geist, jerarquía por escala y peso, no por color.",
+      "Superficies planas en reposo; profundidad solo como respuesta al estado.",
+      "Móvil de primera clase, no una reducción del escritorio."
+    ],
+    "rules": [
+      { "name": "La Regla del Ámbar Escaso", "body": "El ámbar es señal, no decoración. Marca a lo sumo un elemento por pantalla. Su rareza es el punto.", "section": "colors" },
+      { "name": "La Regla de Un Solo Azul", "body": "Azul Ruta y su variante clara son el mismo color. Ningún CTA cambia a teal, verde o morado en una sección tardía.", "section": "colors" },
+      { "name": "La Regla del Énfasis en Familia", "body": "Para destacar una palabra en un titular se usa color o peso dentro de Geist. Nunca un serif al azar ni gradient text.", "section": "typography" },
+      { "name": "La Regla del Plano en Reposo", "body": "Ninguna tarjeta nace con sombra. La sombra entra con el hover y se va con él.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do usar fotografía y video reales de la flota, las unidades y los operadores de ServiExpress.",
+      "Do reservar el Ámbar Señal para un único acento por pantalla; deja que el azul cargue la identidad.",
+      "Do mantener superficies planas en reposo y elevar solo en hover.",
+      "Do sostener cada afirmación con evidencia concreta (B1, doble placa, GPS 24/7, 10+ años).",
+      "Do dar prioridad real al móvil: el hero cabe en viewport, los CTAs se ven sin scroll.",
+      "Do romper la repetición de layout: cuando una sección use un patrón, la siguiente usa otra familia."
+    ],
+    "donts": [
+      "Don't caer en el transportista genérico: nada de stock de camión al atardecer como relleno ni azul plano de plantilla.",
+      "Don't parecer startup tech / SaaS: prohibidos gradientes morados, glassmorphism decorativo, hero-metric y grids de cards idénticas.",
+      "Don't verse barato ni amateur: nada de tipografía débil, exceso de colores ni plantilla económica.",
+      "Don't sentirse corporativo frío: no borres la presencia humana.",
+      "Don't usar background-clip: text con gradiente en titulares.",
+      "Don't usar border-left/right mayor a 1px como franja de color.",
+      "Don't dejar sombra permanente sobre cada tarjeta, ni #000/#fff puros.",
+      "Don't usar em dashes en el copy."
+    ]
+  }
+}
