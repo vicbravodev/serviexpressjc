@@ -111,7 +111,7 @@ export function ServicesSection() {
                 src="/fleet/carga-agricola.jpg"
                 alt="Unidad de ServiExpress JC cargada con pacas de forraje agrícola"
                 caption="Carga agrícola · forraje"
-                className="absolute inset-0 h-full w-full"
+                className="absolute inset-0 h-full w-full object-[72%_center]"
               />
             </div>
             <div className="flex flex-col justify-center p-8 sm:p-10">
