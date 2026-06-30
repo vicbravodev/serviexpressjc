@@ -236,6 +236,83 @@
   .hero-video[data-loaded="true"] {
     opacity: 1;
   }
+
+  /* ── Torre de Control: tech surface system ─────────────────────────── */
+
+  /* Graphite steel surface for control-room panels (hero HUD, stats, map) */
+  .surface-steel {
+    background:
+      linear-gradient(180deg, oklch(0.19 0.014 255) 0%, oklch(0.145 0.012 255) 100%);
+  }
+
+  /* Fine blueprint grid, tuned for dark surfaces */
+  .bg-blueprint {
+    background-image:
+      linear-gradient(to right, color-mix(in oklch, white 5%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklch, white 5%, transparent) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  /* Sparse dot grid for light surfaces */
+  .bg-dotgrid {
+    background-image: radial-gradient(
+      circle,
+      color-mix(in oklch, var(--foreground) 9%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 24px 24px;
+  }
+
+  /* Telemetry: blinking live dot */
+  @keyframes live-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+  .animate-live-blink {
+    animation: live-blink 1.4s steps(1, end) infinite;
+  }
+
+  /* Telemetry: horizontal data ticker (logos / readouts) */
+  @keyframes marquee-x {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+    animation: marquee-x 32s linear infinite;
+  }
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  /* A single dispatch unit traveling the route line */
+  @keyframes convoy {
+    0% { offset-distance: 0%; }
+    100% { offset-distance: 100%; }
+  }
+  .animate-convoy {
+    offset-rotate: auto;
+    animation: convoy 7s var(--ease-out-quart) infinite;
+  }
+
+  /* Faint sweeping scanline for the "live monitor" feel */
+  @keyframes scan-y {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(900%); }
+  }
+  .animate-scan {
+    animation: scan-y 6s linear infinite;
+  }
+}
+
+/* New tech animations also collapse under reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-live-blink,
+  .animate-marquee,
+  .animate-convoy,
+  .animate-scan {
+    animation: none !important;
+  }
 }
 
 /* Respect users who prefer less motion: keep meaning, drop movement */

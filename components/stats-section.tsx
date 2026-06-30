@@ -1,54 +1,114 @@
-import { Card } from "@/components/ui/card"
-import { Clock, Truck, Award } from "lucide-react"
-import { RevealGroup, RevealChild } from "@/components/motion-primitives"
+"use client"
 
-const stats = [
-  {
-    icon: Award,
-    value: "10+",
-    label: "Años de experiencia",
-    suffix: "",
-  },
-  {
-    icon: Clock,
-    value: "24/7",
-    label: "Monitoreo GPS",
-    suffix: "",
-  },
-  {
-    icon: Truck,
-    value: "100",
-    label: "Flota propia",
-    suffix: "%",
-  },
-  {
-    icon: Award,
-    value: "B1",
-    label: "Operadores certificados",
-    suffix: "",
-  },
+import { Clock, Truck, ShieldCheck, BadgeCheck } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { motion, useInView, useReducedMotion } from "motion/react"
+
+type Metric = {
+  icon: typeof Clock
+  /** Numeric target for the roll-up, or null for non-numeric values. */
+  target: number | null
+  /** Static text shown when target is null (e.g. "24/7", "B1"). */
+  display?: string
+  prefix?: string
+  suffix?: string
+  label: string
+  caption: string
+}
+
+const metrics: Metric[] = [
+  { icon: BadgeCheck, target: 10, suffix: "+", label: "Años en ruta", caption: "Operación continua MX–USA" },
+  { icon: Clock, target: null, display: "24/7", label: "Monitoreo GPS", caption: "Rastreo en tiempo real" },
+  { icon: Truck, target: 100, suffix: "%", label: "Flota propia", caption: "Sin subcontratar tu carga" },
+  { icon: ShieldCheck, target: null, display: "B1", label: "Operadores", caption: "Certificados para cruce" },
 ]
 
-export function StatsSection() {
+function useCountUp(target: number | null, active: boolean, duration = 1400) {
+  const [value, setValue] = useState(0)
+  const reduce = useReducedMotion()
+  useEffect(() => {
+    if (target === null || !active) return
+    if (reduce) {
+      setValue(target)
+      return
+    }
+    let raf = 0
+    let start = 0
+    const tick = (now: number) => {
+      if (!start) start = now
+      const p = Math.min((now - start) / duration, 1)
+      // easeOutQuart for a confident, decelerating count
+      const eased = 1 - Math.pow(1 - p, 4)
+      setValue(Math.round(target * eased))
+      if (p < 1) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [target, active, duration, reduce])
+  return value
+}
+
+function MetricCell({ metric, active, index }: { metric: Metric; active: boolean; index: number }) {
+  const counted = useCountUp(metric.target, active)
+  const Icon = metric.icon
   return (
-    <section className="relative -mt-20 pb-20 z-20">
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      animate={active ? { opacity: 1, y: 0 } : undefined}
+      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+      className="group relative flex flex-col gap-3 bg-[oklch(0.16_0.012_255)] px-6 py-7 sm:px-8 sm:py-9 transition-colors hover:bg-[oklch(0.185_0.014_255)]"
+    >
+      <div className="flex items-center justify-between">
+        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/55">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <Icon className="h-4 w-4 text-yellow-accent-bright/70" />
+      </div>
+      <div className="flex items-baseline gap-0.5 text-white">
+        <span className="text-4xl sm:text-5xl font-bold tabular-nums tracking-tight">
+          {metric.target === null ? metric.display : `${metric.prefix ?? ""}${counted}`}
+        </span>
+        {metric.suffix && (
+          <span className="text-2xl sm:text-3xl font-bold text-yellow-accent-bright">{metric.suffix}</span>
+        )}
+      </div>
+      <div>
+        <p className="text-sm font-semibold text-white/90">{metric.label}</p>
+        <p className="font-mono text-[11px] text-white/60">{metric.caption}</p>
+      </div>
+    </motion.div>
+  )
+}
+
+export function StatsSection() {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, amount: 0.3 })
+
+  return (
+    <section className="relative -mt-24 sm:-mt-28 pb-20 z-20">
       <div className="container mx-auto px-4">
-        <RevealGroup className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
-          {stats.map((stat, index) => (
-            <RevealChild key={index}>
-              <Card className="h-full p-6 md:p-8 text-center transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1.5 hover:shadow-xl bg-background/95 backdrop-blur-sm">
-                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <stat.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
-                </div>
-                <div className="text-3xl md:text-5xl font-bold text-primary mb-2">
-                  {stat.value}
-                  {stat.suffix}
-                </div>
-                <p className="text-sm md:text-base text-muted-foreground font-medium">{stat.label}</p>
-              </Card>
-            </RevealChild>
-          ))}
-        </RevealGroup>
+        <div
+          ref={ref}
+          className="relative mx-auto max-w-6xl overflow-hidden rounded-2xl border border-white/10 surface-steel shadow-2xl shadow-black/40"
+        >
+          {/* Console header bar */}
+          <div className="flex items-center justify-between border-b border-white/10 px-6 py-3.5 sm:px-8">
+            <div className="flex items-center gap-2.5">
+              <span className="h-2 w-2 rounded-full bg-yellow-accent-bright animate-live-blink" />
+              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/70">
+                Sala de control · sistema en línea
+              </span>
+            </div>
+            <span className="hidden font-mono text-[11px] text-white/55 sm:inline">SERVIEXPRESS·JC / OPS</span>
+          </div>
+
+          {/* Instrument cells, hairline-divided (no identical card grid) */}
+          <div className="grid grid-cols-2 gap-px bg-white/10 md:grid-cols-4">
+            {metrics.map((metric, i) => (
+              <MetricCell key={metric.label} metric={metric} active={inView} index={i} />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )

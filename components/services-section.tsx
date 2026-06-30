@@ -1,133 +1,138 @@
-import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { MapPin, Globe, ArrowRight } from "lucide-react"
+import { ArrowRight } from "lucide-react"
+import Link from "next/link"
 import { Reveal, RevealGroup, RevealChild } from "@/components/motion-primitives"
+import { FleetImage } from "@/components/fleet-image"
+
+const nacionalZones = ["Norte", "Bajío", "Pacífico", "Occidente"]
+const internacionalZones = ["Texas", "Midwest", "Southeast", "West"]
 
 export function ServicesSection() {
   return (
     <section id="servicios" className="py-24 bg-muted/30">
       <div className="container mx-auto px-4">
-        <Reveal className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-balance">Nuestros Servicios</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-            Soluciones integrales de transporte adaptadas a tus necesidades
+        <Reveal className="mb-14 text-center">
+          <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">Servicios</span>
+          <h2 className="mt-3 text-3xl md:text-5xl font-bold text-balance">Lo que movemos, probado en carretera</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground text-pretty">
+            Carga nacional e internacional, con unidades propias y operadores certificados de punta a punta.
           </p>
         </Reveal>
 
-        <RevealGroup className="grid lg:grid-cols-2 gap-8 mb-12">
-          {/* Transporte Nacional */}
+        <RevealGroup className="mb-10 grid gap-8 lg:grid-cols-2">
+          {/* Nacional */}
           <RevealChild className="h-full">
-          <Card className="h-full p-8 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1.5 hover:shadow-xl">
-            <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
-              <MapPin className="w-8 h-8 text-primary" />
-            </div>
-            <h3 className="text-2xl font-bold mb-4">Transporte Nacional</h3>
-            <p className="text-muted-foreground mb-6 leading-relaxed">
-              Servicios de transporte local, regional y de larga distancia a través de México. Cobertura completa en
-              todas las zonas del país.
-            </p>
-            <div className="space-y-3 mb-6">
-              <div className="flex items-start gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2" />
-                <div>
-                  <span className="font-semibold">Zona Norte:</span> Coahuila, Chihuahua, Durango, Tamaulipas, Monterrey
-                </div>
+            <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1.5 hover:shadow-xl">
+              <div className="relative aspect-[16/9] overflow-hidden">
+                <FleetImage
+                  src="/fleet/carga-acero.jpg"
+                  alt="Unidad de ServiExpress JC transportando carga siderúrgica de acero"
+                  caption="Carga de acero · nacional"
+                  className="h-full w-full transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
+                <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-md border border-white/20 bg-black/40 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-white backdrop-blur-sm">
+                  <span className="h-1.5 w-1.5 rounded-full bg-yellow-accent-bright" /> Nacional
+                </span>
               </div>
-              <div className="flex items-start gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2" />
-                <div>
-                  <span className="font-semibold">Zona Pacífico:</span> Baja California, Sinaloa, Sonora
+              <div className="flex flex-1 flex-col p-7">
+                <h3 className="text-2xl font-bold">Transporte nacional</h3>
+                <p className="mt-3 leading-relaxed text-muted-foreground">
+                  Local, regional y larga distancia por todo México. Carga siderúrgica, agrícola, seca y
+                  sobredimensionada, monitoreada por GPS de origen a destino.
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {nacionalZones.map((z) => (
+                    <span
+                      key={z}
+                      className="rounded-full border border-border bg-muted/40 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-muted-foreground"
+                    >
+                      {z}
+                    </span>
+                  ))}
                 </div>
+                <Button variant="outline" className="mt-6 w-full bg-transparent" asChild>
+                  <Link href="#cobertura">
+                    Ver cobertura
+                    <ArrowRight className="ml-2" size={16} />
+                  </Link>
+                </Button>
               </div>
-              <div className="flex items-start gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2" />
-                <div>
-                  <span className="font-semibold">Zona Bajío:</span> Aguascalientes, Guanajuato, Querétaro, San Luis
-                  Potosí
-                </div>
-              </div>
-              <div className="flex items-start gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2" />
-                <div>
-                  <span className="font-semibold">Zona Occidente:</span> Jalisco, Michoacán, Colima
-                </div>
-              </div>
-            </div>
-            <Button variant="outline" className="w-full bg-transparent">
-              Más información
-              <ArrowRight className="ml-2" size={16} />
-            </Button>
-          </Card>
+            </article>
           </RevealChild>
 
-          {/* Transporte Internacional */}
+          {/* Internacional */}
           <RevealChild className="h-full">
-          <Card className="h-full p-8 border-primary/20 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1.5 hover:shadow-xl">
-            <div className="w-16 h-16 rounded-xl bg-secondary/10 flex items-center justify-center mb-6">
-              <Globe className="w-8 h-8 text-secondary" />
-            </div>
-            <h3 className="text-2xl font-bold mb-4">Transporte Internacional</h3>
-            <p className="text-muted-foreground mb-6 leading-relaxed">
-              Servicios transfronterizos México-USA con servicio puerta a puerta. Cruce por Laredo, TX con operadores
-              certificados B1.
-            </p>
-            <div className="space-y-3 mb-6">
-              <div className="flex items-start gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-2" />
-                <div>
-                  <span className="font-semibold">Texas:</span> Austin, Dallas, Houston, San Antonio
-                </div>
+            <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1.5 hover:shadow-xl">
+              <div className="relative aspect-[16/9] overflow-hidden">
+                <FleetImage
+                  src="/fleet/cruce-usa.jpg"
+                  alt="Tractor de ServiExpress JC en báscula certificada en Estados Unidos"
+                  caption="Cruce México · USA"
+                  className="h-full w-full transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
+                <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-md border border-white/20 bg-black/40 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-white backdrop-blur-sm">
+                  <span className="h-1.5 w-1.5 rounded-full bg-yellow-accent-bright" /> Internacional · MX → USA
+                </span>
               </div>
-              <div className="flex items-start gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-2" />
-                <div>
-                  <span className="font-semibold">Midwest:</span> Chicago, Detroit, Indianapolis, Kansas City
+              <div className="flex flex-1 flex-col p-7">
+                <h3 className="text-2xl font-bold">Transporte internacional</h3>
+                <p className="mt-3 leading-relaxed text-muted-foreground">
+                  Servicio transfronterizo puerta a puerta. Cruce por Laredo, TX con operadores certificados B1 y
+                  unidades de doble placa.
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {internacionalZones.map((z) => (
+                    <span
+                      key={z}
+                      className="rounded-full border border-border bg-muted/40 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-muted-foreground"
+                    >
+                      {z}
+                    </span>
+                  ))}
                 </div>
+                <Button className="mt-6 w-full bg-secondary hover:bg-secondary/90" asChild>
+                  <Link href="#cotizacion">
+                    Solicitar cotización
+                    <ArrowRight className="ml-2" size={16} />
+                  </Link>
+                </Button>
               </div>
-              <div className="flex items-start gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-2" />
-                <div>
-                  <span className="font-semibold">Southeast:</span> Atlanta, Miami, Nashville, Orlando
-                </div>
-              </div>
-              <div className="flex items-start gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-2" />
-                <div>
-                  <span className="font-semibold">West:</span> Los Angeles, Phoenix, San Diego, Seattle
-                </div>
-              </div>
-            </div>
-            <Button className="w-full bg-secondary hover:bg-secondary/90">
-              Solicitar cotización
-              <ArrowRight className="ml-2" size={16} />
-            </Button>
-          </Card>
+            </article>
           </RevealChild>
         </RevealGroup>
 
-        {/* Características del Equipo */}
+        {/* Versatilidad de carga */}
         <Reveal>
-        <Card className="p-8 bg-gradient-to-br from-primary/5 to-secondary/5">
-          <h3 className="text-2xl font-bold mb-6 text-center">Características de Nuestro Equipo</h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">53'</div>
-              <div className="text-sm text-muted-foreground">Remolques de carga seca</div>
+          <div className="grid items-stretch overflow-hidden rounded-2xl border border-border bg-card md:grid-cols-2">
+            <div className="relative min-h-[240px]">
+              <FleetImage
+                src="/fleet/carga-agricola.jpg"
+                alt="Unidad de ServiExpress JC cargada con pacas de forraje agrícola"
+                caption="Carga agrícola · forraje"
+                className="absolute inset-0 h-full w-full"
+              />
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">GPS</div>
-              <div className="text-sm text-muted-foreground">Rastreo en tiempo real</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">B1</div>
-              <div className="text-sm text-muted-foreground">Operadores certificados</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">2X</div>
-              <div className="text-sm text-muted-foreground">Vehículos doble placa</div>
+            <div className="flex flex-col justify-center p-8 sm:p-10">
+              <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                Carga especializada
+              </span>
+              <h3 className="mt-3 text-2xl font-bold">Una flota, muchos tipos de carga</h3>
+              <p className="mt-3 leading-relaxed text-muted-foreground">
+                De varilla y perfiles de acero a pacas de forraje: plataformas, cajas secas de 53 pies y equipo para
+                carga sobredimensionada, siempre amarrada y monitoreada.
+              </p>
+              <div className="mt-6 grid grid-cols-2 gap-3">
+                {["Siderúrgica / acero", "Agrícola y forraje", "Carga seca (53')", "Sobredimensionada"].map((tag) => (
+                  <div key={tag} className="flex items-center gap-2 text-sm">
+                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-yellow-accent" />
+                    <span className="text-foreground">{tag}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </Card>
         </Reveal>
       </div>
     </section>
