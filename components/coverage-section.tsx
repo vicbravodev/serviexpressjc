@@ -15,7 +15,7 @@ export function CoverageSection() {
         <RevealGroup className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Map placeholder */}
           <RevealChild className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
-            <img src="/map-of-mexico-and-usa-with-transportation-routes.jpg" alt="Mapa de cobertura" className="w-full h-full object-cover" />
+            <img src="/map-of-mexico-and-usa-with-transportation-routes.jpg" alt="Mapa de rutas de transporte entre México y Estados Unidos" loading="lazy" decoding="async" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
             <div className="absolute bottom-6 left-6 right-6">
               <p className="text-sm font-medium text-foreground">Rutas principales México - Estados Unidos</p>
