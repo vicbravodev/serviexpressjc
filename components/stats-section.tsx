@@ -96,7 +96,7 @@ export function StatsSection() {
             <div className="flex items-center gap-2.5">
               <span className="h-2 w-2 rounded-full bg-yellow-accent-bright animate-live-blink" />
               <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/70">
-                Sala de control · sistema en línea
+                Monitoreo en tiempo real · 24/7
               </span>
             </div>
             <span className="hidden font-mono text-[11px] text-white/55 sm:inline">SERVIEXPRESS·JC / OPS</span>
