@@ -29,7 +29,9 @@ export function ClientsSection() {
             >
               <img
                 src={client.logo || "/placeholder.svg"}
-                alt={client.name}
+                alt={`Logotipo de ${client.name}`}
+                loading="lazy"
+                decoding="async"
                 className="max-w-full h-12 md:h-16 object-contain grayscale hover:grayscale-0 transition-all duration-300"
               />
             </RevealChild>

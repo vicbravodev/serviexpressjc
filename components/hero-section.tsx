@@ -53,6 +53,15 @@ export function HeroSection() {
     }
   }, [])
 
+  useEffect(() => {
+    // En conexiones con ahorro de datos, no autoreproducir el video pesado: se queda el poster.
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
+    if (conn?.saveData && videoRef.current) {
+      videoRef.current.removeAttribute("autoplay")
+      videoRef.current.pause()
+    }
+  }, [])
+
   return (
     <section
       id="inicio"
@@ -66,7 +75,7 @@ export function HeroSection() {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           onCanPlay={() => setVideoLoaded(true)}
           data-loaded={videoLoaded}
           className="hero-video w-full h-full object-cover"

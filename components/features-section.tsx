@@ -1,5 +1,4 @@
 import { Truck, Shield, MapPin, Clock, Wrench, Users } from "lucide-react"
-import { Card } from "@/components/ui/card"
 import { Reveal, RevealGroup, RevealChild } from "@/components/motion-primitives"
 
 const features = [
@@ -46,16 +45,17 @@ export function FeaturesSection() {
           </p>
         </Reveal>
 
-        <RevealGroup className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <RevealGroup className="max-w-5xl mx-auto grid md:grid-cols-2 gap-x-12 border-t border-border">
           {features.map((feature, index) => (
-            <RevealChild key={index}>
-              <Card className="group h-full p-6 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1.5 hover:shadow-xl">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 transition-colors duration-300 group-hover:bg-primary/20">
-                  <feature.icon className="w-6 h-6 text-primary" />
-                </div>
+            <RevealChild key={index} className="group flex gap-5 py-8 border-b border-border">
+              <feature.icon
+                className="w-6 h-6 text-primary shrink-0 mt-1 transition-transform duration-300 group-hover:scale-110"
+                strokeWidth={1.5}
+              />
+              <div>
                 <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
-              </Card>
+              </div>
             </RevealChild>
           ))}
         </RevealGroup>

@@ -13,7 +13,7 @@ export function Footer() {
               <Image src="/logo-blue-bg.png" alt="ServiExpress JC" width={180} height={60} className="h-12 w-auto" />
             </div>
             <h3 className="text-2xl font-bold mb-4">
-              ServiExpress <span className="text-secondary">JC</span>
+              ServiExpress <span className="text-yellow-accent">JC</span>
             </h3>
             <p className="text-primary-foreground/80 mb-4 leading-relaxed">
               Eficiencia sobre ruedas, compromiso sin fronteras
@@ -23,7 +23,7 @@ export function Footer() {
                 href="https://instagram.com/serviexpressjc1"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
+                className="w-11 h-11 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram size={20} />
@@ -32,7 +32,7 @@ export function Footer() {
                 href="https://facebook.com/serviexpressjc"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
+                className="w-11 h-11 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook size={20} />
@@ -41,7 +41,7 @@ export function Footer() {
                 href="https://linkedin.com/company/serviexpressjc"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
+                className="w-11 h-11 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin size={20} />
@@ -142,7 +142,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/20 pt-8 text-center text-sm text-primary-foreground/60">
+        <div className="border-t border-primary-foreground/20 pt-8 text-center text-sm text-primary-foreground/75">
           <p>&copy; {new Date().getFullYear()} ServiExpress JC LLC. Todos los derechos reservados.</p>
         </div>
       </div>

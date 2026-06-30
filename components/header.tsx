@@ -130,7 +130,9 @@ export function Header() {
           <button
             className={`md:hidden p-2 transition-colors duration-300 ${solid ? "text-foreground" : "text-white"}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
           >
             {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -138,13 +140,13 @@ export function Header() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border animate-slide-in">
+          <div id="mobile-menu" className="md:hidden py-4 border-t border-border animate-slide-in">
             <nav className="flex flex-col gap-5">
               {navItems.map((item, index) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative text-base font-medium text-foreground/80 hover:text-foreground transition-colors py-1 group ${
+                  className={`relative text-base font-medium text-foreground/80 hover:text-foreground transition-colors py-3 group ${
                     activeLink === item.href ? "text-yellow-accent" : ""
                   }`}
                   onClick={(e) => {

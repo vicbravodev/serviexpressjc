@@ -22,7 +22,7 @@
       "azul-ruta-claro": {
         "role": "primary",
         "displayName": "Azul Ruta Claro",
-        "canonical": "oklch(0.55 0.12 264)",
+        "canonical": "oklch(0.42 0.14 264)",
         "tonalRamp": [
           "oklch(0.20 0.06 264)",
           "oklch(0.30 0.09 264)",
