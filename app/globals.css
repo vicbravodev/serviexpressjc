@@ -15,10 +15,10 @@
   --primary: oklch(0.45 0.15 264);
   --primary-foreground: oklch(0.99 0 0);
   /* Secondary: Lighter blue for variety */
-  --secondary: oklch(0.55 0.12 264);
+  --secondary: oklch(0.42 0.14 264);
   --secondary-foreground: oklch(0.99 0 0);
   --muted: oklch(0.96 0.005 240);
-  --muted-foreground: oklch(0.5 0.01 240);
+  --muted-foreground: oklch(0.42 0.012 240);
   /* Accent: Also blue to maintain consistency */
   --accent: oklch(0.5 0.14 264);
   --accent-foreground: oklch(0.99 0 0);

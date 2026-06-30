@@ -142,7 +142,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/20 pt-8 text-center text-sm text-primary-foreground/60">
+        <div className="border-t border-primary-foreground/20 pt-8 text-center text-sm text-primary-foreground/75">
           <p>&copy; {new Date().getFullYear()} ServiExpress JC LLC. Todos los derechos reservados.</p>
         </div>
       </div>

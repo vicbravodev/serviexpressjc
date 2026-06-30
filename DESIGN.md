@@ -3,7 +3,7 @@ name: ServiExpress JC
 description: Landing de transporte de carga México-USA, cálida y confiable, no transportista genérico.
 colors:
   azul-ruta: "oklch(0.45 0.15 264)"
-  azul-ruta-claro: "oklch(0.55 0.12 264)"
+  azul-ruta-claro: "oklch(0.42 0.14 264)"
   ambar-senal: "oklch(0.75 0.15 85)"
   ambar-senal-bright: "oklch(0.85 0.18 90)"
   tinta: "oklch(0.15 0.01 240)"
@@ -93,7 +93,7 @@ Una base neutra fría y tranquila, con un único azul de marca que carga la iden
 
 ### Primary
 - **Azul Ruta** (`oklch(0.45 0.15 264)`): el azul del logo, profundo y serio. Identidad principal: fondo del footer, íconos de credenciales, números de stats, foco de inputs y el anillo de foco.
-- **Azul Ruta Claro** (`oklch(0.55 0.12 264)`): variante más luminosa del mismo azul. Es el color de los **CTAs primarios** ("Solicita tu cotización", "Cotización", "Enviar solicitud"). Su trabajo es decir "haz clic aquí".
+- **Azul Ruta Claro** (`oklch(0.42 0.14 264)`): variante del azul, oscurecida para que el texto blanco de los **CTAs primarios** pase contraste AA. Es el color de los CTAs ("Solicita tu cotización", "Cotización", "Enviar solicitud"). Su trabajo es decir "haz clic aquí".
 
 ### Secondary
 - **Ámbar Señal** (`oklch(0.75 0.15 85)`) y **Ámbar Señal Bright** (`oklch(0.85 0.18 90)`): el acento cálido de señalética. Aparece en el punto del badge del hero, el subrayado de navegación, la palabra enfatizada del titular ("compromiso sin fronteras") y los hovers de borde. Es el contrapunto que humaniza el azul.
