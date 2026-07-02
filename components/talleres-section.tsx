@@ -14,7 +14,7 @@ export function TalleresSection() {
         <div className="grid items-center gap-10 lg:grid-cols-2">
           {/* Proof: a unit kept in show condition by their own shops */}
           <Reveal className="order-2 lg:order-1">
-            <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/40">
+            <div className="relative overflow-hidden rounded-2xl border border-white/10">
               <FleetImage
                 src="/fleet/kenworth-clasico.jpg"
                 alt={t("imageAlt")}

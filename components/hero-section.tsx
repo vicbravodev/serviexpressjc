@@ -119,7 +119,7 @@ export function HeroSection() {
           onCanPlay={() => setVideoLoaded(true)}
           data-loaded={videoLoaded}
           className="hero-video w-full h-full object-cover"
-          poster="/modern-truck-on-highway-at-sunset.jpg"
+          poster="/fleet/flota-patio.jpg"
         >
           <source src="/hero-videop.mp4" type="video/mp4" />
         </video>
@@ -171,7 +171,7 @@ export function HeroSection() {
           <motion.div variants={heroItem} className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button
               size="lg"
-              className="group bg-secondary hover:bg-secondary/90 text-lg px-8 h-14 shadow-lg shadow-black/20"
+              className="group bg-secondary hover:bg-secondary/90 text-lg px-8 h-14"
               asChild
             >
               <Link href="#cotizacion">
@@ -262,7 +262,7 @@ export function HeroSection() {
                 controls
                 playsInline
                 className="w-full aspect-video rounded-xl border border-white/10 bg-black shadow-2xl"
-                poster="/modern-truck-on-highway-at-sunset.jpg"
+                poster="/fleet/flota-patio.jpg"
               >
                 <source src="/hero-videop.mp4" type="video/mp4" />
               </video>

@@ -91,7 +91,7 @@ export function StatsSection() {
       <div className="container mx-auto px-4">
         <div
           ref={ref}
-          className="relative mx-auto max-w-6xl overflow-hidden rounded-2xl border border-white/10 surface-steel shadow-2xl shadow-black/40"
+          className="relative mx-auto max-w-6xl overflow-hidden rounded-2xl border border-white/10 surface-steel"
         >
           {/* Console header bar */}
           <div className="flex items-center justify-between border-b border-white/10 px-6 py-3.5 sm:px-8">
