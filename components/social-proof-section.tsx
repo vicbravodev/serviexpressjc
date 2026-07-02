@@ -1,6 +1,7 @@
 import { Quote } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Reveal, RevealGroup, RevealChild } from "@/components/motion-primitives"
+import { ClientLogo } from "@/components/client-logo"
 
 /* Clientes actuales. Con logo se muestra la imagen; sin logo, un wordmark tipográfico
    (pendiente de logo oficial). */
@@ -12,10 +13,9 @@ const clients: Client[] = [
   { name: "Papalotes", logo: "/clients/papalotes.png" },
   { name: "Aceros VS", logo: "/clients/aceros-vs.png" },
   { name: "SCX", logo: "/clients/scx.png" },
-  { name: "AC Villarreal" },
-  { name: "Hombrokers" },
-  { name: "EIPAVA" },
-  { name: "Envía" },
+  { name: "Aceros Villarreal", logo: "/clients/aceros-villarreal.png" },
+  { name: "EIPAVA", logo: "/clients/eipava.png" },
+  { name: "Envía", logo: "/clients/envia.png" },
   { name: "Point" },
 ]
 
@@ -37,28 +37,17 @@ export function SocialProofSection() {
         {/* Franja única de logos con hairlines, no tiles sueltos */}
         <Reveal className="mx-auto mb-16 max-w-5xl">
           <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-3 lg:grid-cols-4">
-            {clients.map((client) =>
-              client.logo ? (
-                <div key={client.name} className="flex items-center justify-center bg-card px-6 py-8">
-                  <img
-                    src={client.logo}
-                    alt={t("logoAlt", { name: client.name })}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-9 max-w-full object-contain grayscale transition-[filter] duration-300 hover:grayscale-0 md:h-10"
-                  />
-                </div>
-              ) : (
-                <div key={client.name} className="flex items-center justify-center bg-card px-6 py-8">
-                  <span className="text-center font-mono text-sm font-semibold uppercase tracking-wide text-muted-foreground transition-colors duration-300 hover:text-foreground md:text-base">
-                    {client.name}
-                  </span>
-                </div>
-              ),
-            )}
-            {/* Tile de cierre: completa la rejilla y comunica que hay más */}
-            <div className="flex items-center justify-center bg-card px-6 py-8">
-              <span className="text-center text-sm leading-snug text-muted-foreground">{t("more")}</span>
+            {clients.map((client) => (
+              <div key={client.name} className="flex items-center justify-center bg-card px-6 py-8">
+                <ClientLogo name={client.name} logo={client.logo} alt={t("logoAlt", { name: client.name })} />
+              </div>
+            ))}
+            {/* Tile de cierre (2 col): completa la rejilla y comunica que hay más */}
+            <div className="col-span-2 flex flex-col items-center justify-center gap-2 bg-card px-6 py-8 text-center">
+              <span className="text-2xl leading-none" aria-hidden>
+                🇲🇽&nbsp;🇺🇸
+              </span>
+              <span className="text-sm leading-snug text-muted-foreground">{t("more")}</span>
             </div>
           </div>
         </Reveal>
