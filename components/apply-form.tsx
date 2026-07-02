@@ -68,7 +68,7 @@ export function ApplyForm() {
       <div className="space-y-2">
         <Label htmlFor="apply-position">{t("position")}</Label>
         <Select value={position} onValueChange={(v) => setPosition(v as Position)}>
-          <SelectTrigger id="apply-position" className="h-11 w-full">
+          <SelectTrigger id="apply-position" className="w-full data-[size=default]:h-11">
             <SelectValue placeholder={t("positionPh")} />
           </SelectTrigger>
           <SelectContent>
@@ -83,7 +83,7 @@ export function ApplyForm() {
       <div className="space-y-2">
         <Label htmlFor="apply-experience">{t("experience")}</Label>
         <Select value={experience} onValueChange={(v) => setExperience(v as Experience)}>
-          <SelectTrigger id="apply-experience" className="h-11 w-full">
+          <SelectTrigger id="apply-experience" className="w-full data-[size=default]:h-11">
             <SelectValue placeholder={t("experiencePh")} />
           </SelectTrigger>
           <SelectContent>

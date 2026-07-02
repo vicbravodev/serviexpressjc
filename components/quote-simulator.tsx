@@ -51,7 +51,7 @@ export function QuoteSimulator() {
     }).format(value)
 
   const range = estimate
-    ? `${currencyFormat(estimate.min, estimate.currency)} a ${currencyFormat(estimate.max, estimate.currency)} ${estimate.currency}`
+    ? `${currencyFormat(estimate.min, estimate.currency)} ${t("rangeJoin")} ${currencyFormat(estimate.max, estimate.currency)} ${estimate.currency}`
     : ""
 
   const whatsappHref = estimate
@@ -97,7 +97,7 @@ export function QuoteSimulator() {
         <div className="space-y-2">
           <Label htmlFor="quote-origin">{t("origin")}</Label>
           <Select value={originId} onValueChange={pickOrigin}>
-            <SelectTrigger id="quote-origin" className="h-11 w-full">
+            <SelectTrigger id="quote-origin" className="w-full data-[size=default]:h-11">
               <SelectValue placeholder={t("originPh")} />
             </SelectTrigger>
             <SelectContent>
@@ -112,7 +112,7 @@ export function QuoteSimulator() {
         <div className="space-y-2">
           <Label htmlFor="quote-destination">{t("destination")}</Label>
           <Select value={destinationId} onValueChange={setDestinationId}>
-            <SelectTrigger id="quote-destination" className="h-11 w-full">
+            <SelectTrigger id="quote-destination" className="w-full data-[size=default]:h-11">
               <SelectValue placeholder={t("destinationPh")} />
             </SelectTrigger>
             <SelectContent>
@@ -177,7 +177,7 @@ export function QuoteSimulator() {
               </p>
               <p className="mt-1.5 text-2xl font-bold tabular-nums sm:text-3xl">
                 {currencyFormat(estimate.min, estimate.currency)}
-                <span className="text-muted-foreground"> a </span>
+                <span className="text-muted-foreground">{` ${t("rangeJoin")} `}</span>
                 {currencyFormat(estimate.max, estimate.currency)}
                 <span className="ml-2 text-base font-semibold text-muted-foreground">{estimate.currency}</span>
               </p>
@@ -187,7 +187,7 @@ export function QuoteSimulator() {
             </div>
             <p className="text-sm leading-relaxed text-muted-foreground">{t("estimateNote")}</p>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" className="h-12 flex-1 bg-secondary hover:bg-secondary/90" asChild>
+              <Button size="lg" className="h-12 bg-secondary hover:bg-secondary/90 sm:flex-1" asChild>
                 <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                   <MessageCircle aria-hidden className="mr-2 h-5 w-5" />
                   {t("refine")}
