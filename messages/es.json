@@ -158,26 +158,36 @@
       }
     ]
   },
+  "Quote": {
+    "service": {
+      "label": "Tipo de servicio",
+      "nacional": "Nacional",
+      "internacional": "Internacional MX → USA"
+    },
+    "origin": "Origen",
+    "originPh": "Elige ciudad de origen",
+    "destination": "Destino",
+    "destinationPh": "Elige ciudad de destino",
+    "unit": {
+      "label": "Tipo de unidad",
+      "dryvan": "Caja seca 53 pies",
+      "flatbed": "Plataforma",
+      "oversize": "Sobredimensionada"
+    },
+    "weight": "Peso aproximado",
+    "tons": "{tons} t",
+    "estimateTitle": "Estimado orientativo",
+    "distance": "≈ {km} km por carretera",
+    "estimateNote": "No es una cotización final: un agente la afina contigo según báscula, maniobras, seguro y disponibilidad.",
+    "empty": "Elige tu destino para ver un estimado al instante.",
+    "refine": "Afinar con un agente",
+    "whatsappMessage": "Hola, usé el cotizador del sitio y quiero afinar mi cotización:\n· Servicio: {service}\n· Ruta: {origin} → {destination}\n· Unidad: {unit}\n· Peso: {tons} t\n· Estimado del sitio: {range}\n¿Me ayudan con el precio final?"
+  },
   "CTA": {
     "quote": {
       "kicker": "Clientes · B2B",
-      "title": "Solicita tu cotización",
-      "description": "Cuéntanos tu ruta y tu carga; te respondemos con una propuesta a la medida.",
-      "name": "Nombre completo",
-      "namePh": "Ej. María Hernández",
-      "email": "Correo electrónico",
-      "emailPh": "nombre@empresa.com",
-      "phone": "Teléfono",
-      "phonePh": "Ej. 81 1234 5678",
-      "company": "Empresa",
-      "companyPh": "Nombre de tu empresa",
-      "origin": "Origen",
-      "originPh": "Ciudad de origen",
-      "destination": "Destino",
-      "destinationPh": "Ciudad de destino",
-      "details": "Detalles de la carga",
-      "detailsPh": "Tipo, peso y dimensiones de la carga",
-      "submit": "Enviar solicitud"
+      "title": "Cotiza tu envío en un minuto",
+      "description": "Elige ruta, unidad y peso: obtienes un rango al instante y un agente lo afina contigo por WhatsApp."
     },
     "apply": {
       "kicker": "Operadores · bolsa de trabajo",
@@ -185,21 +195,33 @@
       "description": "Buscamos operadores certificados y personal comprometido.",
       "name": "Nombre completo",
       "namePh": "Ej. Juan Pérez",
-      "email": "Correo electrónico",
-      "emailPh": "nombre@correo.com",
       "phone": "Teléfono",
       "phonePh": "Ej. 81 1234 5678",
       "position": "Puesto de interés",
-      "positionPh": "Ej. Operador B1",
-      "experience": "Tu experiencia",
-      "experiencePh": "Cuéntanos sobre tu experiencia",
-      "cv": "Adjuntar CV (opcional)",
-      "submit": "Enviar postulación"
+      "positionPh": "Elige un puesto",
+      "positions": {
+        "b1": "Operador B1 (cruce)",
+        "national": "Operador nacional",
+        "mechanic": "Técnico de taller",
+        "admin": "Administrativo"
+      },
+      "experience": "Años de experiencia",
+      "experiencePh": "Elige un rango",
+      "experiences": {
+        "lt2": "Menos de 2 años",
+        "2to5": "2 a 5 años",
+        "5to10": "5 a 10 años",
+        "gt10": "Más de 10 años"
+      },
+      "cvNote": "Tu CV lo adjuntas directamente en el chat de WhatsApp.",
+      "submit": "Postularme por WhatsApp",
+      "whatsappMessage": "Hola, quiero postularme:\n· Nombre: {name}\n· Teléfono: {phone}\n· Puesto: {position}\n· Experiencia: {experience}\nEnvío mi CV por este chat."
     },
     "whatsapp": {
       "title": "¿Necesitas ayuda inmediata?",
       "description": "Escríbenos por WhatsApp y te respondemos en minutos.",
-      "button": "Chatear en WhatsApp"
+      "button": "Chatear en WhatsApp",
+      "prefill": "Hola, vengo del sitio de ServiExpress JC y tengo una pregunta."
     }
   },
   "Footer": {

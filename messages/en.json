@@ -158,26 +158,36 @@
       }
     ]
   },
+  "Quote": {
+    "service": {
+      "label": "Service type",
+      "nacional": "Domestic (Mexico)",
+      "internacional": "Cross-border MX → USA"
+    },
+    "origin": "Origin",
+    "originPh": "Pick an origin city",
+    "destination": "Destination",
+    "destinationPh": "Pick a destination city",
+    "unit": {
+      "label": "Equipment",
+      "dryvan": "53-ft dry van",
+      "flatbed": "Flatbed",
+      "oversize": "Oversized"
+    },
+    "weight": "Approximate weight",
+    "tons": "{tons} t",
+    "estimateTitle": "Ballpark estimate",
+    "distance": "≈ {km} km by road",
+    "estimateNote": "Not a final quote: an agent fine-tunes it with you based on scale weight, handling, insurance, and availability.",
+    "empty": "Pick your destination to see an instant estimate.",
+    "refine": "Fine-tune with an agent",
+    "whatsappMessage": "Hi, I used the website estimator and want to fine-tune my quote:\n· Service: {service}\n· Lane: {origin} → {destination}\n· Equipment: {unit}\n· Weight: {tons} t\n· Website estimate: {range}\nCan you help me with the final price?"
+  },
   "CTA": {
     "quote": {
       "kicker": "Customers · B2B",
-      "title": "Request your quote",
-      "description": "Tell us your lane and your freight — we'll come back with a tailored proposal.",
-      "name": "Full name",
-      "namePh": "e.g. Sarah Johnson",
-      "email": "Email",
-      "emailPh": "name@company.com",
-      "phone": "Phone",
-      "phonePh": "e.g. (812) 555-0143",
-      "company": "Company",
-      "companyPh": "Your company name",
-      "origin": "Origin",
-      "originPh": "Origin city",
-      "destination": "Destination",
-      "destinationPh": "Destination city",
-      "details": "Freight details",
-      "detailsPh": "Type, weight, and dimensions of the load",
-      "submit": "Send request"
+      "title": "Get a quote in one minute",
+      "description": "Pick a lane, equipment, and weight: you get an instant range, and an agent fine-tunes it with you on WhatsApp."
     },
     "apply": {
       "kicker": "Drivers · careers",
@@ -185,21 +195,33 @@
       "description": "We're hiring certified drivers and committed team members.",
       "name": "Full name",
       "namePh": "e.g. John Smith",
-      "email": "Email",
-      "emailPh": "name@email.com",
       "phone": "Phone",
       "phonePh": "e.g. (812) 555-0143",
       "position": "Position of interest",
-      "positionPh": "e.g. B1 driver",
-      "experience": "Your experience",
-      "experiencePh": "Tell us about your experience",
-      "cv": "Attach résumé (optional)",
-      "submit": "Submit application"
+      "positionPh": "Pick a position",
+      "positions": {
+        "b1": "B1 driver (cross-border)",
+        "national": "Domestic driver",
+        "mechanic": "Shop technician",
+        "admin": "Administrative"
+      },
+      "experience": "Years of experience",
+      "experiencePh": "Pick a range",
+      "experiences": {
+        "lt2": "Under 2 years",
+        "2to5": "2 to 5 years",
+        "5to10": "5 to 10 years",
+        "gt10": "Over 10 years"
+      },
+      "cvNote": "You can attach your résumé directly in the WhatsApp chat.",
+      "submit": "Apply via WhatsApp",
+      "whatsappMessage": "Hi, I'd like to apply:\n· Name: {name}\n· Phone: {phone}\n· Position: {position}\n· Experience: {experience}\nI'll send my résumé in this chat."
     },
     "whatsapp": {
       "title": "Need help right away?",
       "description": "Message us on WhatsApp and we'll get back to you in minutes.",
-      "button": "Chat on WhatsApp"
+      "button": "Chat on WhatsApp",
+      "prefill": "Hi, I'm coming from the ServiExpress JC website and have a question."
     }
   },
   "Footer": {
