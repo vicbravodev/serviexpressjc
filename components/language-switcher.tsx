@@ -14,7 +14,7 @@ export function LanguageSwitcher({ solid }: { solid: boolean }) {
     router.replace(pathname, { locale: next, scroll: false })
   }
 
-  const base = "min-h-11 px-2 font-mono text-sm font-medium uppercase tracking-wider transition-colors"
+  const base = "min-h-11 min-w-11 px-2 font-mono text-sm font-medium uppercase tracking-wider transition-colors"
   const active = "text-yellow-accent"
   const idle = solid ? "text-foreground/60 hover:text-foreground" : "text-white/60 hover:text-white"
 
@@ -29,7 +29,7 @@ export function LanguageSwitcher({ solid }: { solid: boolean }) {
       >
         ES
       </button>
-      <span className={solid ? "text-foreground/30" : "text-white/30"}>|</span>
+      <span aria-hidden="true" className={solid ? "text-foreground/30" : "text-white/30"}>|</span>
       <button
         type="button"
         onClick={() => switchTo("en")}
