@@ -4,11 +4,15 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
+import { Link as LocaleLink } from "@/i18n/navigation"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import Image from "next/image"
 
 export function Header() {
+  const t = useTranslations("Header")
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeLink, setActiveLink] = useState("")
@@ -32,11 +36,11 @@ export function Header() {
   }, [])
 
   const navItems = [
-    { label: "Inicio", href: "#inicio" },
-    { label: "Quiénes Somos", href: "#quienes-somos" },
-    { label: "Servicios", href: "#servicios" },
-    { label: "Cobertura", href: "#cobertura" },
-    { label: "Clientes", href: "#clientes" },
+    { label: t("nav.inicio"), href: "#inicio" },
+    { label: t("nav.quienesSomos"), href: "#quienes-somos" },
+    { label: t("nav.servicios"), href: "#servicios" },
+    { label: t("nav.cobertura"), href: "#cobertura" },
+    { label: t("nav.clientes"), href: "#clientes" },
   ]
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -74,7 +78,7 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-24">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <LocaleLink href="/" className="flex items-center gap-2">
             <Image
               src="/logo-white-bg.png"
               alt="ServiExpress JC"
@@ -83,7 +87,7 @@ export function Header() {
               className="h-16 w-auto"
               priority
             />
-          </Link>
+          </LocaleLink>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-10">
@@ -108,6 +112,7 @@ export function Header() {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
+            <LanguageSwitcher solid={solid} />
             <Button
               variant="outline"
               size="lg"
@@ -116,11 +121,11 @@ export function Header() {
                 solid ? "" : "text-white border-white/40 hover:bg-white/10"
               }`}
             >
-              <Link href="#postulate">Postúlate</Link>
+              <Link href="#postulate">{t("apply")}</Link>
             </Button>
             <Button size="lg" asChild className="bg-secondary hover:bg-secondary/90 relative overflow-hidden group">
               <Link href="#cotizacion">
-                <span className="relative z-10">Cotización</span>
+                <span className="relative z-10">{t("quote")}</span>
                 <span className="absolute inset-0 bg-yellow-accent/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               </Link>
             </Button>
@@ -130,7 +135,7 @@ export function Header() {
           <button
             className={`md:hidden p-2 transition-colors duration-300 ${solid ? "text-foreground" : "text-white"}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-label={isMobileMenuOpen ? t("closeMenu") : t("openMenu")}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
           >
@@ -164,16 +169,17 @@ export function Header() {
                 </Link>
               ))}
               <div className="flex flex-col gap-3 pt-4 border-t border-border">
+                <LanguageSwitcher solid />
                 <Button
                   variant="outline"
                   size="lg"
                   asChild
                   className="hover:border-yellow-accent hover:text-yellow-accent bg-transparent"
                 >
-                  <Link href="#postulate">Postúlate</Link>
+                  <Link href="#postulate">{t("apply")}</Link>
                 </Button>
                 <Button size="lg" asChild className="bg-secondary hover:bg-secondary/90">
-                  <Link href="#cotizacion">Cotización</Link>
+                  <Link href="#cotizacion">{t("quote")}</Link>
                 </Button>
               </div>
             </nav>
