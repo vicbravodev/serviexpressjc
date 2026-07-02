@@ -303,6 +303,15 @@
   .animate-scan {
     animation: scan-y 6s linear infinite;
   }
+
+  /* Coverage map: states brighten on hover for a subtle "live" feel */
+  .coverage-state {
+    transition: fill 0.25s var(--ease-out-quart), stroke 0.25s var(--ease-out-quart);
+  }
+  .coverage-state:hover {
+    fill: oklch(0.85 0.18 90 / 0.22);
+    stroke: oklch(0.85 0.18 90 / 0.55);
+  }
 }
 
 /* New tech animations also collapse under reduced-motion */

@@ -1,9 +1,9 @@
-import { Wrench, Users, ShieldCheck, Package } from "lucide-react"
+import { ShieldCheck, Warehouse, Wrench, Package } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Reveal, RevealGroup, RevealChild } from "@/components/motion-primitives"
 import { FleetImage } from "@/components/fleet-image"
 
-const pillarIcons = [Wrench, Users, ShieldCheck, Package]
+const pillarIcons = [ShieldCheck, Warehouse, Wrench, Package]
 
 export function TalleresSection() {
   const t = useTranslations("Talleres")
@@ -16,7 +16,7 @@ export function TalleresSection() {
           <Reveal className="order-2 lg:order-1">
             <div className="relative overflow-hidden rounded-2xl border border-white/10">
               <FleetImage
-                src="/fleet/kenworth-clasico.jpg"
+                src="/fleet/flota-patio.jpg"
                 alt={t("imageAlt")}
                 caption={t("imageCaption")}
                 className="aspect-[4/5] w-full sm:aspect-[16/12]"

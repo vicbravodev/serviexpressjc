@@ -61,7 +61,7 @@
       "imageAlt": "ServiExpress JC truck hauling steel freight",
       "imageCaption": "Steel freight · domestic",
       "title": "Domestic freight",
-      "description": "Local, regional, and long-haul service across Mexico. Steel, agricultural, dry, and oversized freight, GPS-tracked from origin to destination.",
+      "description": "Local, regional, and long-haul service across Mexico. Steel, loose, dry, and oversized freight, GPS-tracked from origin to destination.",
       "zones": ["North", "Bajío", "Pacific", "West"],
       "cta": "View coverage"
     },
@@ -76,11 +76,11 @@
     },
     "specialized": {
       "kicker": "Specialized freight",
-      "imageAlt": "ServiExpress JC truck loaded with agricultural hay bales",
-      "imageCaption": "Agricultural freight · forage",
+      "imageAlt": "ServiExpress JC truck hauling rebar and steel profiles",
+      "imageCaption": "Steel freight · flatbed",
       "title": "One fleet, many kinds of freight",
-      "description": "From rebar and steel profiles to hay bales: flatbeds, 53-foot dry vans, and equipment for oversized loads, always secured and tracked.",
-      "tags": ["Steel", "Agricultural & forage", "Dry freight (53')", "Oversized"]
+      "description": "Steel is our specialty: rebar, profiles, and coils. We also move loose freight and 53-foot dry vans, on flatbeds or oversized equipment, always secured and tracked.",
+      "tags": ["Steel", "Loose freight", "Dry van (53')", "Oversized"]
     }
   },
   "Certifications": {
@@ -94,17 +94,17 @@
     ]
   },
   "Talleres": {
-    "kicker": "In-house maintenance",
-    "titleLead": "5 in-house shops.",
-    "titleAccent": "Zero excuses.",
-    "description": "We don't outsource anything, not even maintenance. Five shops staffed by fully trained technicians service our fleet, so your freight travels on reliable equipment and your deliveries never depend on a third party.",
-    "imageAlt": "Classic ServiExpress JC Kenworth, restored and maintained in our own shops",
-    "imageCaption": "Maintained in our own shops",
-    "overlay": "Every truck gets this level of care",
+    "kicker": "Secure yards · in-house upkeep",
+    "titleLead": "5 secure storage yards.",
+    "titleAccent": "Total security.",
+    "description": "Five company-owned yards, with surveillance and controlled access, safeguard your freight and our trucks. And since we don't outsource maintenance either, every tractor is serviced in-house by trained people: your goods travel and wait in reliable hands.",
+    "imageAlt": "ServiExpress JC fleet secured in a company-owned yard",
+    "imageCaption": "Fleet secured in our own yard",
+    "overlay": "Your freight safeguarded and monitored",
     "pillars": [
-      { "title": "Preventive & corrective", "caption": "Every truck diagnosed and serviced in-house" },
-      { "title": "Trained technicians", "caption": "Specialists on every truck" },
-      { "title": "No third-party dependence", "caption": "A breakdown never stops your delivery" },
+      { "title": "Secured yards", "caption": "Surveillance and controlled access" },
+      { "title": "Freight & truck storage", "caption": "Your goods wait protected" },
+      { "title": "In-house maintenance", "caption": "Preventive and corrective, in-house" },
       { "title": "Our own parts store", "caption": "Los César, with deep inventory" }
     ]
   },
@@ -123,24 +123,27 @@
   },
   "Coverage": {
     "kicker": "Operating network",
-    "title": "Domestic and cross-border coverage",
-    "subtitle": "A corridor monitored point to point, from the Bajío to the southeastern United States.",
-    "console": "Main corridor",
-    "consoleTag": "MTY → LAREDO → HOU",
-    "mapAria": "Map of the Mexico–United States freight corridor",
+    "title": "We go everywhere",
+    "subtitle": "All 32 states of Mexico and the entire continental U.S. If your freight needs to move, we haul it —door to door.",
+    "console": "National & cross-border network",
+    "consoleTag": "MEXICO · USA",
+    "mapAria": "Coverage map of ServiExpress JC across Mexico and the United States, with routes fanning out from Monterrey to both countries",
+    "hubLabel": "Monterrey · Hub",
     "borderLabel": "MX · USA BORDER",
-    "telemetry": "733 mi · ETA 17 h",
-    "crossingChip": "B1 crossing · dual plates",
+    "legendCorridor": "Active corridors",
+    "legendState": "States covered",
     "mxTitle": "Mexico",
+    "mxCount": "32 states",
     "usTitle": "United States",
-    "citiesCount": "{count} cities",
-    "mxZones": { "norte": "North", "bajio": "Bajío", "pacifico": "Pacific", "occidente": "West" },
-    "usZones": { "texas": "Texas", "midwest": "Midwest", "southeast": "Southeast", "west": "West" }
+    "usCount": "48 contiguous states",
+    "statesReached": "{count} states",
+    "reachNote": "Door-to-door service in both countries. Don't see your destination? We cover it too.",
+    "crossingChip": "B1 crossing · dual plates"
   },
   "SocialProof": {
     "kicker": "Clients",
     "title": "Companies that already trust us with their freight",
-    "subtitle": "Steel producers and exporters moving steel, forage, and dry freight with us.",
+    "subtitle": "Steel producers, distributors, and exporters moving steel, loose, and dry freight with us.",
     "logoAlt": "{name} logo",
     "more": "And many more companies across Mexico and the United States",
     "items": [

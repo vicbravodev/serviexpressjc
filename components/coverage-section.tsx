@@ -4,94 +4,98 @@ import { useRef } from "react"
 import { motion, useInView, useReducedMotion } from "motion/react"
 import { useTranslations } from "next-intl"
 import { Reveal } from "@/components/motion-primitives"
+import { MAP_VIEWBOX, STATES, CITIES } from "@/components/coverage-geo"
 
 const EASE = [0.16, 1, 0.3, 1] as const
+const AMBER = "oklch(0.85 0.18 90)"
+const BLUE = "oklch(0.62 0.13 264)"
 
-// Main cross-border corridor: Monterrey → Nuevo Laredo → Laredo → Houston
-const MAIN_ROUTE =
-  "M330,350 C 380,322 405,308 430,300 C 452,293 462,275 470,265 C 482,250 505,243 520,240 C 565,233 600,250 620,270"
-const BORDER =
-  "M120,250 C 250,268 360,288 430,300 C 510,313 565,345 615,398"
-const FEEDERS = [
-  "M150,470 C 230,432 280,392 330,350", // Guadalajara → MTY
-  "M355,548 C 345,470 337,410 330,350", // CDMX → MTY
-]
-const US_BRANCHES = [
-  "M620,270 C 672,248 712,205 748,175", // Houston → Atlanta
-  "M520,240 C 535,210 548,190 560,170", // San Antonio → Dallas
-  "M560,170 C 600,135 640,105 666,82", //  Dallas → Chicago
+/* Quadratic curve between two projected points, bowed perpendicular to the chord. */
+function curve(ax: number, ay: number, bx: number, by: number, bow: number) {
+  const mx = (ax + bx) / 2
+  const my = (ay + by) / 2
+  const dx = bx - ax
+  const dy = by - ay
+  const len = Math.hypot(dx, dy) || 1
+  const nx = -dy / len
+  const ny = dx / len
+  return `M${ax},${ay} Q${(mx + nx * bow).toFixed(1)},${(my + ny * bow).toFixed(1)} ${bx},${by}`
+}
+
+const C = CITIES
+type Corridor = { d: string; kind: "main" | "intl" | "dom"; delay: number }
+
+/* Corridors radiating from the Monterrey hub across both countries. */
+const CORRIDORS: Corridor[] = [
+  { d: curve(C.monterrey.x, C.monterrey.y, C.laredo.x, C.laredo.y, -14), kind: "main", delay: 0.2 },
+  { d: curve(C.laredo.x, C.laredo.y, C.houston.x, C.houston.y, -22), kind: "main", delay: 0.5 },
+  { d: curve(C.houston.x, C.houston.y, C.atlanta.x, C.atlanta.y, -34), kind: "intl", delay: 0.8 },
+  { d: curve(C.atlanta.x, C.atlanta.y, C.miami.x, C.miami.y, -30), kind: "intl", delay: 1.0 },
+  { d: curve(C.monterrey.x, C.monterrey.y, C.dallas.x, C.dallas.y, 46), kind: "intl", delay: 0.6 },
+  { d: curve(C.dallas.x, C.dallas.y, C.kansascity.x, C.kansascity.y, -28), kind: "intl", delay: 0.9 },
+  { d: curve(C.kansascity.x, C.kansascity.y, C.chicago.x, C.chicago.y, -20), kind: "intl", delay: 1.1 },
+  { d: curve(C.monterrey.x, C.monterrey.y, C.losangeles.x, C.losangeles.y, -70), kind: "intl", delay: 0.7 },
+  { d: curve(C.monterrey.x, C.monterrey.y, C.chihuahua.x, C.chihuahua.y, 26), kind: "dom", delay: 0.5 },
+  { d: curve(C.monterrey.x, C.monterrey.y, C.guadalajara.x, C.guadalajara.y, 34), kind: "dom", delay: 0.7 },
+  { d: curve(C.monterrey.x, C.monterrey.y, C.cdmx.x, C.cdmx.y, 26), kind: "dom", delay: 0.9 },
+  { d: curve(C.cdmx.x, C.cdmx.y, C.merida.x, C.merida.y, -26), kind: "dom", delay: 1.1 },
 ]
 
-type Node = { x: number; y: number; label?: string; place?: "below" | "above" | "right" | "left"; kind: "origin" | "border" | "us" | "mx" }
-const NODES: Node[] = [
-  { x: 330, y: 350, label: "MONTERREY", place: "left", kind: "origin" },
-  { x: 430, y: 300, label: "NUEVO LAREDO", place: "below", kind: "border" },
-  { x: 470, y: 265, kind: "us" },
-  { x: 520, y: 240, label: "SAN ANTONIO", place: "above", kind: "us" },
-  { x: 620, y: 270, label: "HOUSTON", place: "right", kind: "us" },
-  { x: 560, y: 170, label: "DALLAS", place: "above", kind: "us" },
-  { x: 748, y: 175, label: "ATLANTA", place: "right", kind: "us" },
-  { x: 666, y: 82, label: "CHICAGO", place: "above", kind: "us" },
-  { x: 150, y: 470, label: "GUADALAJARA", place: "below", kind: "mx" },
-  { x: 355, y: 548, label: "CDMX", place: "below", kind: "mx" },
+/* Traveling dispatch unit rides the MTY -> Laredo -> Houston spine. */
+const CONVOY_D = `M${C.monterrey.x},${C.monterrey.y} Q${((C.monterrey.x + C.laredo.x) / 2 + 14).toFixed(1)},${((C.monterrey.y + C.laredo.y) / 2).toFixed(1)} ${C.laredo.x},${C.laredo.y} Q${((C.laredo.x + C.houston.x) / 2 + 22).toFixed(1)},${((C.laredo.y + C.houston.y) / 2).toFixed(1)} ${C.houston.x},${C.houston.y}`
+
+type Labeled = { key: keyof typeof C; place: "above" | "below" | "left" | "right" }
+const LABELS: Labeled[] = [
+  { key: "monterrey", place: "left" },
+  { key: "laredo", place: "above" },
+  { key: "houston", place: "below" },
+  { key: "dallas", place: "above" },
+  { key: "chicago", place: "above" },
+  { key: "atlanta", place: "right" },
+  { key: "miami", place: "below" },
+  { key: "losangeles", place: "left" },
+  { key: "guadalajara", place: "left" },
+  { key: "cdmx", place: "below" },
+  { key: "merida", place: "right" },
 ]
 
-const labelOffset = (n: Node) => {
-  switch (n.place) {
+function labelPos(x: number, y: number, place: Labeled["place"]) {
+  switch (place) {
     case "above":
-      return { x: n.x, y: n.y - 14, anchor: "middle" as const }
+      return { x, y: y - 10, anchor: "middle" as const }
     case "below":
-      return { x: n.x, y: n.y + 24, anchor: "middle" as const }
+      return { x, y: y + 16, anchor: "middle" as const }
     case "left":
-      return { x: n.x - 14, y: n.y + 4, anchor: "end" as const }
+      return { x: x - 9, y: y + 3, anchor: "end" as const }
     default:
-      return { x: n.x + 14, y: n.y + 4, anchor: "start" as const }
+      return { x: x + 9, y: y + 3, anchor: "start" as const }
   }
-}
-
-const mxCities = {
-  norte: ["Monterrey", "Saltillo", "Chihuahua", "Nuevo Laredo"],
-  bajio: ["Querétaro", "Guanajuato", "Aguascalientes", "San Luis Potosí"],
-  pacifico: ["Baja California", "Sonora", "Sinaloa"],
-  occidente: ["Guadalajara", "Michoacán", "Colima"],
-}
-const usCities = {
-  texas: ["Laredo", "Houston", "Dallas", "San Antonio"],
-  midwest: ["Chicago", "Detroit", "Indianapolis", "Kansas City"],
-  southeast: ["Atlanta", "Miami", "Nashville", "Orlando"],
-  west: ["Los Angeles", "Phoenix", "San Diego", "Seattle"],
 }
 
 export function CoverageSection() {
   const t = useTranslations("Coverage")
   const mapRef = useRef<HTMLDivElement>(null)
-  const inView = useInView(mapRef, { once: true, amount: 0.3 })
+  const inView = useInView(mapRef, { once: true, amount: 0.25 })
   const reduce = useReducedMotion()
 
-  const draw = (delay: number, duration: number) =>
-    reduce
-      ? { initial: false as const, animate: { pathLength: 1 } }
-      : {
-          initial: { pathLength: 0 },
-          animate: inView ? { pathLength: 1 } : { pathLength: 0 },
-          transition: { duration, delay, ease: EASE },
-        }
+  const mxStates = STATES.filter((s) => s.country === "mx").sort((a, b) => a.name.localeCompare(b.name))
+  const usStates = STATES.filter((s) => s.country === "us" && s.name !== "District of Columbia").sort((a, b) =>
+    a.name.localeCompare(b.name),
+  )
+
+  const corridorStroke = (k: Corridor["kind"]) => (k === "main" ? AMBER : BLUE)
 
   return (
     <section id="cobertura" className="py-24">
       <div className="container mx-auto px-4">
         <Reveal className="mb-12 text-center">
-          <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
-            {t("kicker")}
-          </span>
+          <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">{t("kicker")}</span>
           <h2 className="mt-3 text-3xl md:text-5xl font-bold text-balance">{t("title")}</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground text-pretty">
-            {t("subtitle")}
-          </p>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground text-pretty">{t("subtitle")}</p>
         </Reveal>
 
         <div className="grid items-start gap-8 lg:grid-cols-5">
-          {/* Animated corridor map */}
+          {/* Geographic coverage map */}
           <motion.div
             ref={mapRef}
             initial={reduce ? false : { opacity: 0, y: 24 }}
@@ -103,114 +107,102 @@ export function CoverageSection() {
             <div className="flex items-center justify-between border-b border-white/10 px-5 py-3 sm:px-6">
               <div className="flex items-center gap-2.5">
                 <span className="h-2 w-2 rounded-full bg-yellow-accent-bright animate-live-blink" />
-                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/70">
-                  {t("console")}
-                </span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/70">{t("console")}</span>
               </div>
               <span className="hidden font-mono text-[11px] text-white/60 sm:inline">{t("consoleTag")}</span>
             </div>
 
             <div className="relative bg-blueprint">
-              <svg viewBox="0 0 820 600" className="block h-auto w-full" role="img" aria-label={t("mapAria")}>
-                {/* Border line */}
-                <motion.path
-                  d={BORDER}
-                  fill="none"
-                  stroke="white"
-                  strokeOpacity={0.22}
-                  strokeWidth={1.5}
-                  strokeDasharray="2 7"
-                  {...draw(0.1, 1.6)}
-                />
-                <text x="120" y="238" className="fill-white/55 font-mono" fontSize="11" letterSpacing="2">
-                  {t("borderLabel")}
-                </text>
+              <svg
+                viewBox={`0 0 ${MAP_VIEWBOX.w} ${MAP_VIEWBOX.h}`}
+                className="block h-auto w-full"
+                role="img"
+                aria-label={t("mapAria")}
+              >
+                {/* State shapes: sweep-lit fills */}
+                <g>
+                  {STATES.map((s, i) => {
+                    const isMx = s.country === "mx"
+                    return (
+                      <motion.path
+                        key={s.id}
+                        d={s.d}
+                        className="coverage-state"
+                        fill={isMx ? "oklch(0.72 0.14 90 / 0.10)" : "oklch(0.62 0.13 264 / 0.08)"}
+                        stroke={isMx ? "oklch(0.85 0.18 90 / 0.28)" : "oklch(0.7 0.13 264 / 0.24)"}
+                        strokeWidth={0.6}
+                        initial={reduce ? false : { opacity: 0 }}
+                        animate={inView ? { opacity: 1 } : undefined}
+                        transition={{ delay: Math.min(i * 0.012, 1), duration: 0.5, ease: EASE }}
+                      />
+                    )
+                  })}
+                </g>
 
-                {/* Feeder routes (domestic) */}
-                {FEEDERS.map((d, i) => (
+                {/* Corridors */}
+                {CORRIDORS.map((c, i) => (
                   <motion.path
-                    key={`f-${i}`}
-                    d={d}
+                    key={`c-${i}`}
+                    d={c.d}
                     fill="none"
-                    stroke="oklch(0.62 0.13 264)"
-                    strokeOpacity={0.65}
-                    strokeWidth={2}
+                    stroke={corridorStroke(c.kind)}
+                    strokeWidth={c.kind === "main" ? 3 : 1.8}
+                    strokeOpacity={c.kind === "dom" ? 0.6 : c.kind === "intl" ? 0.7 : 1}
                     strokeLinecap="round"
-                    {...draw(0.3 + i * 0.15, 1.2)}
+                    style={c.kind === "main" ? { filter: `drop-shadow(0 0 5px oklch(0.85 0.18 90 / 0.5))` } : undefined}
+                    initial={reduce ? { pathLength: 1 } : { pathLength: 0 }}
+                    animate={inView ? { pathLength: 1 } : undefined}
+                    transition={{ delay: reduce ? 0 : c.delay, duration: 1.4, ease: EASE }}
                   />
                 ))}
 
-                {/* US branch routes */}
-                {US_BRANCHES.map((d, i) => (
-                  <motion.path
-                    key={`b-${i}`}
-                    d={d}
-                    fill="none"
-                    stroke="oklch(0.62 0.13 264)"
-                    strokeOpacity={0.6}
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    {...draw(0.5 + i * 0.15, 1.1)}
-                  />
-                ))}
-
-                {/* Main corridor: amber, glowing */}
-                <motion.path
-                  d={MAIN_ROUTE}
-                  fill="none"
-                  stroke="oklch(0.85 0.18 90)"
-                  strokeWidth={3.5}
-                  strokeLinecap="round"
-                  style={{ filter: "drop-shadow(0 0 6px oklch(0.85 0.18 90 / 0.5))" }}
-                  {...draw(0.45, 1.9)}
-                />
-
-                {/* Traveling dispatch unit */}
+                {/* Traveling dispatch unit on the main spine */}
                 {!reduce && (
-                  <g className="animate-convoy" style={{ offsetPath: `path('${MAIN_ROUTE}')` }}>
-                    <circle r={11} fill="oklch(0.85 0.18 90)" opacity={0.25} />
-                    <circle r={4.5} fill="oklch(0.9 0.18 92)" />
+                  <g className="animate-convoy" style={{ offsetPath: `path('${CONVOY_D}')` }}>
+                    <circle r={9} fill={AMBER} opacity={0.25} />
+                    <circle r={4} fill="oklch(0.9 0.18 92)" />
                   </g>
                 )}
 
-                {/* Nodes */}
-                {NODES.map((n, i) => {
-                  const lo = labelOffset(n)
-                  const amber = n.kind === "origin" || n.kind === "border"
-                  const color = amber ? "oklch(0.85 0.18 90)" : "oklch(0.66 0.13 264)"
+                {/* City nodes */}
+                {Object.values(C).map((city, ci) => {
+                  const isHub = city.key === "monterrey"
+                  const labeled = LABELS.find((l) => l.key === city.key)
+                  const color = isHub ? AMBER : "oklch(0.72 0.13 264)"
                   return (
-                    <g key={`n-${i}`}>
-                      {amber && !reduce && (
-                        <circle cx={n.x} cy={n.y} r={6} fill="none" stroke={color} strokeWidth={1.5} opacity={0.6}>
-                          <animate attributeName="r" values="6;15;6" dur="2.6s" repeatCount="indefinite" />
+                    <g key={city.key}>
+                      {isHub && !reduce && (
+                        <circle cx={city.x} cy={city.y} r={6} fill="none" stroke={AMBER} strokeWidth={1.5} opacity={0.6}>
+                          <animate attributeName="r" values="6;18;6" dur="2.6s" repeatCount="indefinite" />
                           <animate attributeName="opacity" values="0.6;0;0.6" dur="2.6s" repeatCount="indefinite" />
                         </circle>
                       )}
                       <motion.circle
-                        cx={n.x}
-                        cy={n.y}
-                        r={n.kind === "origin" ? 6 : 4.5}
+                        cx={city.x}
+                        cy={city.y}
+                        r={isHub ? 5.5 : 3.5}
                         fill={color}
                         stroke="oklch(0.16 0.012 255)"
-                        strokeWidth={2}
+                        strokeWidth={1.5}
                         initial={reduce ? false : { scale: 0, opacity: 0 }}
                         animate={inView ? { scale: 1, opacity: 1 } : undefined}
-                        transition={{ delay: 0.6 + i * 0.06, duration: 0.4, ease: EASE }}
-                        style={{ transformOrigin: `${n.x}px ${n.y}px` }}
+                        transition={{ delay: reduce ? 0 : 1 + ci * 0.05, duration: 0.4, ease: EASE }}
+                        style={{ transformOrigin: `${city.x}px ${city.y}px` }}
                       />
-                      {n.label && (
+                      {labeled && (
                         <motion.text
-                          x={lo.x}
-                          y={lo.y}
-                          textAnchor={lo.anchor}
-                          className={amber ? "fill-yellow-accent-bright font-mono" : "fill-white/65 font-mono"}
-                          fontSize="11"
-                          letterSpacing="1"
+                          {...(() => {
+                            const p = labelPos(city.x, city.y, labeled.place)
+                            return { x: p.x, y: p.y, textAnchor: p.anchor }
+                          })()}
+                          className={isHub ? "fill-yellow-accent-bright font-mono" : "fill-white/70 font-mono"}
+                          fontSize="10.5"
+                          letterSpacing="0.5"
                           initial={reduce ? false : { opacity: 0 }}
                           animate={inView ? { opacity: 1 } : undefined}
-                          transition={{ delay: 0.8 + i * 0.06, duration: 0.5 }}
+                          transition={{ delay: reduce ? 0 : 1.2, duration: 0.5 }}
                         >
-                          {n.label}
+                          {isHub ? t("hubLabel") : city.name}
                         </motion.text>
                       )}
                     </g>
@@ -218,10 +210,16 @@ export function CoverageSection() {
                 })}
               </svg>
 
-              {/* Live telemetry readout overlaid on the map */}
+              {/* Legend + crossing chip */}
               <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] text-white/70">
-                <span className="rounded-md border border-white/15 bg-black/40 px-3 py-1.5 backdrop-blur-sm">
-                  <span className="text-yellow-accent-bright">●</span> {t("telemetry")}
+                <span className="flex items-center gap-3 rounded-md border border-white/15 bg-black/40 px-3 py-1.5 backdrop-blur-sm">
+                  <span className="flex items-center gap-1.5">
+                    <span className="h-0.5 w-4 rounded-full" style={{ background: AMBER }} /> {t("legendCorridor")}
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="h-2 w-2 rounded-[3px]" style={{ background: "oklch(0.62 0.13 264 / 0.5)" }} />{" "}
+                    {t("legendState")}
+                  </span>
                 </span>
                 <span className="rounded-md border border-white/15 bg-black/40 px-3 py-1.5 backdrop-blur-sm">
                   {t("crossingChip")}
@@ -230,10 +228,19 @@ export function CoverageSection() {
             </div>
           </motion.div>
 
-          {/* City directories */}
+          {/* Coverage directory */}
           <div className="flex flex-col gap-6 lg:col-span-2">
-            <CityPanel title={t("mxTitle")} cities={mxCities} zonePrefix="mxZones" accent="text-primary" />
-            <CityPanel title={t("usTitle")} cities={usCities} zonePrefix="usZones" accent="text-secondary" />
+            <Reveal className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border">
+              <Stat value="32" label={t("mxCount")} accent="text-primary" />
+              <Stat value="48" label={t("usCount")} accent="text-secondary" />
+            </Reveal>
+
+            <StatesPanel title={t("mxTitle")} count={mxStates.length} names={mxStates.map((s) => s.name)} accent="text-primary" />
+            <StatesPanel title={t("usTitle")} count={usStates.length} names={usStates.map((s) => s.name)} accent="text-secondary" />
+
+            <Reveal className="rounded-2xl border border-yellow-accent/30 bg-yellow-accent/[0.06] p-5">
+              <p className="text-sm leading-relaxed text-foreground/90">{t("reachNote")}</p>
+            </Reveal>
           </div>
         </div>
       </div>
@@ -241,39 +248,33 @@ export function CoverageSection() {
   )
 }
 
-function CityPanel({
-  title,
-  cities,
-  zonePrefix,
-  accent,
-}: {
-  title: string
-  cities: Record<string, string[]>
-  zonePrefix: "mxZones" | "usZones"
-  accent: string
-}) {
+function Stat({ value, label, accent }: { value: string; label: string; accent: string }) {
+  return (
+    <div className="bg-card p-5">
+      <p className={`font-mono text-3xl font-bold ${accent}`}>{value}</p>
+      <p className="mt-1 text-xs uppercase tracking-wide text-muted-foreground">{label}</p>
+    </div>
+  )
+}
+
+function StatesPanel({ title, count, names, accent }: { title: string; count: number; names: string[]; accent: string }) {
   const t = useTranslations("Coverage")
   return (
     <Reveal className="rounded-2xl border border-border bg-card p-6">
-      <div className="mb-5 flex items-baseline justify-between">
-        <h3 className={`text-xl font-bold ${accent}`}>{title}</h3>
+      <div className="mb-4 flex items-baseline justify-between">
+        <h3 className={`text-lg font-bold ${accent}`}>{title}</h3>
         <span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-          {t("citiesCount", { count: Object.values(cities).flat().length })}
+          {t("statesReached", { count })}
         </span>
       </div>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-5 text-sm">
-        {Object.entries(cities).map(([zone, list]) => (
-          <div key={zone}>
-            <p className="mb-2 flex items-center gap-1.5 font-semibold">
-              <span className="h-1 w-1 rounded-full bg-yellow-accent" />
-              {t(`${zonePrefix}.${zone}`)}
-            </p>
-            <ul className="space-y-1 text-muted-foreground">
-              {list.map((c) => (
-                <li key={c}>{c}</li>
-              ))}
-            </ul>
-          </div>
+      <div className="flex flex-wrap gap-1.5">
+        {names.map((n) => (
+          <span
+            key={n}
+            className="rounded-md border border-border bg-muted/40 px-2 py-1 font-mono text-[10.5px] leading-none text-muted-foreground"
+          >
+            {n}
+          </span>
         ))}
       </div>
     </Reveal>

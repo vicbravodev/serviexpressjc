@@ -2,16 +2,25 @@ import { Quote } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Reveal, RevealGroup, RevealChild } from "@/components/motion-primitives"
 
-const clients = [
+/* Clientes actuales. Con logo se muestra la imagen; sin logo, un wordmark tipográfico
+   (pendiente de logo oficial). */
+type Client = { name: string; logo?: string }
+const clients: Client[] = [
   { name: "Ternium", logo: "/clients/ternium.png" },
-  { name: "Villacero", logo: "/clients/villacero.svg" },
-  { name: "OfertAcero", logo: "/clients/ofertacero.png" },
-  { name: "Aceros BC", logo: "/clients/aceros-bc.png" },
-  { name: "Crown", logo: "/clients/crown.svg" },
+  { name: "Serviacero", logo: "/clients/serviacero.png" },
+  { name: "Kingspan", logo: "/clients/kingspan.svg" },
+  { name: "Papalotes", logo: "/clients/papalotes.png" },
+  { name: "Aceros VS", logo: "/clients/aceros-vs.png" },
+  { name: "SCX", logo: "/clients/scx.png" },
+  { name: "AC Villarreal" },
+  { name: "Hombrokers" },
+  { name: "EIPAVA" },
+  { name: "Envía" },
+  { name: "Point" },
 ]
 
 /* Atribución de cada testimonio; el primero es la cita destacada. */
-const testimonialCompanies = ["Ternium", "Villacero", "Aceros BC"]
+const testimonialCompanies = ["Ternium", "Serviacero", "Kingspan"]
 
 export function SocialProofSection() {
   const t = useTranslations("SocialProof")
@@ -27,20 +36,31 @@ export function SocialProofSection() {
 
         {/* Franja única de logos con hairlines, no tiles sueltos */}
         <Reveal className="mx-auto mb-16 max-w-5xl">
-          <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-3 lg:grid-cols-5">
-            {clients.map((client) => (
-              <div key={client.name} className="flex items-center justify-center bg-card px-6 py-8">
-                <img
-                  src={client.logo}
-                  alt={t("logoAlt", { name: client.name })}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-10 max-w-full object-contain grayscale transition-[filter] duration-300 hover:grayscale-0 md:h-12"
-                />
-              </div>
-            ))}
+          <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-3 lg:grid-cols-4">
+            {clients.map((client) =>
+              client.logo ? (
+                <div key={client.name} className="flex items-center justify-center bg-card px-6 py-8">
+                  <img
+                    src={client.logo}
+                    alt={t("logoAlt", { name: client.name })}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-9 max-w-full object-contain grayscale transition-[filter] duration-300 hover:grayscale-0 md:h-10"
+                  />
+                </div>
+              ) : (
+                <div key={client.name} className="flex items-center justify-center bg-card px-6 py-8">
+                  <span className="text-center font-mono text-sm font-semibold uppercase tracking-wide text-muted-foreground transition-colors duration-300 hover:text-foreground md:text-base">
+                    {client.name}
+                  </span>
+                </div>
+              ),
+            )}
+            {/* Tile de cierre: completa la rejilla y comunica que hay más */}
+            <div className="flex items-center justify-center bg-card px-6 py-8">
+              <span className="text-center text-sm leading-snug text-muted-foreground">{t("more")}</span>
+            </div>
           </div>
-          <p className="mt-4 text-center text-sm text-muted-foreground">{t("more")}</p>
         </Reveal>
 
         {/* Testimonios: cita destacada + dos compactas, composición asimétrica */}

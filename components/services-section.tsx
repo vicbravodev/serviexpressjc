@@ -108,10 +108,10 @@ export function ServicesSection() {
           <div className="grid items-stretch overflow-hidden rounded-2xl border border-border bg-card lg:grid-cols-2">
             <div className="relative aspect-[16/9] lg:aspect-auto lg:min-h-[360px]">
               <FleetImage
-                src="/fleet/carga-agricola.jpg"
+                src="/fleet/carga-acero.jpg"
                 alt={t("specialized.imageAlt")}
                 caption={t("specialized.imageCaption")}
-                className="absolute inset-0 h-full w-full object-cover object-[center_78%]"
+                className="absolute inset-0 h-full w-full object-cover object-center"
               />
             </div>
             <div className="flex flex-col justify-center p-8 sm:p-10">
