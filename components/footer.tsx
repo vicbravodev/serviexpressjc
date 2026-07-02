@@ -104,7 +104,7 @@ export function Footer() {
           <div>
             <h4 className="font-semibold mb-4">{t("servicesTitle")}</h4>
             <ul className="space-y-2 text-primary-foreground/80">
-              {[0, 1, 2, 3, 4].map((i) => (
+              {[0, 1, 2, 3].map((i) => (
                 <li key={i}>{t(`services.${i}`)}</li>
               ))}
             </ul>

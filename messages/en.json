@@ -52,25 +52,6 @@
       { "label": "Drivers", "caption": "Certified for the border crossing" }
     ]
   },
-  "Clients": {
-    "title": "Companies that trust us",
-    "subtitle": "We work with leading companies across Mexico and the United States",
-    "logoAlt": "{name} logo",
-    "more": "And many more companies that rely on our freight services"
-  },
-  "Features": {
-    "kicker": "Why ServiExpress JC",
-    "title": "Reasons to trust us with your freight",
-    "subtitle": "Concrete advantages, backed by evidence — not adjectives.",
-    "items": [
-      { "title": "Modern, company-owned fleet", "description": "Dual-plated trucks and 53-foot air-ride trailers." },
-      { "title": "24/7 security", "description": "Real-time GPS tracking for safe, on-time deliveries." },
-      { "title": "Broad coverage", "description": "Domestic and cross-border Mexico–U.S. service across multiple lanes." },
-      { "title": "On-time delivery", "description": "Committed to delivery windows, with personalized attention." },
-      { "title": "5 in-house repair shops", "description": "In-house maintenance plus our Los César parts store with deep inventory." },
-      { "title": "Certified drivers", "description": "Highly trained drivers holding B1 certification for the border crossing." }
-    ]
-  },
   "Services": {
     "kicker": "Services",
     "title": "What we haul, proven on the road",
@@ -121,7 +102,7 @@
     "imageCaption": "Maintained in our own shops",
     "overlay": "Every truck gets this level of care",
     "pillars": [
-      { "title": "5 in-house shops", "caption": "Preventive and corrective maintenance, in-house" },
+      { "title": "Preventive & corrective", "caption": "Every truck diagnosed and serviced in-house" },
       { "title": "Trained technicians", "caption": "Specialists on every truck" },
       { "title": "No third-party dependence", "caption": "A breakdown never stops your delivery" },
       { "title": "Our own parts store", "caption": "Los César, with deep inventory" }
@@ -135,19 +116,10 @@
     "fleetCaption": "Company-owned fleet · Apodaca, N.L. terminal",
     "fleetChip": "Company-owned fleet",
     "fleetLocation": "Terminal · Apodaca, N.L.",
-    "missionTitle": "Our Mission",
-    "missionText": "To deliver a quality service that meets our customers' needs, coordinating and monitoring every shipment with the best people.",
-    "visionTitle": "Our Vision",
-    "visionText": "To be recognized as one of the most competitive trucking companies in Mexico and the U.S., growing our value year after year.",
-    "valuesTitle": "Our Values",
-    "values": [
-      "Service quality",
-      "Technological innovation",
-      "24/7 security",
-      "On-time delivery",
-      "Personalized attention",
-      "Commitment to our customers"
-    ]
+    "storyLabel1": "What we do",
+    "story1": "We coordinate and monitor every shipment with our own team, from pickup to final destination, so your freight arrives safe and on time, with no middlemen.",
+    "storyLabel2": "Where we're headed",
+    "story2": "To be one of the most competitive carriers in Mexico and the United States, growing year after year without losing the direct relationships that got us here."
   },
   "Coverage": {
     "kicker": "Operating network",
@@ -165,10 +137,12 @@
     "mxZones": { "norte": "North", "bajio": "Bajío", "pacifico": "Pacific", "occidente": "West" },
     "usZones": { "texas": "Texas", "midwest": "Midwest", "southeast": "Southeast", "west": "West" }
   },
-  "Testimonials": {
+  "SocialProof": {
     "kicker": "Clients",
-    "title": "What our customers say",
-    "subtitle": "Steel producers and exporters who move their freight with us.",
+    "title": "Companies that already trust us with their freight",
+    "subtitle": "Steel producers and exporters moving steel, forage, and dry freight with us.",
+    "logoAlt": "{name} logo",
+    "more": "And many more companies across Mexico and the United States",
     "items": [
       {
         "quote": "We trust SERVIEXPRESS JC with our northern routes, and now with our exports as well. Always on time, with excellent tracking.",
@@ -235,7 +209,6 @@
     "services": [
       "Domestic Freight",
       "Cross-Border Freight",
-      "24/7 GPS Tracking",
       "Door-to-Door Service",
       "Los César Parts Store"
     ],

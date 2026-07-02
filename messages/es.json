@@ -52,25 +52,6 @@
       { "label": "Operadores", "caption": "Certificados para cruce" }
     ]
   },
-  "Clients": {
-    "title": "Empresas que confían en nosotros",
-    "subtitle": "Trabajamos con las empresas más importantes de México y Estados Unidos",
-    "logoAlt": "Logotipo de {name}",
-    "more": "Y muchas más empresas que confían en nuestro servicio de transporte"
-  },
-  "Features": {
-    "kicker": "Por qué ServiExpress JC",
-    "title": "Razones para confiarnos tu carga",
-    "subtitle": "Ventajas concretas, sostenidas con evidencia, no con adjetivos.",
-    "items": [
-      { "title": "Flota moderna y propia", "description": "Unidades con doble placa y remolques de 53 pies con suspensión de aire." },
-      { "title": "Seguridad 24/7", "description": "Monitoreo GPS en tiempo real para entregas puntuales y seguras." },
-      { "title": "Cobertura amplia", "description": "Servicio nacional e internacional México–USA con múltiples rutas." },
-      { "title": "Entregas puntuales", "description": "Compromiso con los tiempos de entrega y atención personalizada." },
-      { "title": "5 talleres propios", "description": "Mantenimiento en casa y refaccionaria Los César con inventario extenso." },
-      { "title": "Operadores certificados", "description": "Personal altamente capacitado con certificación B1 para el cruce." }
-    ]
-  },
   "Services": {
     "kicker": "Servicios",
     "title": "Lo que movemos, probado en carretera",
@@ -121,7 +102,7 @@
     "imageCaption": "Unidad mantenida en talleres propios",
     "overlay": "Cuidamos cada unidad como esta",
     "pillars": [
-      { "title": "5 talleres propios", "caption": "Mantenimiento preventivo y correctivo en casa" },
+      { "title": "Preventivo y correctivo", "caption": "Cada unidad se diagnostica y repara en casa" },
       { "title": "Personal capacitado", "caption": "Técnicos especializados en cada unidad" },
       { "title": "Sin depender de terceros", "caption": "Las entregas no se detienen por una falla" },
       { "title": "Refaccionaria propia", "caption": "Los César, con inventario extenso" }
@@ -135,19 +116,10 @@
     "fleetCaption": "Flota propia · terminal en Apodaca, N.L.",
     "fleetChip": "Flota propia",
     "fleetLocation": "Terminal · Apodaca, N.L.",
-    "missionTitle": "Nuestra Misión",
-    "missionText": "Garantizar un servicio de calidad que cubra las necesidades de nuestros clientes, coordinando y monitoreando el traslado con el mejor personal.",
-    "visionTitle": "Nuestra Visión",
-    "visionText": "Ser reconocidos como una de las empresas de transporte más competitivas en México y EE.UU., incrementando nuestro valor año con año.",
-    "valuesTitle": "Nuestros Valores",
-    "values": [
-      "Calidad en el servicio",
-      "Innovación tecnológica",
-      "Seguridad 24/7",
-      "Entregas puntuales",
-      "Atención personalizada",
-      "Compromiso con el cliente"
-    ]
+    "storyLabel1": "Lo que hacemos",
+    "story1": "Coordinamos y monitoreamos cada traslado con nuestro propio equipo, de la carga al destino final, para que tu mercancía llegue segura y a tiempo, sin intermediarios.",
+    "storyLabel2": "Hacia dónde vamos",
+    "story2": "Ser de las transportistas más competitivas de México y Estados Unidos, creciendo año con año sin perder el trato directo que nos trajo hasta aquí."
   },
   "Coverage": {
     "kicker": "Red de operación",
@@ -165,10 +137,12 @@
     "mxZones": { "norte": "Norte", "bajio": "Bajío", "pacifico": "Pacífico", "occidente": "Occidente" },
     "usZones": { "texas": "Texas", "midwest": "Midwest", "southeast": "Southeast", "west": "West" }
   },
-  "Testimonials": {
+  "SocialProof": {
     "kicker": "Clientes",
-    "title": "Lo que dicen quienes ya confían",
-    "subtitle": "Acereras y exportadores que mueven su carga con nosotros.",
+    "title": "Empresas que ya confían su carga aquí",
+    "subtitle": "Acereras y exportadores que mueven acero, forraje y carga seca con nosotros.",
+    "logoAlt": "Logotipo de {name}",
+    "more": "Y muchas más empresas de México y Estados Unidos",
     "items": [
       {
         "quote": "Confiamos en SERVIEXPRESS JC para nuestras rutas del norte y ahora también para exportación. Siempre puntuales y con excelente seguimiento.",
@@ -235,7 +209,6 @@
     "services": [
       "Transporte Nacional",
       "Transporte Internacional",
-      "Monitoreo GPS 24/7",
       "Servicio Puerta a Puerta",
       "Refaccionaria Los César"
     ],

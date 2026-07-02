@@ -1,8 +1,7 @@
-import { Card } from "@/components/ui/card"
-import { Target, Eye } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Reveal, RevealGroup, RevealChild } from "@/components/motion-primitives"
 import { FleetImage } from "@/components/fleet-image"
+import { yearsInService } from "@/lib/site"
 
 export function AboutSection() {
   const t = useTranslations("About")
@@ -15,13 +14,13 @@ export function AboutSection() {
             <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">{t("kicker")}</span>
             <h2 className="mt-3 text-3xl md:text-5xl font-bold text-balance">{t("title")}</h2>
             <p className="mt-4 text-lg text-muted-foreground text-pretty">
-              {t("subtitle")}
+              {t("subtitle", { years: yearsInService() })}
             </p>
           </Reveal>
 
-          {/* Real fleet at the terminal: proof of "flota propia" */}
+          {/* Flota real en la terminal: prueba de "flota propia" */}
           <Reveal className="mb-12">
-            <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/40">
+            <div className="relative overflow-hidden rounded-2xl border border-white/10">
               <FleetImage
                 src="/fleet/flota-patio.jpg"
                 alt={t("fleetAlt")}
@@ -34,51 +33,27 @@ export function AboutSection() {
                   <span className="h-1.5 w-1.5 rounded-full bg-yellow-accent-bright animate-live-blink" />
                   {t("fleetChip")}
                 </span>
-                <span className="text-white/30">|</span>
+                <span aria-hidden className="text-white/30">|</span>
                 <span>{t("fleetLocation")}</span>
               </div>
             </div>
           </Reveal>
 
-          <RevealGroup className="grid md:grid-cols-2 gap-8 mb-12">
-            <RevealChild className="h-full">
-            <Card className="h-full p-8">
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <Target className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className="text-xl font-bold mb-4">{t("missionTitle")}</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {t("missionText")}
-              </p>
-            </Card>
+          {/* Misión y visión destiladas: prosa directa, sin plantilla corporativa */}
+          <RevealGroup className="grid gap-10 md:grid-cols-2 md:gap-14">
+            <RevealChild>
+              <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                {t("storyLabel1")}
+              </span>
+              <p className="mt-3 leading-relaxed text-foreground/90">{t("story1")}</p>
             </RevealChild>
-
-            <RevealChild className="h-full">
-            <Card className="h-full p-8">
-              <div className="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center mb-4">
-                <Eye className="w-6 h-6 text-secondary" />
-              </div>
-              <h3 className="text-xl font-bold mb-4">{t("visionTitle")}</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {t("visionText")}
-              </p>
-            </Card>
+            <RevealChild>
+              <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                {t("storyLabel2")}
+              </span>
+              <p className="mt-3 leading-relaxed text-foreground/90">{t("story2")}</p>
             </RevealChild>
           </RevealGroup>
-
-          <Reveal>
-          <Card className="p-8">
-            <h3 className="text-2xl font-bold mb-6">{t("valuesTitle")}</h3>
-            <div className="grid md:grid-cols-2 gap-4">
-              {[0, 1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary" />
-                  <span className="text-foreground">{t(`values.${i}`)}</span>
-                </div>
-              ))}
-            </div>
-          </Card>
-          </Reveal>
         </div>
       </div>
     </section>
