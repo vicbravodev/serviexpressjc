@@ -71,7 +71,7 @@
 ### 6. Manejo de errores / edge cases
 
 - Locale inválido en URL (`/fr`) → `notFound()` en el layout.
-- Claves de mensaje faltantes → error en build (config `onError` estricta de next-intl) para que nunca se publique texto a medias.
+- Claves de mensaje faltantes → un script de verificación de paridad de claves entre `es.json` y `en.json` corre como paso obligatorio del plan, para que nunca se publique texto a medias.
 - `app/not-found.tsx` mínimo bilingüe (requerido al usar `notFound()`).
 
 ### 7. Testing / verificación
