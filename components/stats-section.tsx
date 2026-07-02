@@ -3,6 +3,7 @@
 import { Clock, Truck, ShieldCheck, BadgeCheck } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { motion, useInView, useReducedMotion } from "motion/react"
+import { useTranslations } from "next-intl"
 
 type Metric = {
   icon: typeof Clock
@@ -12,15 +13,13 @@ type Metric = {
   display?: string
   prefix?: string
   suffix?: string
-  label: string
-  caption: string
 }
 
 const metrics: Metric[] = [
-  { icon: BadgeCheck, target: 10, suffix: "+", label: "Años en ruta", caption: "Operación continua MX–USA" },
-  { icon: Clock, target: null, display: "24/7", label: "Monitoreo GPS", caption: "Rastreo en tiempo real" },
-  { icon: Truck, target: 100, suffix: "%", label: "Flota propia", caption: "Sin subcontratar tu carga" },
-  { icon: ShieldCheck, target: null, display: "B1", label: "Operadores", caption: "Certificados para cruce" },
+  { icon: BadgeCheck, target: 10, suffix: "+" },
+  { icon: Clock, target: null, display: "24/7" },
+  { icon: Truck, target: 100, suffix: "%" },
+  { icon: ShieldCheck, target: null, display: "B1" },
 ]
 
 function useCountUp(target: number | null, active: boolean, duration = 1400) {
@@ -49,6 +48,7 @@ function useCountUp(target: number | null, active: boolean, duration = 1400) {
 }
 
 function MetricCell({ metric, active, index }: { metric: Metric; active: boolean; index: number }) {
+  const t = useTranslations("Stats")
   const counted = useCountUp(metric.target, active)
   const Icon = metric.icon
   return (
@@ -73,14 +73,15 @@ function MetricCell({ metric, active, index }: { metric: Metric; active: boolean
         )}
       </div>
       <div>
-        <p className="text-sm font-semibold text-white/90">{metric.label}</p>
-        <p className="font-mono text-[11px] text-white/60">{metric.caption}</p>
+        <p className="text-sm font-semibold text-white/90">{t(`metrics.${index}.label`)}</p>
+        <p className="font-mono text-[11px] text-white/60">{t(`metrics.${index}.caption`)}</p>
       </div>
     </motion.div>
   )
 }
 
 export function StatsSection() {
+  const t = useTranslations("Stats")
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.3 })
 
@@ -96,16 +97,16 @@ export function StatsSection() {
             <div className="flex items-center gap-2.5">
               <span className="h-2 w-2 rounded-full bg-yellow-accent-bright animate-live-blink" />
               <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/70">
-                Monitoreo en tiempo real · 24/7
+                {t("console")}
               </span>
             </div>
-            <span className="hidden font-mono text-[11px] text-white/55 sm:inline">SERVIEXPRESS·JC / OPS</span>
+            <span className="hidden font-mono text-[11px] text-white/55 sm:inline">{t("consoleTag")}</span>
           </div>
 
           {/* Instrument cells, hairline-divided (no identical card grid) */}
           <div className="grid grid-cols-2 gap-px bg-white/10 md:grid-cols-4">
             {metrics.map((metric, i) => (
-              <MetricCell key={metric.label} metric={metric} active={inView} index={i} />
+              <MetricCell key={i} metric={metric} active={inView} index={i} />
             ))}
           </div>
         </div>

@@ -5,6 +5,7 @@ import { ArrowRight, Play, Volume2, VolumeX, Maximize2, X } from "lucide-react"
 import Link from "next/link"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react"
+import { useTranslations } from "next-intl"
 
 const heroContainer: Variants = {
   hidden: {},
@@ -17,6 +18,7 @@ const heroItem: Variants = {
 }
 
 export function HeroSection() {
+  const t = useTranslations("Hero")
   const reduceMotion = useReducedMotion()
   const videoContainerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -146,7 +148,7 @@ export function HeroSection() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-yellow-accent-bright" />
             </span>
             <span className="text-xs sm:text-sm font-medium text-white/90 font-mono tracking-wide uppercase">
-              Operación en vivo<span className="hidden sm:inline"> · 10+ años en ruta</span>
+              {t("badge")}<span className="hidden sm:inline">{t("badgeYears")}</span>
             </span>
           </motion.div>
 
@@ -154,16 +156,15 @@ export function HeroSection() {
             variants={heroItem}
             className="text-4xl md:text-6xl font-bold mb-6 text-balance leading-[1.08] text-white"
           >
-            Eficiencia sobre ruedas,{" "}
-            <span className="text-yellow-accent-bright">compromiso sin fronteras</span>
+            {t("titleLead")}{" "}
+            <span className="text-yellow-accent-bright">{t("titleAccent")}</span>
           </motion.h1>
 
           <motion.p
             variants={heroItem}
             className="text-xl md:text-2xl text-white/80 mb-10 text-pretty max-w-3xl mx-auto leading-relaxed"
           >
-            Transporte especializado de carga entre México y Estados Unidos. Cada unidad, monitoreada por GPS
-            las 24 horas, desde nuestra sala de control hasta tu cliente final.
+            {t("subtitle")}
           </motion.p>
 
           <motion.div variants={heroItem} className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -173,7 +174,7 @@ export function HeroSection() {
               asChild
             >
               <Link href="#cotizacion">
-                Solicita tu cotización
+                {t("cta")}
                 <ArrowRight
                   className="ml-2 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
                   size={20}
@@ -189,8 +190,8 @@ export function HeroSection() {
                 <Play size={18} className="ml-0.5 fill-current" />
               </span>
               <span className="text-left">
-                <span className="block text-base font-medium leading-tight">Ver presentación</span>
-                <span className="block text-xs text-white/60 font-mono">2 min · con audio</span>
+                <span className="block text-base font-medium leading-tight">{t("watch")}</span>
+                <span className="block text-xs text-white/60 font-mono">{t("watchMeta")}</span>
               </span>
             </button>
           </motion.div>
@@ -203,11 +204,11 @@ export function HeroSection() {
           type="button"
           onClick={toggleSound}
           aria-pressed={soundOn}
-          aria-label={soundOn ? "Silenciar video" : "Activar sonido del video"}
+          aria-label={soundOn ? t("muteAria") : t("unmuteAria")}
           className="relative flex h-11 items-center gap-2 rounded-full border border-white/25 bg-black/40 backdrop-blur-md px-4 text-xs font-medium text-white/90 transition-colors hover:border-yellow-accent-bright/70 hover:text-white"
         >
           {soundOn ? <Volume2 size={16} /> : <VolumeX size={16} />}
-          <span className="hidden sm:inline">{soundOn ? "Sonido activo" : "Activar sonido"}</span>
+          <span className="hidden sm:inline">{soundOn ? t("soundOn") : t("soundOff")}</span>
           {!soundOn && (
             <span className="absolute -right-0.5 -top-0.5 flex h-2.5 w-2.5">
               <span className="absolute inline-flex h-full w-full rounded-full bg-yellow-accent-bright opacity-75 animate-ping" />
@@ -218,7 +219,7 @@ export function HeroSection() {
         <button
           type="button"
           onClick={openModal}
-          aria-label="Ver presentación en pantalla completa"
+          aria-label={t("fullscreenAria")}
           className="hidden sm:flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-black/40 backdrop-blur-md text-white/90 transition-colors hover:border-yellow-accent-bright/70 hover:text-white"
         >
           <Maximize2 size={16} />
@@ -237,7 +238,7 @@ export function HeroSection() {
             onClick={closeModal}
             role="dialog"
             aria-modal="true"
-            aria-label="Presentación de ServiExpress JC"
+            aria-label={t("modalAria")}
           >
             <motion.div
               className="relative w-full max-w-5xl"
@@ -250,7 +251,7 @@ export function HeroSection() {
               <button
                 type="button"
                 onClick={closeModal}
-                aria-label="Cerrar presentación"
+                aria-label={t("closeAria")}
                 className="absolute -top-3 -right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white text-foreground shadow-lg transition-transform hover:scale-105"
               >
                 <X size={18} />
