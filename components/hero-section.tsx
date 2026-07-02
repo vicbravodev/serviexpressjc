@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react"
 import { useTranslations } from "next-intl"
+import { yearsInService } from "@/lib/site"
 
 const heroContainer: Variants = {
   hidden: {},
@@ -148,7 +149,7 @@ export function HeroSection() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-yellow-accent-bright" />
             </span>
             <span className="text-xs sm:text-sm font-medium text-white/90 font-mono tracking-wide uppercase">
-              {t("badge")}<span className="hidden sm:inline">{t("badgeYears")}</span>
+              {t("badge")}<span className="hidden sm:inline">{t("badgeYears", { years: yearsInService() })}</span>
             </span>
           </motion.div>
 

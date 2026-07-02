@@ -15,7 +15,7 @@ El trabajo a resolver: para el cliente, "¿puedo confiarle mi carga a esta empre
 
 ## Product Purpose
 
-Landing de Servi Express JC, empresa de transporte de carga nacional e internacional México-USA con más de 10 años de operación (flota propia, monitoreo GPS 24/7, operadores certificados B1, doble placa).
+Landing de Servi Express JC, empresa de transporte de carga nacional e internacional México-USA fundada en 2005 (flota propia, monitoreo GPS 24/7, operadores certificados B1, doble placa). Los años de experiencia nunca se hardcodean: se calculan desde `FOUNDING_YEAR` en `lib/site.ts`.
 
 La página convierte en **dos vías equivalentes**: solicitudes de cotización B2B y postulaciones de operadores. El éxito se mide en leads de cotización calificados y postulaciones, sostenidos por una percepción de confianza y cercanía. El diseño es el producto: es la primera y a veces única impresión de la empresa.
 
@@ -34,7 +34,7 @@ Cercana, confiable y directa. Una empresa de gente real, de trato humano, que ge
 
 1. **Gente real, no plantilla.** La confianza se construye mostrando personas, operadores y unidades reales por encima del stock genérico. Cada recurso visual debe sentirse de esta empresa, no de un banco de imágenes.
 2. **Dos caminos, una casa.** Cliente y operador tienen rutas claras y de igual jerarquía; conviven sin competir ni confundirse.
-3. **Confianza por evidencia.** Las credenciales concretas (B1, doble placa, GPS 24/7, 10+ años, flota propia) sostienen la cercanía. Mostrar pruebas, no adjetivos.
+3. **Confianza por evidencia.** Las credenciales concretas (B1, doble placa, GPS 24/7, en ruta desde 2005, flota propia) sostienen la cercanía. Mostrar pruebas, no adjetivos.
 4. **Cálido pero serio.** Humano y accesible sin caer en lo barato; profesional sin caer en lo frío. El equilibrio es la marca.
 5. **Móvil de verdad.** Muchos operadores y clientes llegan desde el teléfono. La experiencia móvil es de primera clase, no una reducción de la de escritorio.
 

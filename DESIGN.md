@@ -74,7 +74,7 @@ components:
 
 **Creative North Star: "El Apretón de Manos en Carretera"**
 
-Cada decisión visual existe para que un cliente o un operador sienta que detrás de la pantalla hay gente real que cumple. La confianza no se declara, se demuestra: credenciales concretas (B1, doble placa, GPS 24/7, más de diez años) sostienen un trato cálido y directo. El sistema es claro, sólido y humano. Habla español de México sin tecnicismos huecos.
+Cada decisión visual existe para que un cliente o un operador sienta que detrás de la pantalla hay gente real que cumple. La confianza no se declara, se demuestra: credenciales concretas (B1, doble placa, GPS 24/7, en ruta desde 2005 con años calculados) sostienen un trato cálido y directo. El sistema es claro, sólido y humano. Habla español de México sin tecnicismos huecos.
 
 La temperatura es la firma. Sobre una base azul de ruta, profunda y seria, el ámbar de señalética marca lo que importa: un acento cálido que aleja a la marca tanto del frío corporativo como del software. La tipografía es Geist, un sans contemporáneo y legible; los bordes son generosos y suaves; el movimiento es sobrio y entra al hacer scroll, nunca por exhibirse.
 
@@ -176,7 +176,7 @@ Las certificaciones NO son un grid de cards repetidas. Son una sola superficie b
 - **Do** usar fotografía y video reales de la flota, las unidades y los operadores de ServiExpress. La confianza se construye mostrando gente real, no stock.
 - **Do** reservar el Ámbar Señal para un único acento por pantalla; deja que el azul cargue la identidad.
 - **Do** mantener superficies planas en reposo y elevar solo en hover.
-- **Do** sostener cada afirmación con evidencia concreta (B1, doble placa, GPS 24/7, 10+ años).
+- **Do** sostener cada afirmación con evidencia concreta (B1, doble placa, GPS 24/7, años en ruta calculados desde 2005).
 - **Do** dar prioridad real al móvil: el hero cabe en viewport, los CTAs se ven sin scroll, los formularios se usan con el pulgar.
 - **Do** romper la repetición de layout: cuando una sección use un patrón (grid de cards), la siguiente usa otra familia (franja con hairlines, split, lista).
 

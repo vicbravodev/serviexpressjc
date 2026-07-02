@@ -2,6 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { MapPin, Phone, Mail, Facebook, Instagram, Linkedin } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_DISPLAY, SOCIAL_LINKS } from "@/lib/site"
 
 export function Footer() {
   const t = useTranslations("Footer")
@@ -23,7 +24,7 @@ export function Footer() {
             </p>
             <div className="flex gap-3">
               <a
-                href="https://instagram.com/serviexpressjc1"
+                href={SOCIAL_LINKS.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-11 h-11 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
@@ -32,7 +33,7 @@ export function Footer() {
                 <Instagram size={20} />
               </a>
               <a
-                href="https://facebook.com/serviexpressjc"
+                href={SOCIAL_LINKS.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-11 h-11 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
@@ -41,7 +42,7 @@ export function Footer() {
                 <Facebook size={20} />
               </a>
               <a
-                href="https://linkedin.com/company/serviexpressjc"
+                href={SOCIAL_LINKS.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-11 h-11 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
@@ -124,19 +125,19 @@ export function Footer() {
               <li className="flex items-center gap-2">
                 <Phone size={20} className="flex-shrink-0" />
                 <a
-                  href="tel:+13463669867"
+                  href={`tel:${CONTACT_PHONE}`}
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                 >
-                  +1 346 366 9867
+                  {CONTACT_PHONE_DISPLAY}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={20} className="flex-shrink-0" />
                 <a
-                  href="mailto:contacto@serviexpressjc.com.mx"
+                  href={`mailto:${CONTACT_EMAIL}`}
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
                 >
-                  contacto@serviexpressjc.com.mx
+                  {CONTACT_EMAIL}
                 </a>
               </li>
             </ul>

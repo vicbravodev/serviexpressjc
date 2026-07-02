@@ -4,6 +4,7 @@ import { Clock, Truck, ShieldCheck, BadgeCheck } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { motion, useInView, useReducedMotion } from "motion/react"
 import { useTranslations } from "next-intl"
+import { yearsInService } from "@/lib/site"
 
 type Metric = {
   icon: typeof Clock
@@ -16,7 +17,7 @@ type Metric = {
 }
 
 const metrics: Metric[] = [
-  { icon: BadgeCheck, target: 10, suffix: "+" },
+  { icon: BadgeCheck, target: yearsInService() },
   { icon: Clock, target: null, display: "24/7" },
   { icon: Truck, target: 100, suffix: "%" },
   { icon: ShieldCheck, target: null, display: "B1" },

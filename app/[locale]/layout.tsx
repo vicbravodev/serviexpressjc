@@ -6,7 +6,16 @@ import { notFound } from "next/navigation"
 import { NextIntlClientProvider, hasLocale } from "next-intl"
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server"
 import { routing } from "@/i18n/routing"
-import { SITE_URL, localePath } from "@/lib/site"
+import {
+  SITE_URL,
+  localePath,
+  FOUNDING_YEAR,
+  yearsInService,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  ADDRESS,
+  SOCIAL_LINKS,
+} from "@/lib/site"
 import "../globals.css"
 
 const geistSans = Geist({
@@ -33,11 +42,12 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "Metadata" })
   const path = localePath(locale)
 
+  const description = t("description", { years: yearsInService() })
+
   return {
     metadataBase: new URL(SITE_URL),
     title: t("title"),
-    description: t("description"),
-    generator: "v0.app",
+    description,
     alternates: {
       canonical: path,
       languages: {
@@ -51,7 +61,7 @@ export async function generateMetadata({
       siteName: "ServiExpress JC",
       url: path,
       title: t("title"),
-      description: t("description"),
+      description,
       locale: locale === "es" ? "es_MX" : "en_US",
       alternateLocale: locale === "es" ? "en_US" : "es_MX",
       images: [{ url: "/fleet/flota-patio.jpg", width: 1600, height: 1200, alt: "ServiExpress JC" }],
@@ -59,7 +69,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: t("title"),
-      description: t("description"),
+      description,
       images: ["/fleet/flota-patio.jpg"],
     },
   }
@@ -84,25 +94,22 @@ export default async function RootLayout({
     name: "ServiExpress JC",
     url: SITE_URL,
     logo: `${SITE_URL}/logo-white-bg.png`,
-    description: tMeta("description"),
-    email: "contacto@serviexpressjc.com.mx",
-    telephone: "+13463669867",
+    description: tMeta("description", { years: yearsInService() }),
+    foundingDate: String(FOUNDING_YEAR),
+    email: CONTACT_EMAIL,
+    telephone: CONTACT_PHONE,
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Carretera Mezquital Santa Rosa Km 05",
-      addressLocality: "Apodaca",
-      addressRegion: "Nuevo León",
-      addressCountry: "MX",
+      streetAddress: ADDRESS.street,
+      addressLocality: ADDRESS.locality,
+      addressRegion: ADDRESS.region,
+      addressCountry: ADDRESS.country,
     },
     areaServed: [
       { "@type": "Country", name: "Mexico" },
       { "@type": "Country", name: "United States" },
     ],
-    sameAs: [
-      "https://instagram.com/serviexpressjc1",
-      "https://facebook.com/serviexpressjc",
-      "https://linkedin.com/company/serviexpressjc",
-    ],
+    sameAs: [SOCIAL_LINKS.instagram, SOCIAL_LINKS.facebook, SOCIAL_LINKS.linkedin],
   }
 
   return (

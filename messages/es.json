@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "ServiExpress JC — Transporte de Carga México–USA",
-    "description": "Empresa de transporte especializada en carga nacional e internacional entre México y Estados Unidos. Más de 10 años de experiencia, monitoreo GPS 24/7."
+    "description": "Empresa de transporte especializada en carga nacional e internacional entre México y Estados Unidos. {years} años en ruta desde 2005, flota propia y monitoreo GPS 24/7."
   },
   "NotFound": {
     "title": "Página no encontrada",
@@ -27,7 +27,7 @@
   },
   "Hero": {
     "badge": "Operación en vivo",
-    "badgeYears": " · 10+ años en ruta",
+    "badgeYears": " · {years} años en ruta",
     "titleLead": "Eficiencia sobre ruedas,",
     "titleAccent": "compromiso sin fronteras",
     "subtitle": "Transporte especializado de carga entre México y Estados Unidos. Cada unidad, monitoreada por GPS las 24 horas, desde nuestra sala de control hasta tu cliente final.",
@@ -46,7 +46,7 @@
     "console": "Monitoreo en tiempo real · 24/7",
     "consoleTag": "SERVIEXPRESS·JC / OPS",
     "metrics": [
-      { "label": "Años en ruta", "caption": "Operación continua MX–USA" },
+      { "label": "Años en ruta", "caption": "Desde 2005, sin parar" },
       { "label": "Monitoreo GPS", "caption": "Rastreo en tiempo real" },
       { "label": "Flota propia", "caption": "Sin subcontratar tu carga" },
       { "label": "Operadores", "caption": "Certificados para cruce" }
@@ -130,7 +130,7 @@
   "About": {
     "kicker": "Quiénes somos",
     "title": "Gente real detrás de cada entrega",
-    "subtitle": "ServiExpress JC es una empresa de transporte con más de una década de experiencia en carga nacional e internacional. Flota propia, operada y mantenida por nuestra propia gente.",
+    "subtitle": "Desde 2005 movemos carga nacional e internacional: {years} años de flota propia, operada y mantenida por nuestra propia gente.",
     "fleetAlt": "Flota de tractocamiones de ServiExpress JC en su terminal",
     "fleetCaption": "Flota propia · terminal en Apodaca, N.L.",
     "fleetChip": "Flota propia",

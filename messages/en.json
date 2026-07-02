@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "ServiExpress JC — Cross-Border Freight Between Mexico & the U.S.",
-    "description": "Trucking company specializing in domestic and cross-border freight between Mexico and the United States. 10+ years on the road, 24/7 GPS tracking, company-owned fleet."
+    "description": "Trucking company specializing in domestic and cross-border freight between Mexico and the United States. {years} years on the road since 2005, company-owned fleet, 24/7 GPS tracking."
   },
   "NotFound": {
     "title": "Page not found",
@@ -27,7 +27,7 @@
   },
   "Hero": {
     "badge": "Live operations",
-    "badgeYears": " · 10+ years on the road",
+    "badgeYears": " · {years} years on the road",
     "titleLead": "Efficiency on wheels,",
     "titleAccent": "commitment beyond borders",
     "subtitle": "Specialized freight transport between Mexico and the United States. Every truck tracked by GPS around the clock — from our control room to your end customer.",
@@ -46,7 +46,7 @@
     "console": "Real-time monitoring · 24/7",
     "consoleTag": "SERVIEXPRESS·JC / OPS",
     "metrics": [
-      { "label": "Years on the road", "caption": "Continuous MX–USA operations" },
+      { "label": "Years on the road", "caption": "Since 2005, nonstop" },
       { "label": "GPS tracking", "caption": "Real-time visibility" },
       { "label": "Company-owned fleet", "caption": "We never broker your freight" },
       { "label": "Drivers", "caption": "Certified for the border crossing" }
@@ -130,7 +130,7 @@
   "About": {
     "kicker": "About us",
     "title": "Real people behind every delivery",
-    "subtitle": "ServiExpress JC is a trucking company with more than a decade of experience in domestic and cross-border freight. A company-owned fleet, driven and maintained by our own people.",
+    "subtitle": "We have moved domestic and cross-border freight since 2005: {years} years of a company-owned fleet, driven and maintained by our own people.",
     "fleetAlt": "ServiExpress JC tractor fleet at our terminal",
     "fleetCaption": "Company-owned fleet · Apodaca, N.L. terminal",
     "fleetChip": "Company-owned fleet",
@@ -194,7 +194,7 @@
       "email": "Email",
       "emailPh": "name@company.com",
       "phone": "Phone",
-      "phonePh": "e.g. (346) 366-9867",
+      "phonePh": "e.g. (812) 555-0143",
       "company": "Company",
       "companyPh": "Your company name",
       "origin": "Origin",
@@ -214,7 +214,7 @@
       "email": "Email",
       "emailPh": "name@email.com",
       "phone": "Phone",
-      "phonePh": "e.g. (346) 366-9867",
+      "phonePh": "e.g. (812) 555-0143",
       "position": "Position of interest",
       "positionPh": "e.g. B1 driver",
       "experience": "Your experience",
