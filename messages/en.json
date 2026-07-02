@@ -6,5 +6,242 @@
   "NotFound": {
     "title": "Page not found",
     "back": "Back to home"
+  },
+  "LanguageSwitcher": {
+    "label": "Language",
+    "switchToEn": "Switch to English",
+    "switchToEs": "Cambiar a español"
+  },
+  "Header": {
+    "nav": {
+      "inicio": "Home",
+      "quienesSomos": "About Us",
+      "servicios": "Services",
+      "cobertura": "Coverage",
+      "clientes": "Clients"
+    },
+    "apply": "Apply Now",
+    "quote": "Get a Quote",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "Hero": {
+    "badge": "Live operations",
+    "badgeYears": " · 10+ years on the road",
+    "titleLead": "Efficiency on wheels,",
+    "titleAccent": "commitment beyond borders",
+    "subtitle": "Specialized freight transport between Mexico and the United States. Every truck tracked by GPS around the clock — from our control room to your end customer.",
+    "cta": "Request your quote",
+    "watch": "Watch the video",
+    "watchMeta": "2 min · Spanish audio",
+    "soundOn": "Sound on",
+    "soundOff": "Unmute",
+    "muteAria": "Mute video",
+    "unmuteAria": "Unmute video",
+    "fullscreenAria": "Watch the presentation in fullscreen",
+    "modalAria": "ServiExpress JC company presentation",
+    "closeAria": "Close presentation"
+  },
+  "Stats": {
+    "console": "Real-time monitoring · 24/7",
+    "consoleTag": "SERVIEXPRESS·JC / OPS",
+    "metrics": [
+      { "label": "Years on the road", "caption": "Continuous MX–USA operations" },
+      { "label": "GPS tracking", "caption": "Real-time visibility" },
+      { "label": "Company-owned fleet", "caption": "We never broker your freight" },
+      { "label": "Drivers", "caption": "Certified for the border crossing" }
+    ]
+  },
+  "Clients": {
+    "title": "Companies that trust us",
+    "subtitle": "We work with leading companies across Mexico and the United States",
+    "logoAlt": "{name} logo",
+    "more": "And many more companies that rely on our freight services"
+  },
+  "Features": {
+    "kicker": "Why ServiExpress JC",
+    "title": "Reasons to trust us with your freight",
+    "subtitle": "Concrete advantages, backed by evidence — not adjectives.",
+    "items": [
+      { "title": "Modern, company-owned fleet", "description": "Dual-plated trucks and 53-foot air-ride trailers." },
+      { "title": "24/7 security", "description": "Real-time GPS tracking for safe, on-time deliveries." },
+      { "title": "Broad coverage", "description": "Domestic and cross-border Mexico–U.S. service across multiple lanes." },
+      { "title": "On-time delivery", "description": "Committed to delivery windows, with personalized attention." },
+      { "title": "5 in-house repair shops", "description": "In-house maintenance plus our Los César parts store with deep inventory." },
+      { "title": "Certified drivers", "description": "Highly trained drivers holding B1 certification for the border crossing." }
+    ]
+  },
+  "Services": {
+    "kicker": "Services",
+    "title": "What we haul, proven on the road",
+    "subtitle": "Domestic and cross-border freight, with our own trucks and certified drivers end to end.",
+    "national": {
+      "badge": "Domestic",
+      "imageAlt": "ServiExpress JC truck hauling steel freight",
+      "imageCaption": "Steel freight · domestic",
+      "title": "Domestic freight",
+      "description": "Local, regional, and long-haul service across Mexico. Steel, agricultural, dry, and oversized freight — GPS-tracked from origin to destination.",
+      "zones": ["North", "Bajío", "Pacific", "West"],
+      "cta": "View coverage"
+    },
+    "international": {
+      "badge": "Cross-border · MX → USA",
+      "imageAlt": "ServiExpress JC tractor at a certified scale in the United States",
+      "imageCaption": "Mexico–U.S. crossing",
+      "title": "Cross-border freight",
+      "description": "Door-to-door cross-border service. Crossing at Laredo, TX with B1-certified drivers and dual-plated trucks.",
+      "zones": ["Texas", "Midwest", "Southeast", "West"],
+      "cta": "Get a quote"
+    },
+    "specialized": {
+      "kicker": "Specialized freight",
+      "imageAlt": "ServiExpress JC truck loaded with agricultural hay bales",
+      "imageCaption": "Agricultural freight · forage",
+      "title": "One fleet, many kinds of freight",
+      "description": "From rebar and steel profiles to hay bales: flatbeds, 53-foot dry vans, and equipment for oversized loads — always secured and tracked.",
+      "tags": ["Steel", "Agricultural & forage", "Dry freight (53')", "Oversized"]
+    }
+  },
+  "Certifications": {
+    "title": "Certifications & Guarantees",
+    "subtitle": "We meet every quality and safety standard in the industry",
+    "items": [
+      { "title": "B1 Certification", "description": "Drivers certified with a federal B1 license for freight transport" },
+      { "title": "Dual Plates", "description": "Trucks with dual Mexico–U.S. plates for a hassle-free border crossing" },
+      { "title": "Full Cargo Insurance", "description": "Comprehensive cargo insurance coverage to protect your goods" },
+      { "title": "Certified Fleet", "description": "Trucks with current inspections and ongoing preventive maintenance" }
+    ]
+  },
+  "Talleres": {
+    "kicker": "In-house maintenance",
+    "titleLead": "5 in-house shops.",
+    "titleAccent": "Zero excuses.",
+    "description": "We don't outsource anything — not even maintenance. Five shops staffed by fully trained technicians service our fleet, so your freight travels on reliable equipment and your deliveries never depend on a third party.",
+    "imageAlt": "Classic ServiExpress JC Kenworth, restored and maintained in our own shops",
+    "imageCaption": "Maintained in our own shops",
+    "overlay": "Every truck gets this level of care",
+    "pillars": [
+      { "title": "5 in-house shops", "caption": "Preventive and corrective maintenance, in-house" },
+      { "title": "Trained technicians", "caption": "Specialists on every truck" },
+      { "title": "No third-party dependence", "caption": "A breakdown never stops your delivery" },
+      { "title": "Our own parts store", "caption": "Los César, with deep inventory" }
+    ]
+  },
+  "About": {
+    "kicker": "About us",
+    "title": "Real people behind every delivery",
+    "subtitle": "ServiExpress JC is a trucking company with more than a decade of experience in domestic and cross-border freight. A company-owned fleet, driven and maintained by our own people.",
+    "fleetAlt": "ServiExpress JC tractor fleet at our terminal",
+    "fleetCaption": "Company-owned fleet · Apodaca, N.L. terminal",
+    "fleetChip": "Company-owned fleet",
+    "fleetLocation": "Terminal · Apodaca, N.L.",
+    "missionTitle": "Our Mission",
+    "missionText": "To deliver a quality service that meets our customers' needs, coordinating and monitoring every shipment with the best people.",
+    "visionTitle": "Our Vision",
+    "visionText": "To be recognized as one of the most competitive trucking companies in Mexico and the U.S., growing our value year after year.",
+    "valuesTitle": "Our Values",
+    "values": [
+      "Service quality",
+      "Technological innovation",
+      "24/7 security",
+      "On-time delivery",
+      "Personalized attention",
+      "Commitment to our customers"
+    ]
+  },
+  "Coverage": {
+    "kicker": "Operating network",
+    "title": "Domestic and cross-border coverage",
+    "subtitle": "A corridor monitored point to point, from the Bajío to the southeastern United States.",
+    "console": "Main corridor",
+    "consoleTag": "MTY → LAREDO → HOU",
+    "mapAria": "Map of the Mexico–United States freight corridor",
+    "borderLabel": "MX · USA BORDER",
+    "telemetry": "733 mi · ETA 17 h",
+    "crossingChip": "B1 crossing · dual plates",
+    "mxTitle": "Mexico",
+    "usTitle": "United States",
+    "citiesCount": "{count} cities",
+    "mxZones": { "norte": "North", "bajio": "Bajío", "pacifico": "Pacific", "occidente": "West" },
+    "usZones": { "texas": "Texas", "midwest": "Midwest", "southeast": "Southeast", "west": "West" }
+  },
+  "Testimonials": {
+    "kicker": "Clients",
+    "title": "What our customers say",
+    "subtitle": "Steel producers and exporters who move their freight with us.",
+    "items": [
+      {
+        "quote": "We trust SERVIEXPRESS JC with our northern routes, and now with our exports as well. Always on time, with excellent tracking.",
+        "role": "Logistics & Procurement"
+      },
+      {
+        "quote": "Their GPS monitoring gives us total peace of mind. We know exactly where our freight is at all times.",
+        "role": "Supply Chain"
+      },
+      {
+        "quote": "Professionalism and personalized attention. They have been key to the growth of our business.",
+        "role": "Operations & Distribution"
+      }
+    ]
+  },
+  "CTA": {
+    "quote": {
+      "kicker": "Customers · B2B",
+      "title": "Request your quote",
+      "description": "Tell us your lane and your freight — we'll come back with a tailored proposal.",
+      "name": "Full name",
+      "namePh": "e.g. Sarah Johnson",
+      "email": "Email",
+      "emailPh": "name@company.com",
+      "phone": "Phone",
+      "phonePh": "e.g. (346) 366-9867",
+      "company": "Company",
+      "companyPh": "Your company name",
+      "origin": "Origin",
+      "originPh": "Origin city",
+      "destination": "Destination",
+      "destinationPh": "Destination city",
+      "details": "Freight details",
+      "detailsPh": "Type, weight, and dimensions of the load",
+      "submit": "Send request"
+    },
+    "apply": {
+      "kicker": "Drivers · careers",
+      "title": "Join our team",
+      "description": "We're hiring certified drivers and committed team members.",
+      "name": "Full name",
+      "namePh": "e.g. John Smith",
+      "email": "Email",
+      "emailPh": "name@email.com",
+      "phone": "Phone",
+      "phonePh": "e.g. (346) 366-9867",
+      "position": "Position of interest",
+      "positionPh": "e.g. B1 driver",
+      "experience": "Your experience",
+      "experiencePh": "Tell us about your experience",
+      "cv": "Attach résumé (optional)",
+      "submit": "Submit application"
+    },
+    "whatsapp": {
+      "title": "Need help right away?",
+      "description": "Message us on WhatsApp and we'll get back to you in minutes.",
+      "button": "Chat on WhatsApp"
+    }
+  },
+  "Footer": {
+    "tagline": "Efficiency on wheels, commitment beyond borders",
+    "quickLinksTitle": "Quick Links",
+    "servicesTitle": "Services",
+    "services": [
+      "Domestic Freight",
+      "Cross-Border Freight",
+      "24/7 GPS Tracking",
+      "Door-to-Door Service",
+      "Los César Parts Store"
+    ],
+    "contactTitle": "Contact",
+    "addressLine1": "Carretera Mezquital Santa Rosa Km 05",
+    "addressLine2": "Apodaca, N.L., Mexico",
+    "rights": "All rights reserved."
   }
 }

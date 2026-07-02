@@ -6,5 +6,242 @@
   "NotFound": {
     "title": "Página no encontrada",
     "back": "Volver al inicio"
+  },
+  "LanguageSwitcher": {
+    "label": "Idioma",
+    "switchToEn": "Switch to English",
+    "switchToEs": "Cambiar a español"
+  },
+  "Header": {
+    "nav": {
+      "inicio": "Inicio",
+      "quienesSomos": "Quiénes Somos",
+      "servicios": "Servicios",
+      "cobertura": "Cobertura",
+      "clientes": "Clientes"
+    },
+    "apply": "Postúlate",
+    "quote": "Cotización",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú"
+  },
+  "Hero": {
+    "badge": "Operación en vivo",
+    "badgeYears": " · 10+ años en ruta",
+    "titleLead": "Eficiencia sobre ruedas,",
+    "titleAccent": "compromiso sin fronteras",
+    "subtitle": "Transporte especializado de carga entre México y Estados Unidos. Cada unidad, monitoreada por GPS las 24 horas, desde nuestra sala de control hasta tu cliente final.",
+    "cta": "Solicita tu cotización",
+    "watch": "Ver presentación",
+    "watchMeta": "2 min · con audio",
+    "soundOn": "Sonido activo",
+    "soundOff": "Activar sonido",
+    "muteAria": "Silenciar video",
+    "unmuteAria": "Activar sonido del video",
+    "fullscreenAria": "Ver presentación en pantalla completa",
+    "modalAria": "Presentación de ServiExpress JC",
+    "closeAria": "Cerrar presentación"
+  },
+  "Stats": {
+    "console": "Monitoreo en tiempo real · 24/7",
+    "consoleTag": "SERVIEXPRESS·JC / OPS",
+    "metrics": [
+      { "label": "Años en ruta", "caption": "Operación continua MX–USA" },
+      { "label": "Monitoreo GPS", "caption": "Rastreo en tiempo real" },
+      { "label": "Flota propia", "caption": "Sin subcontratar tu carga" },
+      { "label": "Operadores", "caption": "Certificados para cruce" }
+    ]
+  },
+  "Clients": {
+    "title": "Empresas que confían en nosotros",
+    "subtitle": "Trabajamos con las empresas más importantes de México y Estados Unidos",
+    "logoAlt": "Logotipo de {name}",
+    "more": "Y muchas más empresas que confían en nuestro servicio de transporte"
+  },
+  "Features": {
+    "kicker": "Por qué ServiExpress JC",
+    "title": "Razones para confiarnos tu carga",
+    "subtitle": "Ventajas concretas, sostenidas con evidencia, no con adjetivos.",
+    "items": [
+      { "title": "Flota moderna y propia", "description": "Unidades con doble placa y remolques de 53 pies con suspensión de aire." },
+      { "title": "Seguridad 24/7", "description": "Monitoreo GPS en tiempo real para entregas puntuales y seguras." },
+      { "title": "Cobertura amplia", "description": "Servicio nacional e internacional México–USA con múltiples rutas." },
+      { "title": "Entregas puntuales", "description": "Compromiso con los tiempos de entrega y atención personalizada." },
+      { "title": "5 talleres propios", "description": "Mantenimiento en casa y refaccionaria Los César con inventario extenso." },
+      { "title": "Operadores certificados", "description": "Personal altamente capacitado con certificación B1 para el cruce." }
+    ]
+  },
+  "Services": {
+    "kicker": "Servicios",
+    "title": "Lo que movemos, probado en carretera",
+    "subtitle": "Carga nacional e internacional, con unidades propias y operadores certificados de punta a punta.",
+    "national": {
+      "badge": "Nacional",
+      "imageAlt": "Unidad de ServiExpress JC transportando carga siderúrgica de acero",
+      "imageCaption": "Carga de acero · nacional",
+      "title": "Transporte nacional",
+      "description": "Local, regional y larga distancia por todo México. Carga siderúrgica, agrícola, seca y sobredimensionada, monitoreada por GPS de origen a destino.",
+      "zones": ["Norte", "Bajío", "Pacífico", "Occidente"],
+      "cta": "Ver cobertura"
+    },
+    "international": {
+      "badge": "Internacional · MX → USA",
+      "imageAlt": "Tractor de ServiExpress JC en báscula certificada en Estados Unidos",
+      "imageCaption": "Cruce México · USA",
+      "title": "Transporte internacional",
+      "description": "Servicio transfronterizo puerta a puerta. Cruce por Laredo, TX con operadores certificados B1 y unidades de doble placa.",
+      "zones": ["Texas", "Midwest", "Southeast", "West"],
+      "cta": "Solicitar cotización"
+    },
+    "specialized": {
+      "kicker": "Carga especializada",
+      "imageAlt": "Unidad de ServiExpress JC cargada con pacas de forraje agrícola",
+      "imageCaption": "Carga agrícola · forraje",
+      "title": "Una flota, muchos tipos de carga",
+      "description": "De varilla y perfiles de acero a pacas de forraje: plataformas, cajas secas de 53 pies y equipo para carga sobredimensionada, siempre amarrada y monitoreada.",
+      "tags": ["Siderúrgica / acero", "Agrícola y forraje", "Carga seca (53')", "Sobredimensionada"]
+    }
+  },
+  "Certifications": {
+    "title": "Certificaciones y Garantías",
+    "subtitle": "Cumplimos con todos los estándares de calidad y seguridad del sector",
+    "items": [
+      { "title": "Certificación B1", "description": "Operadores certificados con licencia federal tipo B1 para transporte de carga" },
+      { "title": "Doble Placa", "description": "Vehículos con doble placa México-USA para cruce fronterizo sin complicaciones" },
+      { "title": "Seguros Completos", "description": "Cobertura total de seguro de carga para proteger tu mercancía" },
+      { "title": "Flota Certificada", "description": "Unidades con verificación vigente y mantenimiento preventivo constante" }
+    ]
+  },
+  "Talleres": {
+    "kicker": "Mantenimiento propio",
+    "titleLead": "5 talleres propios.",
+    "titleAccent": "Cero pretextos.",
+    "description": "No subcontratamos ni el mantenimiento. Cinco talleres con gente completamente capacitada atienden nuestras unidades, así tu carga viaja en equipo confiable y tus entregas no dependen de un tercero.",
+    "imageAlt": "Kenworth clásico de ServiExpress JC restaurado y mantenido en sus talleres propios",
+    "imageCaption": "Unidad mantenida en talleres propios",
+    "overlay": "Cuidamos cada unidad como esta",
+    "pillars": [
+      { "title": "5 talleres propios", "caption": "Mantenimiento preventivo y correctivo en casa" },
+      { "title": "Personal capacitado", "caption": "Técnicos especializados en cada unidad" },
+      { "title": "Sin depender de terceros", "caption": "Las entregas no se detienen por una falla" },
+      { "title": "Refaccionaria propia", "caption": "Los César, con inventario extenso" }
+    ]
+  },
+  "About": {
+    "kicker": "Quiénes somos",
+    "title": "Gente real detrás de cada entrega",
+    "subtitle": "ServiExpress JC es una empresa de transporte con más de una década de experiencia en carga nacional e internacional. Flota propia, operada y mantenida por nuestra propia gente.",
+    "fleetAlt": "Flota de tractocamiones de ServiExpress JC en su terminal",
+    "fleetCaption": "Flota propia · terminal en Apodaca, N.L.",
+    "fleetChip": "Flota propia",
+    "fleetLocation": "Terminal · Apodaca, N.L.",
+    "missionTitle": "Nuestra Misión",
+    "missionText": "Garantizar un servicio de calidad que cubra las necesidades de nuestros clientes, coordinando y monitoreando el traslado con el mejor personal.",
+    "visionTitle": "Nuestra Visión",
+    "visionText": "Ser reconocidos como una de las empresas de transporte más competitivas en México y EE.UU., incrementando nuestro valor año con año.",
+    "valuesTitle": "Nuestros Valores",
+    "values": [
+      "Calidad en el servicio",
+      "Innovación tecnológica",
+      "Seguridad 24/7",
+      "Entregas puntuales",
+      "Atención personalizada",
+      "Compromiso con el cliente"
+    ]
+  },
+  "Coverage": {
+    "kicker": "Red de operación",
+    "title": "Cobertura nacional e internacional",
+    "subtitle": "Un corredor monitoreado punto a punto, desde el Bajío hasta el sureste de Estados Unidos.",
+    "console": "Corredor principal",
+    "consoleTag": "MTY → LAREDO → HOU",
+    "mapAria": "Mapa del corredor de transporte México - Estados Unidos",
+    "borderLabel": "FRONTERA MX · USA",
+    "telemetry": "1,180 km · ETA 17 h",
+    "crossingChip": "Cruce B1 · doble placa",
+    "mxTitle": "México",
+    "usTitle": "Estados Unidos",
+    "citiesCount": "{count} ciudades",
+    "mxZones": { "norte": "Norte", "bajio": "Bajío", "pacifico": "Pacífico", "occidente": "Occidente" },
+    "usZones": { "texas": "Texas", "midwest": "Midwest", "southeast": "Southeast", "west": "West" }
+  },
+  "Testimonials": {
+    "kicker": "Clientes",
+    "title": "Lo que dicen quienes ya confían",
+    "subtitle": "Acereras y exportadores que mueven su carga con nosotros.",
+    "items": [
+      {
+        "quote": "Confiamos en SERVIEXPRESS JC para nuestras rutas del norte y ahora también para exportación. Siempre puntuales y con excelente seguimiento.",
+        "role": "Logística y Abastecimiento"
+      },
+      {
+        "quote": "El servicio de monitoreo GPS nos da tranquilidad total. Sabemos exactamente dónde está nuestra carga en todo momento.",
+        "role": "Cadena de Suministro"
+      },
+      {
+        "quote": "Profesionalismo y atención personalizada. Han sido clave para el crecimiento de nuestro negocio.",
+        "role": "Operaciones y Distribución"
+      }
+    ]
+  },
+  "CTA": {
+    "quote": {
+      "kicker": "Clientes · B2B",
+      "title": "Solicita tu cotización",
+      "description": "Cuéntanos tu ruta y tu carga; te respondemos con una propuesta a la medida.",
+      "name": "Nombre completo",
+      "namePh": "Ej. María Hernández",
+      "email": "Correo electrónico",
+      "emailPh": "nombre@empresa.com",
+      "phone": "Teléfono",
+      "phonePh": "Ej. 81 1234 5678",
+      "company": "Empresa",
+      "companyPh": "Nombre de tu empresa",
+      "origin": "Origen",
+      "originPh": "Ciudad de origen",
+      "destination": "Destino",
+      "destinationPh": "Ciudad de destino",
+      "details": "Detalles de la carga",
+      "detailsPh": "Tipo, peso y dimensiones de la carga",
+      "submit": "Enviar solicitud"
+    },
+    "apply": {
+      "kicker": "Operadores · bolsa de trabajo",
+      "title": "Únete a nuestro equipo",
+      "description": "Buscamos operadores certificados y personal comprometido.",
+      "name": "Nombre completo",
+      "namePh": "Ej. Juan Pérez",
+      "email": "Correo electrónico",
+      "emailPh": "nombre@correo.com",
+      "phone": "Teléfono",
+      "phonePh": "Ej. 81 1234 5678",
+      "position": "Puesto de interés",
+      "positionPh": "Ej. Operador B1",
+      "experience": "Tu experiencia",
+      "experiencePh": "Cuéntanos sobre tu experiencia",
+      "cv": "Adjuntar CV (opcional)",
+      "submit": "Enviar postulación"
+    },
+    "whatsapp": {
+      "title": "¿Necesitas ayuda inmediata?",
+      "description": "Escríbenos por WhatsApp y te respondemos en minutos.",
+      "button": "Chatear en WhatsApp"
+    }
+  },
+  "Footer": {
+    "tagline": "Eficiencia sobre ruedas, compromiso sin fronteras",
+    "quickLinksTitle": "Enlaces Rápidos",
+    "servicesTitle": "Servicios",
+    "services": [
+      "Transporte Nacional",
+      "Transporte Internacional",
+      "Monitoreo GPS 24/7",
+      "Servicio Puerta a Puerta",
+      "Refaccionaria Los César"
+    ],
+    "contactTitle": "Contacto",
+    "addressLine1": "Carretera Mezquital Santa Rosa Km 05",
+    "addressLine2": "Apodaca, N.L., México",
+    "rights": "Todos los derechos reservados."
   }
 }
