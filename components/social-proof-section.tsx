@@ -15,7 +15,7 @@ const clients: Client[] = [
   { name: "SCX", logo: "/clients/scx.png" },
   { name: "Aceros Villarreal", logo: "/clients/aceros-villarreal.png" },
   { name: "EIPAVA", logo: "/clients/eipava.png" },
-  { name: "Envía", logo: "/clients/envia.png" },
+  { name: "Envía", logo: "/clients/envia.svg" },
   { name: "Point" },
 ]
 
