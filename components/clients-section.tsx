@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl"
 import { Reveal, RevealGroup, RevealChild } from "@/components/motion-primitives"
 
 const clients = [
@@ -9,14 +10,14 @@ const clients = [
 ]
 
 export function ClientsSection() {
+  const t = useTranslations("Clients")
+
   return (
     <section className="py-24 bg-muted/30">
       <div className="container mx-auto px-4">
         <Reveal className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-balance">Empresas que confían en nosotros</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-            Trabajamos con las empresas más importantes de México y Estados Unidos
-          </p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-balance">{t("title")}</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">{t("subtitle")}</p>
         </Reveal>
 
         <RevealGroup className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center">
@@ -27,7 +28,7 @@ export function ClientsSection() {
             >
               <img
                 src={client.logo || "/placeholder.svg"}
-                alt={`Logotipo de ${client.name}`}
+                alt={t("logoAlt", { name: client.name })}
                 loading="lazy"
                 decoding="async"
                 className="max-w-full h-12 md:h-16 object-contain grayscale hover:grayscale-0 transition-all duration-300"
@@ -37,9 +38,7 @@ export function ClientsSection() {
         </RevealGroup>
 
         <div className="text-center mt-12">
-          <p className="text-sm text-muted-foreground">
-            Y muchas más empresas que confían en nuestro servicio de transporte
-          </p>
+          <p className="text-sm text-muted-foreground">{t("more")}</p>
         </div>
       </div>
     </section>
