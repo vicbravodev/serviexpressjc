@@ -64,7 +64,7 @@ export async function generateMetadata({
       description,
       locale: locale === "es" ? "es_MX" : "en_US",
       alternateLocale: locale === "es" ? "en_US" : "es_MX",
-      images: [{ url: "/fleet/flota-patio.jpg", width: 1600, height: 1200, alt: "ServiExpress JC" }],
+      images: [{ url: "/fleet/flota-patio.jpg", width: 1600, height: 829, alt: "ServiExpress JC" }],
     },
     twitter: {
       card: "summary_large_image",
