@@ -1,8 +1,11 @@
 import Link from "next/link"
 import Image from "next/image"
 import { MapPin, Phone, Mail, Facebook, Instagram, Linkedin } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 export function Footer() {
+  const t = useTranslations("Footer")
+  const tNav = useTranslations("Header.nav")
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 py-12">
@@ -16,7 +19,7 @@ export function Footer() {
               ServiExpress <span className="text-yellow-accent">JC</span>
             </h3>
             <p className="text-primary-foreground/80 mb-4 leading-relaxed">
-              Eficiencia sobre ruedas, compromiso sin fronteras
+              {t("tagline")}
             </p>
             <div className="flex gap-3">
               <a
@@ -51,14 +54,14 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold mb-4">Enlaces Rápidos</h4>
+            <h4 className="font-semibold mb-4">{t("quickLinksTitle")}</h4>
             <ul className="space-y-2">
               <li>
                 <Link
                   href="#inicio"
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                 >
-                  Inicio
+                  {tNav("inicio")}
                 </Link>
               </li>
               <li>
@@ -66,7 +69,7 @@ export function Footer() {
                   href="#quienes-somos"
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                 >
-                  Quiénes Somos
+                  {tNav("quienesSomos")}
                 </Link>
               </li>
               <li>
@@ -74,7 +77,7 @@ export function Footer() {
                   href="#servicios"
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                 >
-                  Servicios
+                  {tNav("servicios")}
                 </Link>
               </li>
               <li>
@@ -82,7 +85,7 @@ export function Footer() {
                   href="#cobertura"
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                 >
-                  Cobertura
+                  {tNav("cobertura")}
                 </Link>
               </li>
               <li>
@@ -90,7 +93,7 @@ export function Footer() {
                   href="#clientes"
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                 >
-                  Clientes
+                  {tNav("clientes")}
                 </Link>
               </li>
             </ul>
@@ -98,26 +101,24 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-semibold mb-4">Servicios</h4>
+            <h4 className="font-semibold mb-4">{t("servicesTitle")}</h4>
             <ul className="space-y-2 text-primary-foreground/80">
-              <li>Transporte Nacional</li>
-              <li>Transporte Internacional</li>
-              <li>Monitoreo GPS 24/7</li>
-              <li>Servicio Puerta a Puerta</li>
-              <li>Refaccionaria Los César</li>
+              {[0, 1, 2, 3, 4].map((i) => (
+                <li key={i}>{t(`services.${i}`)}</li>
+              ))}
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="font-semibold mb-4">Contacto</h4>
+            <h4 className="font-semibold mb-4">{t("contactTitle")}</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
                 <MapPin size={20} className="flex-shrink-0 mt-0.5" />
                 <span className="text-primary-foreground/80 text-sm">
-                  Carretera Mezquital Santa Rosa Km 05
+                  {t("addressLine1")}
                   <br />
-                  Apodaca, N.L., México
+                  {t("addressLine2")}
                 </span>
               </li>
               <li className="flex items-center gap-2">
@@ -143,7 +144,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-primary-foreground/20 pt-8 text-center text-sm text-primary-foreground/75">
-          <p>&copy; {new Date().getFullYear()} ServiExpress JC LLC. Todos los derechos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} ServiExpress JC LLC. {t("rights")}</p>
         </div>
       </div>
     </footer>
