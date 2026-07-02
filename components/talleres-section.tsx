@@ -11,15 +11,15 @@ export function TalleresSection() {
   return (
     <section id="talleres" className="py-24 bg-muted/30">
       <div className="container mx-auto px-4">
-        <div className="grid items-center gap-10 lg:grid-cols-2">
+        <div className="grid gap-10 lg:grid-cols-2">
           {/* Proof: a unit kept in show condition by their own shops */}
           <Reveal className="order-2 lg:order-1">
-            <div className="relative overflow-hidden rounded-2xl border border-white/10">
+            <div className="relative h-full overflow-hidden rounded-2xl border border-white/10">
               <FleetImage
-                src="/fleet/flota-patio.jpg"
+                src="/fleet/kenworth-clasico.jpg"
                 alt={t("imageAlt")}
                 caption={t("imageCaption")}
-                className="aspect-[4/5] w-full sm:aspect-[16/12]"
+                className="aspect-[4/5] w-full sm:aspect-[16/10] lg:absolute lg:inset-0 lg:aspect-auto lg:h-full"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 font-mono text-[11px] text-white/80">

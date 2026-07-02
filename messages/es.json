@@ -58,8 +58,8 @@
     "subtitle": "Carga nacional e internacional, con unidades propias y operadores certificados de punta a punta.",
     "national": {
       "badge": "Nacional",
-      "imageAlt": "Unidad de ServiExpress JC transportando carga siderúrgica de acero",
-      "imageCaption": "Carga de acero · nacional",
+      "imageAlt": "Unidad de ServiExpress JC transportando pacas de forraje en plataformas full",
+      "imageCaption": "Carga agrícola · nacional",
       "title": "Transporte nacional",
       "description": "Local, regional y larga distancia por todo México. Carga siderúrgica, suelta, seca y sobredimensionada, monitoreada por GPS de origen a destino.",
       "zones": ["Norte", "Bajío", "Pacífico", "Occidente"],
@@ -98,9 +98,9 @@
     "titleLead": "5 patios de resguardo.",
     "titleAccent": "Seguridad total.",
     "description": "Cinco patios propios, con vigilancia y acceso controlado, resguardan tu carga y nuestras unidades. Y como tampoco subcontratamos el mantenimiento, cada tracto se atiende en casa con gente capacitada: tu mercancía viaja y espera en manos confiables.",
-    "imageAlt": "Flota de ServiExpress JC resguardada en patio propio con seguridad",
-    "imageCaption": "Flota resguardada en patio propio",
-    "overlay": "Tu carga resguardada y monitoreada",
+    "imageAlt": "Kenworth clásico de ServiExpress JC, impecable frente a instalaciones propias",
+    "imageCaption": "Kenworth clásico · mantenido en casa",
+    "overlay": "Mantenida y resguardada en casa",
     "pillars": [
       { "title": "Patios con seguridad", "caption": "Vigilancia y acceso controlado" },
       { "title": "Resguardo de carga y unidades", "caption": "Tu mercancía espera protegida" },
@@ -124,7 +124,7 @@
   "Coverage": {
     "kicker": "Red de operación",
     "title": "Vamos a todos lados",
-    "subtitle": "Los 32 estados de México y toda la Unión Americana. Si tu carga necesita moverse, nosotros la llevamos —de puerta a puerta.",
+    "subtitle": "Los 32 estados de México y toda la Unión Americana. Si tu carga necesita moverse, nosotros la llevamos, de puerta a puerta.",
     "console": "Red nacional e internacional",
     "consoleTag": "MÉXICO · USA",
     "mapAria": "Mapa de cobertura de ServiExpress JC en México y Estados Unidos, con rutas que parten de Monterrey hacia ambos países",
@@ -136,7 +136,6 @@
     "mxCount": "32 estados",
     "usTitle": "Estados Unidos",
     "usCount": "48 estados contiguos",
-    "statesReached": "{count} estados",
     "reachNote": "Servicio puerta a puerta en ambos países. ¿No ves tu destino? También lo cubrimos.",
     "crossingChip": "Cruce B1 · doble placa"
   },

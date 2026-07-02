@@ -58,8 +58,8 @@
     "subtitle": "Domestic and cross-border freight, with our own trucks and certified drivers end to end.",
     "national": {
       "badge": "Domestic",
-      "imageAlt": "ServiExpress JC truck hauling steel freight",
-      "imageCaption": "Steel freight · domestic",
+      "imageAlt": "ServiExpress JC truck hauling hay bales on double flatbeds",
+      "imageCaption": "Agricultural freight · domestic",
       "title": "Domestic freight",
       "description": "Local, regional, and long-haul service across Mexico. Steel, loose, dry, and oversized freight, GPS-tracked from origin to destination.",
       "zones": ["North", "Bajío", "Pacific", "West"],
@@ -68,7 +68,7 @@
     "international": {
       "badge": "Cross-border · MX → USA",
       "imageAlt": "ServiExpress JC tractor at a certified scale in the United States",
-      "imageCaption": "Mexico–U.S. crossing",
+      "imageCaption": "Mexico to U.S. crossing",
       "title": "Cross-border freight",
       "description": "Door-to-door cross-border service. Crossing at Laredo, TX with B1-certified drivers and dual-plated trucks.",
       "zones": ["Texas", "Midwest", "Southeast", "West"],
@@ -98,9 +98,9 @@
     "titleLead": "5 secure storage yards.",
     "titleAccent": "Total security.",
     "description": "Five company-owned yards, with surveillance and controlled access, safeguard your freight and our trucks. And since we don't outsource maintenance either, every tractor is serviced in-house by trained people: your goods travel and wait in reliable hands.",
-    "imageAlt": "ServiExpress JC fleet secured in a company-owned yard",
-    "imageCaption": "Fleet secured in our own yard",
-    "overlay": "Your freight safeguarded and monitored",
+    "imageAlt": "ServiExpress JC classic Kenworth in show condition outside our own facilities",
+    "imageCaption": "Classic Kenworth · maintained in-house",
+    "overlay": "Maintained and safeguarded in-house",
     "pillars": [
       { "title": "Secured yards", "caption": "Surveillance and controlled access" },
       { "title": "Freight & truck storage", "caption": "Your goods wait protected" },
@@ -124,7 +124,7 @@
   "Coverage": {
     "kicker": "Operating network",
     "title": "We go everywhere",
-    "subtitle": "All 32 states of Mexico and the entire continental U.S. If your freight needs to move, we haul it —door to door.",
+    "subtitle": "All 32 states of Mexico and the entire continental U.S. If your freight needs to move, we haul it, door to door.",
     "console": "National & cross-border network",
     "consoleTag": "MEXICO · USA",
     "mapAria": "Coverage map of ServiExpress JC across Mexico and the United States, with routes fanning out from Monterrey to both countries",
@@ -136,7 +136,6 @@
     "mxCount": "32 states",
     "usTitle": "United States",
     "usCount": "48 contiguous states",
-    "statesReached": "{count} states",
     "reachNote": "Door-to-door service in both countries. Don't see your destination? We cover it too.",
     "crossingChip": "B1 crossing · dual plates"
   },

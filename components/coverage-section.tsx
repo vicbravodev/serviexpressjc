@@ -4,9 +4,14 @@ import { useRef } from "react"
 import { motion, useInView, useReducedMotion } from "motion/react"
 import { useTranslations } from "next-intl"
 import { Reveal } from "@/components/motion-primitives"
-import { MAP_VIEWBOX, STATES, CITIES } from "@/components/coverage-geo"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { STATES, CITIES } from "@/components/coverage-geo"
 
 const EASE = [0.16, 1, 0.3, 1] as const
+
+/* The generated 1000x660 Mercator fit leaves dead ocean margins; the actual
+   geometry spans x 68-932, y 14-646, so the viewBox crops to those bounds. */
+const VIEW = { x: 55, y: 6, w: 890, h: 648 }
 const AMBER = "oklch(0.85 0.18 90)"
 const BLUE = "oklch(0.62 0.13 264)"
 
@@ -94,27 +99,29 @@ export function CoverageSection() {
           <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground text-pretty">{t("subtitle")}</p>
         </Reveal>
 
-        <div className="grid items-start gap-8 lg:grid-cols-5">
-          {/* Geographic coverage map */}
-          <motion.div
-            ref={mapRef}
-            initial={reduce ? false : { opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: 0.7, ease: EASE }}
-            className="relative overflow-hidden rounded-2xl border border-white/10 surface-steel shadow-2xl shadow-black/40 lg:col-span-3"
-          >
-            {/* Console header */}
-            <div className="flex items-center justify-between border-b border-white/10 px-5 py-3 sm:px-6">
-              <div className="flex items-center gap-2.5">
-                <span className="h-2 w-2 rounded-full bg-yellow-accent-bright animate-live-blink" />
-                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/70">{t("console")}</span>
-              </div>
-              <span className="hidden font-mono text-[11px] text-white/60 sm:inline">{t("consoleTag")}</span>
+        {/* One console: map + directory share a single surface, so neither
+            column outgrows the other and the panel has no dead space below. */}
+        <motion.div
+          ref={mapRef}
+          initial={reduce ? false : { opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.7, ease: EASE }}
+          className="overflow-hidden rounded-2xl border border-white/10 surface-steel shadow-2xl shadow-black/40"
+        >
+          {/* Console header */}
+          <div className="flex items-center justify-between border-b border-white/10 px-5 py-3 sm:px-6">
+            <div className="flex items-center gap-2.5">
+              <span className="h-2 w-2 rounded-full bg-yellow-accent-bright animate-live-blink" />
+              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/70">{t("console")}</span>
             </div>
+            <span className="hidden font-mono text-[11px] text-white/60 sm:inline">{t("consoleTag")}</span>
+          </div>
 
-            <div className="relative bg-blueprint">
+          <div className="grid lg:grid-cols-5">
+            {/* Geographic coverage map */}
+            <div className="relative flex items-center bg-blueprint lg:col-span-3">
               <svg
-                viewBox={`0 0 ${MAP_VIEWBOX.w} ${MAP_VIEWBOX.h}`}
+                viewBox={`${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`}
                 className="block h-auto w-full"
                 role="img"
                 aria-label={t("mapAria")}
@@ -210,8 +217,8 @@ export function CoverageSection() {
                 })}
               </svg>
 
-              {/* Legend + crossing chip */}
-              <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] text-white/70">
+              {/* Legend + crossing chip (hidden on phones: it would cover the small map) */}
+              <div className="pointer-events-none absolute bottom-4 left-4 right-4 hidden flex-wrap items-center justify-between gap-3 font-mono text-[11px] text-white/70 sm:flex">
                 <span className="flex items-center gap-3 rounded-md border border-white/15 bg-black/40 px-3 py-1.5 backdrop-blur-sm">
                   <span className="flex items-center gap-1.5">
                     <span className="h-0.5 w-4 rounded-full" style={{ background: AMBER }} /> {t("legendCorridor")}
@@ -226,57 +233,57 @@ export function CoverageSection() {
                 </span>
               </div>
             </div>
-          </motion.div>
 
-          {/* Coverage directory */}
-          <div className="flex flex-col gap-6 lg:col-span-2">
-            <Reveal className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border">
-              <Stat value="32" label={t("mxCount")} accent="text-primary" />
-              <Stat value="48" label={t("usCount")} accent="text-secondary" />
-            </Reveal>
+            {/* Directory rail */}
+            <aside className="flex flex-col border-t border-white/10 p-5 sm:p-6 lg:col-span-2 lg:border-l lg:border-t-0">
+              <Tabs defaultValue="mx">
+                <TabsList className="grid h-auto w-full grid-cols-2 rounded-lg border border-white/10 bg-white/[0.05] p-1 text-white/60">
+                  <DirectoryTab value="mx" label={t("mxTitle")} count={mxStates.length} />
+                  <DirectoryTab value="us" label={t("usTitle")} count={usStates.length} />
+                </TabsList>
+                <DirectoryPanel value="mx" caption={t("mxCount")} names={mxStates.map((s) => s.name)} />
+                <DirectoryPanel value="us" caption={t("usCount")} names={usStates.map((s) => s.name)} />
+              </Tabs>
 
-            <StatesPanel title={t("mxTitle")} count={mxStates.length} names={mxStates.map((s) => s.name)} accent="text-primary" />
-            <StatesPanel title={t("usTitle")} count={usStates.length} names={usStates.map((s) => s.name)} accent="text-secondary" />
-
-            <Reveal className="rounded-2xl border border-yellow-accent/30 bg-yellow-accent/[0.06] p-5">
-              <p className="text-sm leading-relaxed text-foreground/90">{t("reachNote")}</p>
-            </Reveal>
+              <div className="mt-auto pt-6">
+                <p className="rounded-xl border border-white/10 bg-white/[0.04] p-4 text-sm leading-relaxed text-white/85">
+                  {t("reachNote")}
+                </p>
+              </div>
+            </aside>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
 }
 
-function Stat({ value, label, accent }: { value: string; label: string; accent: string }) {
+function DirectoryTab({ value, label, count }: { value: string; label: string; count: number }) {
   return (
-    <div className="bg-card p-5">
-      <p className={`font-mono text-3xl font-bold ${accent}`}>{value}</p>
-      <p className="mt-1 text-xs uppercase tracking-wide text-muted-foreground">{label}</p>
-    </div>
+    <TabsTrigger
+      value={value}
+      className="h-auto rounded-md border-transparent px-3 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-white/60 hover:text-white/85 data-[state=active]:border-white/10 data-[state=active]:bg-white/10 data-[state=active]:text-white data-[state=active]:shadow-none dark:text-white/60 dark:data-[state=active]:bg-white/10 dark:data-[state=active]:text-white"
+    >
+      {label}
+      <span className="text-white/45">{count}</span>
+    </TabsTrigger>
   )
 }
 
-function StatesPanel({ title, count, names, accent }: { title: string; count: number; names: string[]; accent: string }) {
-  const t = useTranslations("Coverage")
+function DirectoryPanel({ value, caption, names }: { value: string; caption: string; names: string[] }) {
   return (
-    <Reveal className="rounded-2xl border border-border bg-card p-6">
-      <div className="mb-4 flex items-baseline justify-between">
-        <h3 className={`text-lg font-bold ${accent}`}>{title}</h3>
-        <span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-          {t("statesReached", { count })}
-        </span>
-      </div>
+    <TabsContent value={value} className="mt-4">
+      <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">{caption}</p>
       <div className="flex flex-wrap gap-1.5">
         {names.map((n) => (
           <span
             key={n}
-            className="rounded-md border border-border bg-muted/40 px-2 py-1 font-mono text-[10.5px] leading-none text-muted-foreground"
+            className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-1 font-mono text-[10.5px] leading-none text-white/70"
           >
             {n}
           </span>
         ))}
       </div>
-    </Reveal>
+    </TabsContent>
   )
 }
