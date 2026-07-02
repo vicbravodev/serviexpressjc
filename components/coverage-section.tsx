@@ -2,6 +2,7 @@
 
 import { useRef } from "react"
 import { motion, useInView, useReducedMotion } from "motion/react"
+import { useTranslations } from "next-intl"
 import { Reveal } from "@/components/motion-primitives"
 
 const EASE = [0.16, 1, 0.3, 1] as const
@@ -49,19 +50,20 @@ const labelOffset = (n: Node) => {
 }
 
 const mxCities = {
-  Norte: ["Monterrey", "Saltillo", "Chihuahua", "Nuevo Laredo"],
-  Bajío: ["Querétaro", "Guanajuato", "Aguascalientes", "San Luis Potosí"],
-  Pacífico: ["Baja California", "Sonora", "Sinaloa"],
-  Occidente: ["Guadalajara", "Michoacán", "Colima"],
+  norte: ["Monterrey", "Saltillo", "Chihuahua", "Nuevo Laredo"],
+  bajio: ["Querétaro", "Guanajuato", "Aguascalientes", "San Luis Potosí"],
+  pacifico: ["Baja California", "Sonora", "Sinaloa"],
+  occidente: ["Guadalajara", "Michoacán", "Colima"],
 }
 const usCities = {
-  Texas: ["Laredo", "Houston", "Dallas", "San Antonio"],
-  Midwest: ["Chicago", "Detroit", "Indianapolis", "Kansas City"],
-  Southeast: ["Atlanta", "Miami", "Nashville", "Orlando"],
-  West: ["Los Angeles", "Phoenix", "San Diego", "Seattle"],
+  texas: ["Laredo", "Houston", "Dallas", "San Antonio"],
+  midwest: ["Chicago", "Detroit", "Indianapolis", "Kansas City"],
+  southeast: ["Atlanta", "Miami", "Nashville", "Orlando"],
+  west: ["Los Angeles", "Phoenix", "San Diego", "Seattle"],
 }
 
 export function CoverageSection() {
+  const t = useTranslations("Coverage")
   const mapRef = useRef<HTMLDivElement>(null)
   const inView = useInView(mapRef, { once: true, amount: 0.3 })
   const reduce = useReducedMotion()
@@ -80,11 +82,11 @@ export function CoverageSection() {
       <div className="container mx-auto px-4">
         <Reveal className="mb-12 text-center">
           <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
-            Red de operación
+            {t("kicker")}
           </span>
-          <h2 className="mt-3 text-3xl md:text-5xl font-bold text-balance">Cobertura nacional e internacional</h2>
+          <h2 className="mt-3 text-3xl md:text-5xl font-bold text-balance">{t("title")}</h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground text-pretty">
-            Un corredor monitoreado punto a punto, desde el Bajío hasta el sureste de Estados Unidos.
+            {t("subtitle")}
           </p>
         </Reveal>
 
@@ -102,14 +104,14 @@ export function CoverageSection() {
               <div className="flex items-center gap-2.5">
                 <span className="h-2 w-2 rounded-full bg-yellow-accent-bright animate-live-blink" />
                 <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/70">
-                  Corredor principal
+                  {t("console")}
                 </span>
               </div>
-              <span className="hidden font-mono text-[11px] text-white/60 sm:inline">MTY → LAREDO → HOU</span>
+              <span className="hidden font-mono text-[11px] text-white/60 sm:inline">{t("consoleTag")}</span>
             </div>
 
             <div className="relative bg-blueprint">
-              <svg viewBox="0 0 820 600" className="block h-auto w-full" role="img" aria-label="Mapa del corredor de transporte México - Estados Unidos">
+              <svg viewBox="0 0 820 600" className="block h-auto w-full" role="img" aria-label={t("mapAria")}>
                 {/* Border line */}
                 <motion.path
                   d={BORDER}
@@ -121,7 +123,7 @@ export function CoverageSection() {
                   {...draw(0.1, 1.6)}
                 />
                 <text x="120" y="238" className="fill-white/55 font-mono" fontSize="11" letterSpacing="2">
-                  FRONTERA MX · USA
+                  {t("borderLabel")}
                 </text>
 
                 {/* Feeder routes (domestic) */}
@@ -219,10 +221,10 @@ export function CoverageSection() {
               {/* Live telemetry readout overlaid on the map */}
               <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] text-white/70">
                 <span className="rounded-md border border-white/15 bg-black/40 px-3 py-1.5 backdrop-blur-sm">
-                  <span className="text-yellow-accent-bright">●</span> 1,180 km · ETA 17 h
+                  <span className="text-yellow-accent-bright">●</span> {t("telemetry")}
                 </span>
                 <span className="rounded-md border border-white/15 bg-black/40 px-3 py-1.5 backdrop-blur-sm">
-                  Cruce B1 · doble placa
+                  {t("crossingChip")}
                 </span>
               </div>
             </div>
@@ -230,8 +232,8 @@ export function CoverageSection() {
 
           {/* City directories */}
           <div className="flex flex-col gap-6 lg:col-span-2">
-            <CityPanel title="México" cities={mxCities} accent="text-primary" />
-            <CityPanel title="Estados Unidos" cities={usCities} accent="text-secondary" />
+            <CityPanel title={t("mxTitle")} cities={mxCities} zonePrefix="mxZones" accent="text-primary" />
+            <CityPanel title={t("usTitle")} cities={usCities} zonePrefix="usZones" accent="text-secondary" />
           </div>
         </div>
       </div>
@@ -242,18 +244,21 @@ export function CoverageSection() {
 function CityPanel({
   title,
   cities,
+  zonePrefix,
   accent,
 }: {
   title: string
   cities: Record<string, string[]>
+  zonePrefix: "mxZones" | "usZones"
   accent: string
 }) {
+  const t = useTranslations("Coverage")
   return (
     <Reveal className="rounded-2xl border border-border bg-card p-6">
       <div className="mb-5 flex items-baseline justify-between">
         <h3 className={`text-xl font-bold ${accent}`}>{title}</h3>
         <span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-          {Object.values(cities).flat().length} ciudades
+          {t("citiesCount", { count: Object.values(cities).flat().length })}
         </span>
       </div>
       <div className="grid grid-cols-2 gap-x-4 gap-y-5 text-sm">
@@ -261,7 +266,7 @@ function CityPanel({
           <div key={zone}>
             <p className="mb-2 flex items-center gap-1.5 font-semibold">
               <span className="h-1 w-1 rounded-full bg-yellow-accent" />
-              {zone}
+              {t(`${zonePrefix}.${zone}`)}
             </p>
             <ul className="space-y-1 text-muted-foreground">
               {list.map((c) => (
