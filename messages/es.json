@@ -178,13 +178,23 @@
     },
     "weight": "Peso aproximado",
     "tons": "{tons} t",
+    "urgency": {
+      "label": "Urgencia",
+      "normal": "No urgente",
+      "urgente": "Urgente"
+    },
+    "cargo": {
+      "label": "Tipo de mercancía",
+      "placeholder": "Ej. acero, autopartes, alimentos…",
+      "unspecified": "Sin especificar"
+    },
     "estimateTitle": "Estimado orientativo",
     "rangeJoin": "a",
     "distance": "≈ {km} km por carretera",
     "estimateNote": "No es una cotización final: un agente la afina contigo según báscula, maniobras, seguro y disponibilidad.",
     "empty": "Elige tu destino para ver un estimado al instante.",
     "refine": "Afinar con un agente",
-    "whatsappMessage": "Hola, usé el cotizador del sitio y quiero afinar mi cotización:\n· Servicio: {service}\n· Ruta: {origin} → {destination}\n· Unidad: {unit}\n· Peso: {tons} t\n· Estimado del sitio: {range}\n¿Me ayudan con el precio final?"
+    "whatsappMessage": "Hola, usé el cotizador del sitio y quiero afinar mi cotización:\n· Servicio: {service}\n· Ruta: {origin} → {destination}\n· Unidad: {unit}\n· Peso: {tons} t\n· Urgencia: {urgency}\n· Mercancía: {cargo}\n· Estimado del sitio: {range}\n¿Me ayudan con el precio final?"
   },
   "CTA": {
     "quote": {

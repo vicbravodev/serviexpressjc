@@ -178,13 +178,23 @@
     },
     "weight": "Approximate weight",
     "tons": "{tons} t",
+    "urgency": {
+      "label": "Urgency",
+      "normal": "Not urgent",
+      "urgente": "Urgent"
+    },
+    "cargo": {
+      "label": "Type of cargo",
+      "placeholder": "E.g. steel, auto parts, food…",
+      "unspecified": "Not specified"
+    },
     "estimateTitle": "Ballpark estimate",
     "rangeJoin": "to",
     "distance": "≈ {km} km by road",
     "estimateNote": "Not a final quote: an agent fine-tunes it with you based on scale weight, handling, insurance, and availability.",
     "empty": "Pick your destination to see an instant estimate.",
     "refine": "Fine-tune with an agent",
-    "whatsappMessage": "Hi, I used the website estimator and want to fine-tune my quote:\n· Service: {service}\n· Lane: {origin} → {destination}\n· Equipment: {unit}\n· Weight: {tons} t\n· Website estimate: {range}\nCan you help me with the final price?"
+    "whatsappMessage": "Hi, I used the website estimator and want to fine-tune my quote:\n· Service: {service}\n· Lane: {origin} → {destination}\n· Equipment: {unit}\n· Weight: {tons} t\n· Urgency: {urgency}\n· Cargo: {cargo}\n· Website estimate: {range}\nCan you help me with the final price?"
   },
   "CTA": {
     "quote": {

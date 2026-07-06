@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import { useLocale, useTranslations } from "next-intl"
 import { MessageCircle, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
@@ -13,6 +14,11 @@ import { cn } from "@/lib/utils"
 
 const SERVICES: ServiceType[] = ["nacional", "internacional"]
 const UNITS: UnitType[] = ["dryvan", "flatbed", "oversize"]
+type Urgency = "normal" | "urgente"
+const URGENCIES: Urgency[] = ["normal", "urgente"]
+
+/** Internacional (MX → USA) tope a 20 t; nacional permite hasta 35 t. */
+const maxTonsFor = (service: ServiceType) => (service === "internacional" ? 20 : 35)
 
 export function QuoteSimulator() {
   const t = useTranslations("Quote")
@@ -22,6 +28,10 @@ export function QuoteSimulator() {
   const [destinationId, setDestinationId] = useState("")
   const [unit, setUnit] = useState<UnitType>("dryvan")
   const [tons, setTons] = useState(20)
+  const [urgency, setUrgency] = useState<Urgency>("normal")
+  const [cargo, setCargo] = useState("")
+
+  const maxTons = maxTonsFor(service)
 
   const destinations = useMemo(
     () => (service === "internacional" ? US_CITIES : MX_CITIES.filter((c) => c.id !== originId)),
@@ -31,6 +41,7 @@ export function QuoteSimulator() {
   const pickService = (next: ServiceType) => {
     setService(next)
     setDestinationId("")
+    setTons((prev) => Math.min(prev, maxTonsFor(next)))
   }
 
   const pickOrigin = (next: string) => {
@@ -67,6 +78,8 @@ export function QuoteSimulator() {
           destination: cityById(destinationId)?.name ?? "",
           unit: t(`unit.${unit}`),
           tons,
+          urgency: t(`urgency.${urgency}`),
+          cargo: cargo.trim() || t("cargo.unspecified"),
           range,
         }),
         whatsappPhone,
@@ -166,10 +179,46 @@ export function QuoteSimulator() {
           value={[tons]}
           onValueChange={([v]) => setTons(v)}
           min={1}
-          max={35}
+          max={maxTons}
           step={1}
           aria-label={t("weight")}
           className="py-2"
+        />
+      </div>
+
+      {/* Urgencia */}
+      <div className="space-y-2">
+        <Label id="quote-urgency-label">{t("urgency.label")}</Label>
+        <div role="group" aria-labelledby="quote-urgency-label" className="grid grid-cols-2 gap-2">
+          {URGENCIES.map((u) => (
+            <button
+              key={u}
+              type="button"
+              aria-pressed={urgency === u}
+              onClick={() => setUrgency(u)}
+              className={cn(
+                "h-11 rounded-md border text-sm font-medium transition-colors active:scale-[0.97]",
+                urgency === u
+                  ? "border-secondary bg-secondary text-secondary-foreground"
+                  : "border-border bg-background text-foreground hover:border-secondary/50",
+              )}
+            >
+              {t(`urgency.${u}`)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Tipo de mercancía */}
+      <div className="space-y-2">
+        <Label htmlFor="quote-cargo">{t("cargo.label")}</Label>
+        <Input
+          id="quote-cargo"
+          value={cargo}
+          onChange={(e) => setCargo(e.target.value)}
+          placeholder={t("cargo.placeholder")}
+          maxLength={120}
+          className="h-11"
         />
       </div>
 
