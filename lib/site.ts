@@ -16,7 +16,14 @@ export const CONTACT_EMAIL = "contacto@serviexpressjc.com.mx"
 /** Solo dígitos con código de país (formato wa.me). Confirmar con el negocio; override sin deploy vía env. */
 export const WHATSAPP_PHONE = process.env.NEXT_PUBLIC_WHATSAPP_PHONE ?? "13463669867"
 
-export const whatsappUrl = (text: string) => `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(text)}`
+/** WhatsApp para cotizaciones NACIONALES (México): +52 1 81 1552 6349. */
+export const WHATSAPP_PHONE_MX = process.env.NEXT_PUBLIC_WHATSAPP_PHONE_MX ?? "5218115526349"
+
+/** WhatsApp para cotizaciones INTERNACIONALES / USA: +1 346 366 9867. */
+export const WHATSAPP_PHONE_US = process.env.NEXT_PUBLIC_WHATSAPP_PHONE_US ?? "13463669867"
+
+export const whatsappUrl = (text: string, phone: string = WHATSAPP_PHONE) =>
+  `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
 
 export const ADDRESS = {
   street: "Carretera Mezquital Santa Rosa Km 05",

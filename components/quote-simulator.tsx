@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { MX_CITIES, US_CITIES, cityById, estimateQuote, type ServiceType, type UnitType } from "@/lib/quote"
-import { CONTACT_PHONE, CONTACT_PHONE_DISPLAY, whatsappUrl } from "@/lib/site"
+import { CONTACT_PHONE, CONTACT_PHONE_DISPLAY, WHATSAPP_PHONE_MX, WHATSAPP_PHONE_US, whatsappUrl } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
 const SERVICES: ServiceType[] = ["nacional", "internacional"]
@@ -54,6 +54,9 @@ export function QuoteSimulator() {
     ? `${currencyFormat(estimate.min, estimate.currency)} ${t("rangeJoin")} ${currencyFormat(estimate.max, estimate.currency)} ${estimate.currency}`
     : ""
 
+  // Nacional → WhatsApp México; internacional (rutas a USA) → WhatsApp USA.
+  const whatsappPhone = service === "nacional" ? WHATSAPP_PHONE_MX : WHATSAPP_PHONE_US
+
   const whatsappHref = estimate
     ? whatsappUrl(
         t("whatsappMessage", {
@@ -64,6 +67,7 @@ export function QuoteSimulator() {
           tons,
           range,
         }),
+        whatsappPhone,
       )
     : undefined
 
