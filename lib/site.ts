@@ -40,8 +40,18 @@ export const ADDRESS = {
   street: "Carretera Mezquital Santa Rosa Km 05",
   locality: "Apodaca",
   region: "Nuevo León",
+  postalCode: "66630",
   country: "MX",
 } as const
+
+/**
+ * Coordenadas del patio en Apodaca para el marcado LocalBusiness.
+ * Aproximadas a Apodaca centro; ajustar al pin exacto del Google Business Profile.
+ */
+export const GEO = { lat: 25.7817, lng: -100.1885 } as const
+
+/** Operación 24 horas (consistente con el Google Business Profile). */
+export const OPEN_24H = true
 
 export const SOCIAL_LINKS = {
   instagram: "https://instagram.com/serviexpressjc1",

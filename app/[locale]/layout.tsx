@@ -14,6 +14,8 @@ import {
   CONTACT_EMAIL,
   contactPhone,
   ADDRESS,
+  GEO,
+  OPEN_24H,
   SOCIAL_LINKS,
 } from "@/lib/site"
 import "../globals.css"
@@ -39,6 +41,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
   const { locale } = await params
+  if (!hasLocale(routing.locales, locale)) notFound()
   const t = await getTranslations({ locale, namespace: "Metadata" })
   const path = localePath(locale)
 
@@ -72,6 +75,11 @@ export async function generateMetadata({
       description,
       images: ["/fleet/flota-patio.jpg"],
     },
+    // Token de Google Search Console. Se inyecta por env para no versionar secretos.
+    // Definir NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION en Vercel (o verificar por DNS).
+    verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+      : undefined,
   }
 }
 
@@ -90,10 +98,12 @@ export default async function RootLayout({
   const tMeta = await getTranslations({ locale, namespace: "Metadata" })
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["Organization", "LocalBusiness"],
+    "@id": `${SITE_URL}/#business`,
     name: "ServiExpress JC",
     url: SITE_URL,
     logo: `${SITE_URL}/logo-white-bg.png`,
+    image: `${SITE_URL}/fleet/flota-patio.jpg`,
     description: tMeta("description", { years: yearsInService() }),
     foundingDate: String(FOUNDING_YEAR),
     email: CONTACT_EMAIL,
@@ -103,8 +113,22 @@ export default async function RootLayout({
       streetAddress: ADDRESS.street,
       addressLocality: ADDRESS.locality,
       addressRegion: ADDRESS.region,
+      postalCode: ADDRESS.postalCode,
       addressCountry: ADDRESS.country,
     },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: GEO.lat,
+      longitude: GEO.lng,
+    },
+    ...(OPEN_24H && {
+      openingHoursSpecification: {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        opens: "00:00",
+        closes: "23:59",
+      },
+    }),
     areaServed: [
       { "@type": "Country", name: "Mexico" },
       { "@type": "Country", name: "United States" },
