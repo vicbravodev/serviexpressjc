@@ -9,8 +9,19 @@ export const FOUNDING_YEAR = 2005
 /** Años completos de operación. Nunca hardcodear "10+"/"20+" en copy: usar este valor vía ICU {years}. */
 export const yearsInService = () => new Date().getFullYear() - FOUNDING_YEAR
 
-export const CONTACT_PHONE = "+13463669867"
-export const CONTACT_PHONE_DISPLAY = "+1 346 366 9867"
+/** Teléfono USA (formato E.164 para tel: y visible). */
+export const CONTACT_PHONE_US = "+13463669867"
+export const CONTACT_PHONE_US_DISPLAY = "+1 346 366 9867"
+/** Teléfono México (formato E.164 para tel: y visible). */
+export const CONTACT_PHONE_MX = "+528115526349"
+export const CONTACT_PHONE_MX_DISPLAY = "+52 81 1552 6349"
+
+/** Teléfono de contacto según idioma: español → México, inglés → USA. */
+export const contactPhone = (locale: string) =>
+  locale === "es"
+    ? { tel: CONTACT_PHONE_MX, display: CONTACT_PHONE_MX_DISPLAY }
+    : { tel: CONTACT_PHONE_US, display: CONTACT_PHONE_US_DISPLAY }
+
 export const CONTACT_EMAIL = "contacto@serviexpressjc.com.mx"
 
 /** Solo dígitos con código de país (formato wa.me). Confirmar con el negocio; override sin deploy vía env. */

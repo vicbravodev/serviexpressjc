@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { MX_CITIES, US_CITIES, cityById, estimateQuote, type ServiceType, type UnitType } from "@/lib/quote"
-import { CONTACT_PHONE, CONTACT_PHONE_DISPLAY, WHATSAPP_PHONE_MX, WHATSAPP_PHONE_US, whatsappUrl } from "@/lib/site"
+import { contactPhone, WHATSAPP_PHONE_MX, WHATSAPP_PHONE_US, whatsappUrl } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
 const SERVICES: ServiceType[] = ["nacional", "internacional"]
@@ -56,6 +56,8 @@ export function QuoteSimulator() {
 
   // Nacional → WhatsApp México; internacional (rutas a USA) → WhatsApp USA.
   const whatsappPhone = service === "nacional" ? WHATSAPP_PHONE_MX : WHATSAPP_PHONE_US
+  // Botón de llamar: español muestra el número de México, inglés el de USA.
+  const phone = contactPhone(locale)
 
   const whatsappHref = estimate
     ? whatsappUrl(
@@ -198,9 +200,9 @@ export function QuoteSimulator() {
                 </a>
               </Button>
               <Button size="lg" variant="outline" className="h-12 bg-transparent" asChild>
-                <a href={`tel:${CONTACT_PHONE}`}>
+                <a href={`tel:${phone.tel}`}>
                   <Phone aria-hidden className="mr-2 h-4 w-4" />
-                  {CONTACT_PHONE_DISPLAY}
+                  {phone.display}
                 </a>
               </Button>
             </div>

@@ -12,7 +12,7 @@ import {
   FOUNDING_YEAR,
   yearsInService,
   CONTACT_EMAIL,
-  CONTACT_PHONE,
+  contactPhone,
   ADDRESS,
   SOCIAL_LINKS,
 } from "@/lib/site"
@@ -97,7 +97,7 @@ export default async function RootLayout({
     description: tMeta("description", { years: yearsInService() }),
     foundingDate: String(FOUNDING_YEAR),
     email: CONTACT_EMAIL,
-    telephone: CONTACT_PHONE,
+    telephone: contactPhone(locale).tel,
     address: {
       "@type": "PostalAddress",
       streetAddress: ADDRESS.street,

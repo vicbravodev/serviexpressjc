@@ -1,12 +1,13 @@
 import Link from "next/link"
 import Image from "next/image"
 import { MapPin, Phone, Mail, Facebook, Instagram, Linkedin } from "lucide-react"
-import { useTranslations } from "next-intl"
-import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_DISPLAY, SOCIAL_LINKS } from "@/lib/site"
+import { useLocale, useTranslations } from "next-intl"
+import { CONTACT_EMAIL, contactPhone, SOCIAL_LINKS } from "@/lib/site"
 
 export function Footer() {
   const t = useTranslations("Footer")
   const tNav = useTranslations("Header.nav")
+  const phone = contactPhone(useLocale())
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 py-12">
@@ -125,10 +126,10 @@ export function Footer() {
               <li className="flex items-center gap-2">
                 <Phone size={20} className="flex-shrink-0" />
                 <a
-                  href={`tel:${CONTACT_PHONE}`}
+                  href={`tel:${phone.tel}`}
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                 >
-                  {CONTACT_PHONE_DISPLAY}
+                  {phone.display}
                 </a>
               </li>
               <li className="flex items-center gap-2">
