@@ -17,10 +17,12 @@ export default async function middleware(request: NextRequest) {
   const host = request.headers.get("host")
   const { pathname } = request.nextUrl
   const adminHost = isAdminHost(host)
+  // Anclado: solo /admin exacto o /admin/*, no /administracion u otras rutas.
+  const isAdminPath = pathname === "/admin" || pathname.startsWith("/admin/")
 
-  if (adminHost || pathname.startsWith("/admin")) {
+  if (adminHost || isAdminPath) {
     // Subdominio admin: reescribe la raíz (rutas sin prefijo /admin) hacia /admin/*.
-    if (adminHost && !pathname.startsWith("/admin")) {
+    if (adminHost && !isAdminPath) {
       const url = request.nextUrl.clone()
       url.pathname = `/admin${pathname === "/" ? "" : pathname}`
       return updateSession(request, url)
