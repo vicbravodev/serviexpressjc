@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { useLocale, useTranslations } from "next-intl"
 import { MessageCircle, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -12,6 +12,7 @@ import { MX_CITIES, US_CITIES, cityById, routeDistanceKm, type ServiceType, type
 import { contactPhone as getContactPhone, WHATSAPP_PHONE_MX, WHATSAPP_PHONE_US, whatsappUrl } from "@/lib/site"
 import { cn } from "@/lib/utils"
 import { submitLoadRequest } from "@/lib/actions/leads"
+import { trackEvent, trackGoogleConversion } from "@/lib/analytics"
 
 const SERVICES: ServiceType[] = ["nacional", "internacional"]
 const UNITS: UnitType[] = ["dryvan", "flatbed", "oversize"]
@@ -60,6 +61,15 @@ export function QuoteSimulator() {
 
   // El recopilado está listo cuando hay ruta válida (origen ≠ destino).
   const ready = Boolean(destinationId && distanceKm !== null)
+
+  // Funnel: registra una sola vez cuando el visitante arma una ruta válida.
+  const quoteReadyFired = useRef(false)
+  useEffect(() => {
+    if (ready && !quoteReadyFired.current) {
+      quoteReadyFired.current = true
+      trackEvent("quote_ready", { service })
+    }
+  }, [ready, service])
 
   const originName = cityById(originId)?.name ?? ""
   const destinationName = cityById(destinationId)?.name ?? ""
@@ -292,6 +302,10 @@ export function QuoteSimulator() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => {
+                    // Conversión Google Ads/GA4 + eventos estándar (GA4 + Vercel).
+                    trackGoogleConversion("conversion_event_request_quote")
+                    trackEvent("generate_lead", { lead_type: "quote", service, unit })
+                    trackEvent("whatsapp_click", { source: "quote", service })
                     void submitLoadRequest({
                       service,
                       originId,
@@ -314,7 +328,10 @@ export function QuoteSimulator() {
                 </a>
               </Button>
               <Button size="lg" variant="outline" className="h-12 bg-transparent" asChild>
-                <a href={`tel:${phone.tel}`}>
+                <a
+                  href={`tel:${phone.tel}`}
+                  onClick={() => trackEvent("phone_click", { source: "quote", locale })}
+                >
                   <Phone aria-hidden className="mr-2 h-4 w-4" />
                   {phone.display}
                 </a>

@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { WHATSAPP_PHONE_JOBS, whatsappUrl } from "@/lib/site"
 import { submitApplication } from "@/lib/actions/leads"
+import { trackEvent } from "@/lib/analytics"
 
 const POSITIONS = ["b1", "national", "mechanic", "admin"] as const
 const EXPERIENCES = ["lt2", "2to5", "5to10", "gt10"] as const
@@ -29,6 +30,10 @@ export function ApplyForm() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     if (name.trim().length <= 1 || phone.trim().length < 8 || position === "" || experience === "") return
+
+    // Analytics: lead de postulación (GA4 + Vercel).
+    trackEvent("generate_lead", { lead_type: "job", position })
+    trackEvent("whatsapp_click", { source: "apply" })
 
     // Persistir (no bloquea el window.open de abajo).
     void submitApplication({
