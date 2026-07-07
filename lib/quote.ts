@@ -9,16 +9,43 @@ export type City = {
   country: "MX" | "US"
 }
 
+/**
+ * Cobertura nacional: las 32 entidades federativas de México, representadas
+ * por su capital (o ciudad principal de intercambio). Ordenadas por estado.
+ */
 export const MX_CITIES: City[] = [
-  { id: "mty", name: "Monterrey", lat: 25.6866, lng: -100.3161, country: "MX" },
-  { id: "sal", name: "Saltillo", lat: 25.4383, lng: -100.9737, country: "MX" },
-  { id: "trc", name: "Torreón", lat: 25.5428, lng: -103.4068, country: "MX" },
-  { id: "cuu", name: "Chihuahua", lat: 28.6353, lng: -106.0889, country: "MX" },
-  { id: "slp", name: "San Luis Potosí", lat: 22.1565, lng: -100.9855, country: "MX" },
-  { id: "qro", name: "Querétaro", lat: 20.5888, lng: -100.3899, country: "MX" },
-  { id: "leo", name: "León", lat: 21.1219, lng: -101.6833, country: "MX" },
-  { id: "gdl", name: "Guadalajara", lat: 20.6597, lng: -103.3496, country: "MX" },
-  { id: "cdmx", name: "CDMX", lat: 19.4326, lng: -99.1332, country: "MX" },
+  { id: "ags", name: "Aguascalientes, Ags.", lat: 21.8853, lng: -102.2916, country: "MX" },
+  { id: "mxli", name: "Mexicali, BC", lat: 32.6245, lng: -115.4523, country: "MX" },
+  { id: "lpz", name: "La Paz, BCS", lat: 24.1426, lng: -110.3128, country: "MX" },
+  { id: "cam", name: "Campeche, Camp.", lat: 19.8301, lng: -90.5349, country: "MX" },
+  { id: "tux", name: "Tuxtla Gutiérrez, Chis.", lat: 16.7516, lng: -93.1029, country: "MX" },
+  { id: "cuu", name: "Chihuahua, Chih.", lat: 28.6353, lng: -106.0889, country: "MX" },
+  { id: "sal", name: "Saltillo, Coah.", lat: 25.4383, lng: -100.9737, country: "MX" },
+  { id: "col", name: "Colima, Col.", lat: 19.2452, lng: -103.725, country: "MX" },
+  { id: "dgo", name: "Durango, Dgo.", lat: 24.0277, lng: -104.6532, country: "MX" },
+  { id: "leo", name: "León, Gto.", lat: 21.1219, lng: -101.6833, country: "MX" },
+  { id: "chp", name: "Chilpancingo, Gro.", lat: 17.5514, lng: -99.5006, country: "MX" },
+  { id: "pac", name: "Pachuca, Hgo.", lat: 20.1011, lng: -98.7591, country: "MX" },
+  { id: "gdl", name: "Guadalajara, Jal.", lat: 20.6597, lng: -103.3496, country: "MX" },
+  { id: "tol", name: "Toluca, Méx.", lat: 19.2826, lng: -99.6557, country: "MX" },
+  { id: "mor", name: "Morelia, Mich.", lat: 19.7008, lng: -101.1844, country: "MX" },
+  { id: "cvc", name: "Cuernavaca, Mor.", lat: 18.9242, lng: -99.2216, country: "MX" },
+  { id: "tep", name: "Tepic, Nay.", lat: 21.5041, lng: -104.8942, country: "MX" },
+  { id: "mty", name: "Monterrey, NL", lat: 25.6866, lng: -100.3161, country: "MX" },
+  { id: "oax", name: "Oaxaca, Oax.", lat: 17.0732, lng: -96.7266, country: "MX" },
+  { id: "pue", name: "Puebla, Pue.", lat: 19.0414, lng: -98.2063, country: "MX" },
+  { id: "qro", name: "Querétaro, Qro.", lat: 20.5888, lng: -100.3899, country: "MX" },
+  { id: "che", name: "Chetumal, Q. Roo", lat: 18.5002, lng: -88.2961, country: "MX" },
+  { id: "slp", name: "San Luis Potosí, SLP", lat: 22.1565, lng: -100.9855, country: "MX" },
+  { id: "cul", name: "Culiacán, Sin.", lat: 24.8091, lng: -107.394, country: "MX" },
+  { id: "her", name: "Hermosillo, Son.", lat: 29.0729, lng: -110.9559, country: "MX" },
+  { id: "vil", name: "Villahermosa, Tab.", lat: 17.9895, lng: -92.9475, country: "MX" },
+  { id: "cvi", name: "Ciudad Victoria, Tamps.", lat: 23.7369, lng: -99.1411, country: "MX" },
+  { id: "tlx", name: "Tlaxcala, Tlax.", lat: 19.3139, lng: -98.2404, country: "MX" },
+  { id: "xal", name: "Xalapa, Ver.", lat: 19.5438, lng: -96.9102, country: "MX" },
+  { id: "mer", name: "Mérida, Yuc.", lat: 20.9674, lng: -89.5926, country: "MX" },
+  { id: "zac", name: "Zacatecas, Zac.", lat: 22.7709, lng: -102.5832, country: "MX" },
+  { id: "cdmx", name: "Ciudad de México", lat: 19.4326, lng: -99.1332, country: "MX" },
 ]
 
 export const US_CITIES: City[] = [
@@ -37,29 +64,8 @@ const ALL_CITIES = [...MX_CITIES, ...US_CITIES]
 
 export const cityById = (id: string) => ALL_CITIES.find((c) => c.id === id)
 
-/**
- * Tarifas ORIENTATIVAS para el estimado autoservicio del sitio.
- * Ajustar con las tarifas reales del negocio; el precio final siempre
- * lo afina un agente (báscula, maniobras, seguro, disponibilidad).
- */
-export const RATE_CONFIG = {
-  /** Distancia por carretera ≈ línea recta × este factor. */
-  roadFactor: 1.3,
-  mxn: {
-    base: 3500,
-    perKm: { dryvan: 32, flatbed: 36, oversize: 55 } as Record<UnitType, number>,
-  },
-  usd: {
-    base: 350,
-    perKm: { dryvan: 2.1, flatbed: 2.35, oversize: 3.6 } as Record<UnitType, number>,
-    /** Cuota fija de cruce fronterizo (documentación, transbordo, espera). */
-    borderFee: 450,
-  },
-  /** El rango mostrado es el punto medio ± este porcentaje. */
-  spread: 0.12,
-} as const
-
-const weightFactor = (tons: number) => (tons <= 15 ? 1 : tons <= 25 ? 1.08 : 1.18)
+/** Distancia por carretera ≈ línea recta × este factor. */
+const ROAD_FACTOR = 1.3
 
 const toRad = (deg: number) => (deg * Math.PI) / 180
 
@@ -73,44 +79,13 @@ export function haversineKm(a: City, b: City) {
   return 2 * R * Math.asin(Math.sqrt(h))
 }
 
-export type QuoteEstimate = {
-  min: number
-  max: number
-  currency: "MXN" | "USD"
-  distanceKm: number
-}
-
-export function estimateQuote(input: {
-  service: ServiceType
-  originId: string
-  destinationId: string
-  unit: UnitType
-  tons: number
-}): QuoteEstimate | null {
-  const origin = cityById(input.originId)
-  const destination = cityById(input.destinationId)
+/**
+ * Distancia aproximada por carretera entre dos ciudades del catálogo.
+ * Es solo informativa para el recopilado; no calcula ni sugiere precios.
+ */
+export function routeDistanceKm(originId: string, destinationId: string): number | null {
+  const origin = cityById(originId)
+  const destination = cityById(destinationId)
   if (!origin || !destination || origin.id === destination.id) return null
-
-  const distanceKm = Math.round(haversineKm(origin, destination) * RATE_CONFIG.roadFactor)
-  const factor = weightFactor(input.tons)
-
-  if (input.service === "internacional") {
-    const { base, perKm, borderFee } = RATE_CONFIG.usd
-    const mid = base + distanceKm * perKm[input.unit] * factor + borderFee
-    return {
-      min: Math.round((mid * (1 - RATE_CONFIG.spread)) / 10) * 10,
-      max: Math.round((mid * (1 + RATE_CONFIG.spread)) / 10) * 10,
-      currency: "USD",
-      distanceKm,
-    }
-  }
-
-  const { base, perKm } = RATE_CONFIG.mxn
-  const mid = base + distanceKm * perKm[input.unit] * factor
-  return {
-    min: Math.round((mid * (1 - RATE_CONFIG.spread)) / 100) * 100,
-    max: Math.round((mid * (1 + RATE_CONFIG.spread)) / 100) * 100,
-    currency: "MXN",
-    distanceKm,
-  }
+  return Math.round(haversineKm(origin, destination) * ROAD_FACTOR)
 }

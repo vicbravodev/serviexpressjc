@@ -188,19 +188,27 @@
       "placeholder": "Ej. acero, autopartes, alimentos…",
       "unspecified": "Sin especificar"
     },
-    "estimateTitle": "Estimado orientativo",
-    "rangeJoin": "a",
+    "summary": {
+      "title": "Resumen de tu solicitud",
+      "service": "Servicio",
+      "route": "Ruta",
+      "unit": "Unidad",
+      "weight": "Peso",
+      "urgency": "Urgencia",
+      "cargo": "Mercancía",
+      "distance": "Distancia aprox."
+    },
     "distance": "≈ {km} km por carretera",
-    "estimateNote": "No es una cotización final: un agente la afina contigo según báscula, maniobras, seguro y disponibilidad.",
-    "empty": "Elige tu destino para ver un estimado al instante.",
-    "refine": "Afinar con un agente",
-    "whatsappMessage": "Hola, usé el cotizador del sitio y quiero afinar mi cotización:\n· Servicio: {service}\n· Ruta: {origin} → {destination}\n· Unidad: {unit}\n· Peso: {tons} t\n· Urgencia: {urgency}\n· Mercancía: {cargo}\n· Estimado del sitio: {range}\n¿Me ayudan con el precio final?"
+    "summaryNote": "Con estos datos un agente prepara tu cotización y te la envía por WhatsApp.",
+    "empty": "Completa tu ruta para armar el resumen de tu solicitud.",
+    "send": "Enviar solicitud por WhatsApp",
+    "whatsappMessage": "Hola, quiero solicitar una cotización con estos datos:\n· Servicio: {service}\n· Ruta: {origin} → {destination}\n· Unidad: {unit}\n· Peso: {tons} t\n· Urgencia: {urgency}\n· Mercancía: {cargo}\n· Distancia aprox.: {distance} km por carretera\n¿Me ayudan con la cotización?"
   },
   "CTA": {
     "quote": {
       "kicker": "Clientes · B2B",
-      "title": "Cotiza tu envío en un minuto",
-      "description": "Elige ruta, unidad y peso: obtienes un rango al instante y un agente lo afina contigo por WhatsApp."
+      "title": "Solicita tu cotización en un minuto",
+      "description": "Elige ruta, unidad y peso: armamos el resumen de tu envío y un agente te lo cotiza por WhatsApp."
     },
     "apply": {
       "kicker": "Operadores · bolsa de trabajo",

@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
-import { MX_CITIES, US_CITIES, cityById, estimateQuote, type ServiceType, type UnitType } from "@/lib/quote"
+import { MX_CITIES, US_CITIES, cityById, routeDistanceKm, type ServiceType, type UnitType } from "@/lib/quote"
 import { contactPhone, WHATSAPP_PHONE_MX, WHATSAPP_PHONE_US, whatsappUrl } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
@@ -49,42 +49,52 @@ export function QuoteSimulator() {
     if (next === destinationId) setDestinationId("")
   }
 
-  const estimate = useMemo(
-    () => (destinationId ? estimateQuote({ service, originId, destinationId, unit, tons }) : null),
-    [service, originId, destinationId, unit, tons],
+  // Distancia aproximada por carretera: solo informativa, no es un precio.
+  const distanceKm = useMemo(
+    () => (destinationId ? routeDistanceKm(originId, destinationId) : null),
+    [originId, destinationId],
   )
 
-  const currencyFormat = (value: number, currency: "MXN" | "USD") =>
-    new Intl.NumberFormat(locale === "es" ? "es-MX" : "en-US", {
-      style: "currency",
-      currency,
-      maximumFractionDigits: 0,
-    }).format(value)
+  // El recopilado está listo cuando hay ruta válida (origen ≠ destino).
+  const ready = Boolean(destinationId && distanceKm !== null)
 
-  const range = estimate
-    ? `${currencyFormat(estimate.min, estimate.currency)} ${t("rangeJoin")} ${currencyFormat(estimate.max, estimate.currency)} ${estimate.currency}`
-    : ""
+  const originName = cityById(originId)?.name ?? ""
+  const destinationName = cityById(destinationId)?.name ?? ""
+  const cargoText = cargo.trim() || t("cargo.unspecified")
+  const distanceText = distanceKm !== null ? distanceKm.toLocaleString(locale === "es" ? "es-MX" : "en-US") : ""
 
   // Nacional → WhatsApp México; internacional (rutas a USA) → WhatsApp USA.
   const whatsappPhone = service === "nacional" ? WHATSAPP_PHONE_MX : WHATSAPP_PHONE_US
   // Botón de llamar: español muestra el número de México, inglés el de USA.
   const phone = contactPhone(locale)
 
-  const whatsappHref = estimate
+  const whatsappHref = ready
     ? whatsappUrl(
         t("whatsappMessage", {
           service: t(`service.${service}`),
-          origin: cityById(originId)?.name ?? "",
-          destination: cityById(destinationId)?.name ?? "",
+          origin: originName,
+          destination: destinationName,
           unit: t(`unit.${unit}`),
           tons,
           urgency: t(`urgency.${urgency}`),
-          cargo: cargo.trim() || t("cargo.unspecified"),
-          range,
+          cargo: cargoText,
+          distance: distanceText,
         }),
         whatsappPhone,
       )
     : undefined
+
+  const summaryRows = ready
+    ? [
+        { label: t("summary.service"), value: t(`service.${service}`) },
+        { label: t("summary.route"), value: `${originName} → ${destinationName}` },
+        { label: t("summary.unit"), value: t(`unit.${unit}`) },
+        { label: t("summary.weight"), value: t("tons", { tons }) },
+        { label: t("summary.urgency"), value: t(`urgency.${urgency}`) },
+        { label: t("summary.cargo"), value: cargoText },
+        { label: t("summary.distance"), value: t("distance", { km: distanceText }) },
+      ]
+    : []
 
   return (
     <div className="space-y-6">
@@ -222,30 +232,27 @@ export function QuoteSimulator() {
         />
       </div>
 
-      {/* Resultado */}
+      {/* Recopilado de la solicitud (sin precios) */}
       <div className="rounded-xl border border-border bg-muted/40 p-6">
-        {estimate ? (
+        {ready ? (
           <div className="space-y-4">
-            <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                {t("estimateTitle")}
-              </p>
-              <p className="mt-1.5 text-2xl font-bold tabular-nums sm:text-3xl">
-                {currencyFormat(estimate.min, estimate.currency)}
-                <span className="text-muted-foreground">{` ${t("rangeJoin")} `}</span>
-                {currencyFormat(estimate.max, estimate.currency)}
-                <span className="ml-2 text-base font-semibold text-muted-foreground">{estimate.currency}</span>
-              </p>
-              <p className="mt-1 font-mono text-xs text-muted-foreground">
-                {t("distance", { km: estimate.distanceKm.toLocaleString(locale === "es" ? "es-MX" : "en-US") })}
-              </p>
-            </div>
-            <p className="text-sm leading-relaxed text-muted-foreground">{t("estimateNote")}</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              {t("summary.title")}
+            </p>
+            <dl className="divide-y divide-border/60">
+              {summaryRows.map((row) => (
+                <div key={row.label} className="flex items-start justify-between gap-4 py-2">
+                  <dt className="text-sm text-muted-foreground">{row.label}</dt>
+                  <dd className="text-right text-sm font-medium text-foreground">{row.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="text-sm leading-relaxed text-muted-foreground">{t("summaryNote")}</p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button size="lg" className="h-12 bg-secondary hover:bg-secondary/90 sm:flex-1" asChild>
                 <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                   <MessageCircle aria-hidden className="mr-2 h-5 w-5" />
-                  {t("refine")}
+                  {t("send")}
                 </a>
               </Button>
               <Button size="lg" variant="outline" className="h-12 bg-transparent" asChild>
