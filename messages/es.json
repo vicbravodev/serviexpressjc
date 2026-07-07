@@ -188,6 +188,12 @@
       "placeholder": "Ej. acero, autopartes, alimentos…",
       "unspecified": "Sin especificar"
     },
+    "contact": {
+      "nameLabel": "Nombre (opcional)",
+      "namePh": "Ej. Juan Pérez",
+      "phoneLabel": "Teléfono (opcional)",
+      "phonePh": "Ej. 81 1234 5678"
+    },
     "summary": {
       "title": "Resumen de tu solicitud",
       "service": "Servicio",

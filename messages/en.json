@@ -188,6 +188,12 @@
       "placeholder": "E.g. steel, auto parts, food…",
       "unspecified": "Not specified"
     },
+    "contact": {
+      "nameLabel": "Name (optional)",
+      "namePh": "e.g. John Doe",
+      "phoneLabel": "Phone (optional)",
+      "phonePh": "e.g. +1 346 366 9867"
+    },
     "summary": {
       "title": "Your request summary",
       "service": "Service",
