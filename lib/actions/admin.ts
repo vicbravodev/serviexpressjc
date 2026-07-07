@@ -3,6 +3,7 @@
 import { cookies } from "next/headers"
 import { revalidatePath } from "next/cache"
 import { createClient } from "@/utils/supabase/server"
+import { createAdminClient } from "@/utils/supabase/admin"
 import { getSessionClaims } from "@/lib/admin/auth"
 
 const LEAD_STATUSES = ["new", "contacted", "in_progress", "won", "lost"] as const
@@ -52,4 +53,59 @@ export async function addNote(entityType: "load_request" | "job_application", en
   })
   if (error) throw new Error(error.message)
   revalidatePath(`/admin/${entityType === "load_request" ? "leads" : "postulaciones"}/${entityId}`)
+}
+
+export async function createUser(input: { email: string; password: string; fullName?: string; role: "admin" | "user" }) {
+  const { claims } = await requireRole(["admin"])
+  const admin = createAdminClient()
+  const { data, error } = await admin.auth.admin.createUser({
+    email: input.email.trim(),
+    password: input.password,
+    email_confirm: true,
+    app_metadata: { role: input.role },
+    user_metadata: { full_name: input.fullName?.trim() || null },
+  })
+  if (error || !data.user) throw new Error(error?.message ?? "No se pudo crear el usuario")
+  const { error: pErr } = await admin.from("profiles").upsert({
+    id: data.user.id,
+    email: input.email.trim(),
+    full_name: input.fullName?.trim() || null,
+    role: input.role,
+    is_active: true,
+  })
+  if (pErr) throw new Error(pErr.message)
+  await admin.from("audit_log").insert({
+    actor_id: claims.userId, actor_email: claims.email,
+    entity_type: "user", entity_id: data.user.id, action: "user_create",
+    new_value: { email: input.email.trim(), role: input.role },
+  })
+  revalidatePath("/admin/usuarios")
+}
+
+export async function updateUserRole(userId: string, role: "admin" | "user") {
+  const { claims } = await requireRole(["admin"])
+  const admin = createAdminClient()
+  const { data: before } = await admin.from("profiles").select("role").eq("id", userId).single()
+  const { error } = await admin.auth.admin.updateUserById(userId, { app_metadata: { role } })
+  if (error) throw new Error(error.message)
+  await admin.from("profiles").update({ role }).eq("id", userId)
+  await admin.from("audit_log").insert({
+    actor_id: claims.userId, actor_email: claims.email,
+    entity_type: "user", entity_id: userId, action: "role_change",
+    old_value: before ?? null, new_value: { role },
+  })
+  revalidatePath("/admin/usuarios")
+}
+
+export async function setUserActive(userId: string, isActive: boolean) {
+  const { claims } = await requireRole(["admin"])
+  const admin = createAdminClient()
+  await admin.from("profiles").update({ is_active: isActive }).eq("id", userId)
+  await admin.auth.admin.updateUserById(userId, { ban_duration: isActive ? "none" : "876000h" })
+  await admin.from("audit_log").insert({
+    actor_id: claims.userId, actor_email: claims.email,
+    entity_type: "user", entity_id: userId, action: "user_update",
+    new_value: { is_active: isActive },
+  })
+  revalidatePath("/admin/usuarios")
 }
