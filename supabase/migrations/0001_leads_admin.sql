@@ -170,8 +170,11 @@ create policy audit_select_staff on public.audit_log for select to authenticated
   using (public.current_app_role() = 'admin'
          or (public.current_app_role() = 'user' and entity_type = 'load_request'));
 drop policy if exists audit_insert_note on public.audit_log;
+-- Las notas manuales solo cargan texto (`note`); nunca old_value/new_value (esos los escribe
+-- exclusivamente el trigger para status_change). Evita que un usuario fabrique diffs en el audit.
 create policy audit_insert_note on public.audit_log for insert to authenticated
-  with check (action = 'note' and actor_id = (select auth.uid())
+  with check (action = 'note' and old_value is null and new_value is null
+              and actor_id = (select auth.uid())
               and (public.current_app_role() = 'admin'
                    or (public.current_app_role() = 'user' and entity_type = 'load_request')));
 
