@@ -23,7 +23,7 @@ export function UserForm() {
         <div className="space-y-1"><Label htmlFor="u-email">Email</Label>
           <Input id="u-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="h-10" /></div>
         <div className="space-y-1"><Label htmlFor="u-pass">Contraseña</Label>
-          <Input id="u-pass" type="text" value={password} onChange={(e) => setPassword(e.target.value)} className="h-10" /></div>
+          <Input id="u-pass" type="password" autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} className="h-10" /></div>
         <div className="space-y-1"><Label htmlFor="u-role">Rol</Label>
           <select id="u-role" value={role} onChange={(e) => setRole(e.target.value as "admin" | "user")}
             className="h-10 w-full rounded-md border border-border bg-background px-3 text-sm">

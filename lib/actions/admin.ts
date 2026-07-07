@@ -57,6 +57,8 @@ export async function addNote(entityType: "load_request" | "job_application", en
 
 export async function createUser(input: { email: string; password: string; fullName?: string; role: "admin" | "user" }) {
   const { claims } = await requireRole(["admin"])
+  // Defensa en profundidad: valida el rol server-side (el tipo TS no protege una invocación RPC directa).
+  if (!(["admin", "user"] as const).includes(input.role)) throw new Error("Rol inválido")
   const admin = createAdminClient()
   const { data, error } = await admin.auth.admin.createUser({
     email: input.email.trim(),
