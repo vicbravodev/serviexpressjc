@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { whatsappUrl } from "@/lib/site"
+import { WHATSAPP_PHONE_JOBS, whatsappUrl } from "@/lib/site"
 
 const POSITIONS = ["b1", "national", "mechanic", "admin"] as const
 const EXPERIENCES = ["lt2", "2to5", "5to10", "gt10"] as const
@@ -33,7 +33,7 @@ export function ApplyForm() {
       position: t(`positions.${position}`),
       experience: t(`experiences.${experience}`),
     })
-    window.open(whatsappUrl(message), "_blank", "noopener,noreferrer")
+    window.open(whatsappUrl(message, WHATSAPP_PHONE_JOBS), "_blank", "noopener,noreferrer")
   }
 
   return (
