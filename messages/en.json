@@ -188,19 +188,27 @@
       "placeholder": "E.g. steel, auto parts, food…",
       "unspecified": "Not specified"
     },
-    "estimateTitle": "Ballpark estimate",
-    "rangeJoin": "to",
+    "summary": {
+      "title": "Your request summary",
+      "service": "Service",
+      "route": "Lane",
+      "unit": "Equipment",
+      "weight": "Weight",
+      "urgency": "Urgency",
+      "cargo": "Cargo",
+      "distance": "Approx. distance"
+    },
     "distance": "≈ {km} km by road",
-    "estimateNote": "Not a final quote: an agent fine-tunes it with you based on scale weight, handling, insurance, and availability.",
-    "empty": "Pick your destination to see an instant estimate.",
-    "refine": "Fine-tune with an agent",
-    "whatsappMessage": "Hi, I used the website estimator and want to fine-tune my quote:\n· Service: {service}\n· Lane: {origin} → {destination}\n· Equipment: {unit}\n· Weight: {tons} t\n· Urgency: {urgency}\n· Cargo: {cargo}\n· Website estimate: {range}\nCan you help me with the final price?"
+    "summaryNote": "With these details an agent prepares your quote and sends it to you on WhatsApp.",
+    "empty": "Complete your lane to build your request summary.",
+    "send": "Send request on WhatsApp",
+    "whatsappMessage": "Hi, I'd like to request a quote with these details:\n· Service: {service}\n· Lane: {origin} → {destination}\n· Equipment: {unit}\n· Weight: {tons} t\n· Urgency: {urgency}\n· Cargo: {cargo}\n· Approx. distance: {distance} km by road\nCan you help me with the quote?"
   },
   "CTA": {
     "quote": {
       "kicker": "Customers · B2B",
-      "title": "Get a quote in one minute",
-      "description": "Pick a lane, equipment, and weight: you get an instant range, and an agent fine-tunes it with you on WhatsApp."
+      "title": "Request your quote in one minute",
+      "description": "Pick a lane, equipment, and weight: we build your shipment summary and an agent quotes it on WhatsApp."
     },
     "apply": {
       "kicker": "Drivers · careers",
