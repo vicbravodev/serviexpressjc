@@ -166,13 +166,18 @@ export function QuoteSimulator() {
               aria-pressed={unit === u}
               onClick={() => setUnit(u)}
               className={cn(
-                "h-11 rounded-md border px-2 text-sm font-medium transition-colors active:scale-[0.97]",
+                "flex h-11 min-w-0 items-center justify-center rounded-md border px-1 transition-colors active:scale-[0.97] sm:px-2",
                 unit === u
                   ? "border-secondary bg-secondary text-secondary-foreground"
                   : "border-border bg-background text-foreground hover:border-secondary/50",
               )}
             >
-              {t(`unit.${u}`)}
+              <span
+                lang="es"
+                className="min-w-0 break-words hyphens-auto text-center text-xs font-medium leading-tight sm:text-sm"
+              >
+                {t(`unit.${u}`)}
+              </span>
             </button>
           ))}
         </div>
