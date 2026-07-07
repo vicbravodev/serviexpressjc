@@ -69,10 +69,13 @@ create index if not exists audit_log_entity_idx on public.audit_log (entity_type
 -- Rol del usuario actual desde el JWT (app_metadata); no toca profiles → sin recursión RLS.
 create or replace function public.current_app_role() returns text
 language sql stable
+set search_path = ''
 as $$ select coalesce(auth.jwt() -> 'app_metadata' ->> 'role', 'none') $$;
 
 create or replace function public.handle_updated_at() returns trigger
-language plpgsql as $$
+language plpgsql
+set search_path = ''
+as $$
 begin new.updated_at = now(); return new; end $$;
 
 -- Escribe audit_log en INSERT/UPDATE de status. SECURITY DEFINER para poder insertar en audit_log
@@ -101,6 +104,7 @@ begin
   return null;
 end $$;
 revoke execute on function public.audit_row_change() from public;
+revoke execute on function public.audit_row_change() from anon, authenticated;
 
 -- ============ Triggers ============
 drop trigger if exists trg_load_requests_updated on public.load_requests;
