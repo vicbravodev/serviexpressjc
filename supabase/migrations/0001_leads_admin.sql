@@ -97,7 +97,9 @@ begin
       insert into public.audit_log(actor_id, actor_email, entity_type, entity_id, action, old_value, new_value)
       values (v_actor, v_email, tg_argv[0], new.id, 'status_change',
               jsonb_build_object('status', old.status),
-              jsonb_build_object('status', new.status, 'lost_reason', new.lost_reason));
+              -- to_jsonb(new)->>'lost_reason' es NULL si la columna no existe (job_applications),
+              -- evitando el error "record new has no field lost_reason" al cambiar su status.
+              jsonb_build_object('status', new.status, 'lost_reason', to_jsonb(new) ->> 'lost_reason'));
     end if;
     return new;
   end if;
