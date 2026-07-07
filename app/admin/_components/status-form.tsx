@@ -13,11 +13,19 @@ export function StatusForm(props: Props) {
   const [status, setStatus] = useState(props.current)
   const [lostReason, setLostReason] = useState("")
   const [pending, start] = useTransition()
+  const [error, setError] = useState<string | null>(null)
+
+  const lostNeedsReason = props.kind === "lead" && status === "lost" && !lostReason.trim()
 
   const submit = () =>
     start(async () => {
-      if (props.kind === "lead") await updateLeadStatus(props.id, status, lostReason)
-      else await updateApplicationStatus(props.id, status)
+      setError(null)
+      try {
+        if (props.kind === "lead") await updateLeadStatus(props.id, status, lostReason)
+        else await updateApplicationStatus(props.id, status)
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Error")
+      }
     })
 
   return (
@@ -46,7 +54,11 @@ export function StatusForm(props: Props) {
           className="h-10"
         />
       ) : null}
-      <Button onClick={submit} disabled={pending || status === props.current && !(props.kind === "lead" && status === "lost")}>
+      {error ? <p className="text-sm text-red-600">{error}</p> : null}
+      <Button
+        onClick={submit}
+        disabled={pending || lostNeedsReason || (status === props.current && !(props.kind === "lead" && status === "lost"))}
+      >
         {pending ? "Guardando…" : "Actualizar status"}
       </Button>
     </div>

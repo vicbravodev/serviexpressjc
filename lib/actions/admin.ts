@@ -90,7 +90,9 @@ export async function updateUserRole(userId: string, role: "admin" | "user") {
   const { data: before } = await admin.from("profiles").select("role").eq("id", userId).single()
   const { error } = await admin.auth.admin.updateUserById(userId, { app_metadata: { role } })
   if (error) throw new Error(error.message)
-  await admin.from("profiles").update({ role }).eq("id", userId)
+  const { data: updated, error: pErr } = await admin.from("profiles").update({ role }).eq("id", userId).select("id")
+  if (pErr) throw new Error(pErr.message)
+  if (!updated || updated.length === 0) throw new Error("Usuario no encontrado")
   await admin.from("audit_log").insert({
     actor_id: claims.userId, actor_email: claims.email,
     entity_type: "user", entity_id: userId, action: "role_change",
@@ -102,8 +104,11 @@ export async function updateUserRole(userId: string, role: "admin" | "user") {
 export async function setUserActive(userId: string, isActive: boolean) {
   const { claims } = await requireRole(["admin"])
   const admin = createAdminClient()
-  await admin.from("profiles").update({ is_active: isActive }).eq("id", userId)
-  await admin.auth.admin.updateUserById(userId, { ban_duration: isActive ? "none" : "876000h" })
+  const { error: banErr } = await admin.auth.admin.updateUserById(userId, { ban_duration: isActive ? "none" : "876000h" })
+  if (banErr) throw new Error(banErr.message)
+  const { data: updated, error: pErr } = await admin.from("profiles").update({ is_active: isActive }).eq("id", userId).select("id")
+  if (pErr) throw new Error(pErr.message)
+  if (!updated || updated.length === 0) throw new Error("Usuario no encontrado")
   await admin.from("audit_log").insert({
     actor_id: claims.userId, actor_email: claims.email,
     entity_type: "user", entity_id: userId, action: "user_update",
