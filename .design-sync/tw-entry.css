@@ -1,0 +1,50 @@
+/* design-sync Tailwind entry: compiles the app's real global CSS into a static
+   stylesheet for the DS bundle. next/font injects --font-geist-* at runtime in
+   the app; here the shipped @font-face families (fonts/geist.css) stand in. */
+@import "../app/globals.css";
+
+/* Safelist of common utilities so authored previews and the design agent's
+   layout glue always resolve, independent of what the app happens to use. */
+@source inline("{flex,inline-flex,grid,block,inline-block,hidden,relative,absolute,sticky,truncate,uppercase,italic,underline,overflow-hidden}");
+@source inline("{items,justify}-{start,center,end,between}");
+@source inline("flex-{row,col,wrap,1}");
+@source inline("{gap,p,px,py,pt,pb,pl,pr,m,mx,my,mt,mb,ml,mr}-{0,1,2,3,4,5,6,8,10,12,16}");
+@source inline("space-{x,y}-{1,2,3,4,6,8}");
+@source inline("text-{xs,sm,base,lg,xl,2xl,3xl,4xl,left,center,right}");
+@source inline("font-{normal,medium,semibold,bold,mono,sans}");
+@source inline("{tracking-wide,tracking-widest,leading-tight,leading-relaxed}");
+@source inline("{w,h}-{1,2,3,4,5,6,8,10,12,16,20,24,32,40,48,56,64,full,fit,auto}");
+@source inline("max-w-{xs,sm,md,lg,xl,2xl,3xl,4xl,full}");
+@source inline("min-h-{full,screen}");
+@source inline("rounded{,-sm,-md,-lg,-xl,-2xl,-full}");
+@source inline("border{,-2,-t,-b,-l,-r}");
+@source inline("{bg,text,border}-{background,foreground,card,card-foreground,popover,popover-foreground,primary,primary-foreground,secondary,secondary-foreground,muted,muted-foreground,accent,accent-foreground,destructive,border,input,ring,yellow-accent,yellow-accent-bright}");
+@source inline("shadow{,-sm,-md,-lg}");
+@source inline("{sm:,md:,lg:}{flex,grid,hidden,block}");
+@source inline("grid-cols-{1,2,3,4,5,6}");
+@source inline("{sm:,md:,lg:}grid-cols-{1,2,3,4}");
+@source inline("col-span-{1,2,3}");
+
+:root {
+  --font-geist-sans: "Geist", "Geist Fallback";
+  --font-geist-mono: "Geist Mono", "Geist Mono Fallback";
+}
+
+/* next/font's metric-adjusted local fallbacks (from the app's own build output).
+   local()-only faces, so they ship via the compiled CSS rather than fonts/. */
+@font-face {
+  font-family: "Geist Fallback";
+  src: local("Arial");
+  ascent-override: 95.94%;
+  descent-override: 28.16%;
+  line-gap-override: 0%;
+  size-adjust: 104.76%;
+}
+@font-face {
+  font-family: "Geist Mono Fallback";
+  src: local("Arial");
+  ascent-override: 74.67%;
+  descent-override: 21.92%;
+  line-gap-override: 0%;
+  size-adjust: 134.59%;
+}
