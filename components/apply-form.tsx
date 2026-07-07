@@ -1,13 +1,14 @@
 "use client"
 
 import { useState, type FormEvent } from "react"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { WHATSAPP_PHONE_JOBS, whatsappUrl } from "@/lib/site"
+import { submitApplication } from "@/lib/actions/leads"
 
 const POSITIONS = ["b1", "national", "mechanic", "admin"] as const
 const EXPERIENCES = ["lt2", "2to5", "5to10", "gt10"] as const
@@ -17,6 +18,7 @@ type Experience = (typeof EXPERIENCES)[number]
 
 export function ApplyForm() {
   const t = useTranslations("CTA.apply")
+  const locale = useLocale()
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
   const [position, setPosition] = useState<Position | "">("")
@@ -27,6 +29,16 @@ export function ApplyForm() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     if (name.trim().length <= 1 || phone.trim().length < 8 || position === "" || experience === "") return
+
+    // Persistir (no bloquea el window.open de abajo).
+    void submitApplication({
+      name: name.trim(),
+      phone: phone.trim(),
+      position,
+      experience,
+      locale,
+    })
+
     const message = t("whatsappMessage", {
       name: name.trim(),
       phone: phone.trim(),
