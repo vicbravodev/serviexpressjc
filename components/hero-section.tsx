@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react"
 import { useTranslations } from "next-intl"
 import { yearsInService } from "@/lib/site"
+import { trackEvent } from "@/lib/analytics"
 
 const heroContainer: Variants = {
   hidden: {},
@@ -73,6 +74,7 @@ export function HeroSection() {
   const openModal = useCallback(() => {
     videoRef.current?.pause()
     setModalOpen(true)
+    trackEvent("hero_video_play", {})
   }, [])
 
   const closeModal = useCallback(() => {

@@ -2,6 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl"
 import { usePathname, useRouter } from "@/i18n/navigation"
+import { trackEvent } from "@/lib/analytics"
 
 export function LanguageSwitcher({ solid }: { solid: boolean }) {
   const locale = useLocale()
@@ -11,6 +12,7 @@ export function LanguageSwitcher({ solid }: { solid: boolean }) {
 
   const switchTo = (next: "es" | "en") => {
     if (next === locale) return
+    trackEvent("language_switch", { to: next, from: locale })
     router.replace(pathname, { locale: next, scroll: false })
   }
 

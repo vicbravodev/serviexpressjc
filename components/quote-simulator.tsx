@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { useLocale, useTranslations } from "next-intl"
 import { MessageCircle, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -9,8 +9,10 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { MX_CITIES, US_CITIES, cityById, routeDistanceKm, type ServiceType, type UnitType } from "@/lib/quote"
-import { contactPhone, WHATSAPP_PHONE_MX, WHATSAPP_PHONE_US, whatsappUrl } from "@/lib/site"
+import { contactPhone as getContactPhone, WHATSAPP_PHONE_MX, WHATSAPP_PHONE_US, whatsappUrl } from "@/lib/site"
 import { cn } from "@/lib/utils"
+import { submitLoadRequest } from "@/lib/actions/leads"
+import { trackEvent, trackGoogleConversion } from "@/lib/analytics"
 
 const SERVICES: ServiceType[] = ["nacional", "internacional"]
 const UNITS: UnitType[] = ["dryvan", "flatbed", "oversize"]
@@ -30,6 +32,8 @@ export function QuoteSimulator() {
   const [tons, setTons] = useState(20)
   const [urgency, setUrgency] = useState<Urgency>("normal")
   const [cargo, setCargo] = useState("")
+  const [contactName, setContactName] = useState("")
+  const [contactPhone, setContactPhone] = useState("")
 
   const maxTons = maxTonsFor(service)
 
@@ -58,6 +62,15 @@ export function QuoteSimulator() {
   // El recopilado está listo cuando hay ruta válida (origen ≠ destino).
   const ready = Boolean(destinationId && distanceKm !== null)
 
+  // Funnel: registra una sola vez cuando el visitante arma una ruta válida.
+  const quoteReadyFired = useRef(false)
+  useEffect(() => {
+    if (ready && !quoteReadyFired.current) {
+      quoteReadyFired.current = true
+      trackEvent("quote_ready", { service })
+    }
+  }, [ready, service])
+
   const originName = cityById(originId)?.name ?? ""
   const destinationName = cityById(destinationId)?.name ?? ""
   const cargoText = cargo.trim() || t("cargo.unspecified")
@@ -66,7 +79,7 @@ export function QuoteSimulator() {
   // Nacional → WhatsApp México; internacional (rutas a USA) → WhatsApp USA.
   const whatsappPhone = service === "nacional" ? WHATSAPP_PHONE_MX : WHATSAPP_PHONE_US
   // Botón de llamar: español muestra el número de México, inglés el de USA.
-  const phone = contactPhone(locale)
+  const phone = getContactPhone(locale)
 
   const whatsappHref = ready
     ? whatsappUrl(
@@ -237,6 +250,35 @@ export function QuoteSimulator() {
         />
       </div>
 
+      {/* Contacto (opcional) para seguimiento */}
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="space-y-2">
+          <Label htmlFor="quote-contact-name">{t("contact.nameLabel")}</Label>
+          <Input
+            id="quote-contact-name"
+            value={contactName}
+            onChange={(e) => setContactName(e.target.value)}
+            placeholder={t("contact.namePh")}
+            autoComplete="name"
+            maxLength={80}
+            className="h-11"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="quote-contact-phone">{t("contact.phoneLabel")}</Label>
+          <Input
+            id="quote-contact-phone"
+            type="tel"
+            value={contactPhone}
+            onChange={(e) => setContactPhone(e.target.value)}
+            placeholder={t("contact.phonePh")}
+            autoComplete="tel"
+            maxLength={30}
+            className="h-11"
+          />
+        </div>
+      </div>
+
       {/* Recopilado de la solicitud (sin precios) */}
       <div className="rounded-xl border border-border bg-muted/40 p-6">
         {ready ? (
@@ -255,13 +297,41 @@ export function QuoteSimulator() {
             <p className="text-sm leading-relaxed text-muted-foreground">{t("summaryNote")}</p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button size="lg" className="h-12 bg-secondary hover:bg-secondary/90 sm:flex-1" asChild>
-                <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => {
+                    // Conversión Google Ads/GA4 + eventos estándar (GA4 + Vercel).
+                    trackGoogleConversion("conversion_event_request_quote")
+                    trackEvent("generate_lead", { lead_type: "quote", service, unit })
+                    trackEvent("whatsapp_click", { source: "quote", service })
+                    void submitLoadRequest({
+                      service,
+                      originId,
+                      originName,
+                      destinationId,
+                      destinationName,
+                      unit,
+                      tons,
+                      urgency,
+                      cargo: cargoText,
+                      distanceKm,
+                      contactName,
+                      contactPhone,
+                      locale,
+                    })
+                  }}
+                >
                   <MessageCircle aria-hidden className="mr-2 h-5 w-5" />
                   {t("send")}
                 </a>
               </Button>
               <Button size="lg" variant="outline" className="h-12 bg-transparent" asChild>
-                <a href={`tel:${phone.tel}`}>
+                <a
+                  href={`tel:${phone.tel}`}
+                  onClick={() => trackEvent("phone_click", { source: "quote", locale })}
+                >
                   <Phone aria-hidden className="mr-2 h-4 w-4" />
                   {phone.display}
                 </a>

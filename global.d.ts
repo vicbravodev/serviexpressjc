@@ -7,3 +7,10 @@ declare module "next-intl" {
     Messages: typeof messages
   }
 }
+
+declare global {
+  interface Window {
+    gtag?: (command: string, ...args: unknown[]) => void
+    dataLayer?: unknown[]
+  }
+}
