@@ -7,9 +7,9 @@ import { notFound } from "next/navigation"
 import { NextIntlClientProvider, hasLocale } from "next-intl"
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server"
 import { routing } from "@/i18n/routing"
+import { pageMetadata } from "@/lib/seo"
 import {
   SITE_URL,
-  localePath,
   FOUNDING_YEAR,
   yearsInService,
   CONTACT_EMAIL,
@@ -43,39 +43,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: "Metadata" })
-  const path = localePath(locale)
 
-  const description = t("description", { years: yearsInService() })
-
-  return {
-    metadataBase: new URL(SITE_URL),
+  return pageMetadata({
+    locale,
+    href: "/",
     title: t("title"),
-    description,
-    alternates: {
-      canonical: path,
-      languages: {
-        "es-MX": "/",
-        "en-US": "/en",
-        "x-default": "/",
-      },
-    },
-    openGraph: {
-      type: "website",
-      siteName: "ServiExpress JC",
-      url: path,
-      title: t("title"),
-      description,
-      locale: locale === "es" ? "es_MX" : "en_US",
-      alternateLocale: locale === "es" ? "en_US" : "es_MX",
-      images: [{ url: "/fleet/flota-patio.jpg", width: 1600, height: 829, alt: "ServiExpress JC" }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: t("title"),
-      description,
-      images: ["/fleet/flota-patio.jpg"],
-    },
-  }
+    description: t("description", { years: yearsInService() }),
+  })
 }
 
 export default async function RootLayout({
