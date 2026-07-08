@@ -4,7 +4,7 @@ Tareas manuales que el código no puede resolver. Marcar cada una al completarla
 
 ## 1. Dominio y Search Console (semana 1)
 
-- [ ] **Verificar el redirect www → apex en producción.** El código incluye el redirect 301 en `next.config.mjs`, pero conviene configurarlo también a nivel dominio en Vercel: *Project → Settings → Domains* → `serviexpressjc.com.mx` como dominio principal y `www.serviexpressjc.com.mx` con "Redirect to" al apex (308/301). Probar: `curl -I https://www.serviexpressjc.com.mx/` debe responder 301/308 con `Location: https://serviexpressjc.com.mx/`.
+- [ ] **Redirect www → apex SOLO a nivel dominio en Vercel** (no en código): *Project → Settings → Domains* → `serviexpressjc.com.mx` debe **servir el sitio** (sin "Redirect to") y `www.serviexpressjc.com.mx` debe tener **"Redirect to serviexpressjc.com.mx"** (308). ⚠️ Nunca deben quedar los DOS dominios con redirect: si cada uno apunta al otro, el sitio entero cae con `ERR_TOO_MANY_REDIRECTS`. Probar en incógnito: `curl -I https://www.serviexpressjc.com.mx/` → 308 con `Location: https://serviexpressjc.com.mx/`, y `curl -I https://serviexpressjc.com.mx/` → **200**.
 - [ ] **Google Search Console:** verificar la propiedad de dominio (`serviexpressjc.com.mx`, cubre www y no-www) vía DNS TXT. Si se usan propiedades de prefijo, verificar AMBAS (https://serviexpressjc.com.mx y https://www.serviexpressjc.com.mx).
 - [ ] **Enviar el sitemap** en GSC: `https://serviexpressjc.com.mx/sitemap.xml`.
 - [ ] **Solicitar indexación manual** (Inspección de URL → Solicitar indexación) de la home y las 6 páginas de servicio en español, más `/en` y las 2-3 páginas EN más importantes.

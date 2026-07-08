@@ -11,17 +11,11 @@ const nextConfig = {
     // Optimización activa (Vercel): AVIF/WebP y tamaños responsivos.
     formats: ["image/avif", "image/webp"],
   },
-  async redirects() {
-    return [
-      // Dominio canónico sin www: 301 permanente desde www hacia el apex.
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.serviexpressjc.com.mx" }],
-        destination: "https://serviexpressjc.com.mx/:path*",
-        permanent: true,
-      },
-    ]
-  },
+  // Canónico sin www: el redirect www → apex se configura a NIVEL DOMINIO en
+  // Vercel (Settings → Domains: el apex sirve el sitio, www con "Redirect to"
+  // hacia el apex). NO duplicarlo aquí con redirects(): si el dashboard
+  // apuntara en sentido contrario se produciría un loop infinito
+  // (ERR_TOO_MANY_REDIRECTS). Ver SEO-CHECKLIST-POSTDEPLOY.md §1.
 }
 
 export default withNextIntl(nextConfig)
