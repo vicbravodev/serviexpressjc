@@ -157,11 +157,19 @@ export function HeroSection() {
 
           <motion.h1
             variants={heroItem}
-            className="text-4xl md:text-6xl font-bold mb-6 text-balance leading-[1.08] text-white"
+            className="text-4xl md:text-6xl font-bold mb-5 text-balance leading-[1.08] text-white"
           >
             {t("titleLead")}{" "}
             <span className="text-yellow-accent-bright">{t("titleAccent")}</span>
           </motion.h1>
+
+          {/* Slogan histórico: se conserva como subtítulo visual (ya no es el H1) */}
+          <motion.p
+            variants={heroItem}
+            className="mb-6 font-mono text-xs sm:text-sm uppercase tracking-[0.24em] text-yellow-accent-bright/90"
+          >
+            {t("slogan")}
+          </motion.p>
 
           <motion.p
             variants={heroItem}

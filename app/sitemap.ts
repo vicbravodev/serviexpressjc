@@ -1,13 +1,19 @@
 import type { MetadataRoute } from "next"
-import { SITE_URL } from "@/lib/site"
+import { CONTENT_HREFS } from "@/i18n/routing"
+import { absoluteUrl } from "@/lib/seo"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const languages = {
-    "es-MX": SITE_URL,
-    "en-US": `${SITE_URL}/en`,
-  }
-  return [
-    { url: SITE_URL, lastModified: new Date(), changeFrequency: "monthly", priority: 1, alternates: { languages } },
-    { url: `${SITE_URL}/en`, lastModified: new Date(), changeFrequency: "monthly", priority: 1, alternates: { languages } },
-  ]
+  const hrefs = ["/", ...CONTENT_HREFS] as const
+  const lastModified = new Date()
+
+  return hrefs.flatMap((href) => {
+    const es = absoluteUrl("es", href)
+    const en = absoluteUrl("en", href)
+    const languages = { "es-MX": es, "en-US": en, "x-default": es }
+    const priority = href === "/" ? 1 : href.startsWith("/rutas") ? 0.7 : 0.8
+    return [
+      { url: es, lastModified, changeFrequency: "monthly" as const, priority, alternates: { languages } },
+      { url: en, lastModified, changeFrequency: "monthly" as const, priority, alternates: { languages } },
+    ]
+  })
 }

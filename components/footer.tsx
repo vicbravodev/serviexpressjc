@@ -2,12 +2,27 @@ import Link from "next/link"
 import Image from "next/image"
 import { MapPin, Phone, Mail, Facebook, Instagram, Linkedin } from "lucide-react"
 import { useLocale, useTranslations } from "next-intl"
-import { CONTACT_EMAIL, contactPhone, SOCIAL_LINKS } from "@/lib/site"
+import { Link as LocaleLink } from "@/i18n/navigation"
+import type { ContentHref } from "@/i18n/routing"
+import { CONTACT_EMAIL, contactPhone, localePath, SOCIAL_LINKS } from "@/lib/site"
+
+/** Orden alineado con Footer.services en messages/. */
+const serviceHrefs: ContentHref[] = [
+  "/transporte-nacional",
+  "/transporte-internacional-mexico-usa",
+  "/transporte-de-acero",
+  "/carga-sobredimensionada",
+  "/caja-seca-53",
+  "/plataforma",
+]
 
 export function Footer() {
   const t = useTranslations("Footer")
   const tNav = useTranslations("Header.nav")
-  const phone = contactPhone(useLocale())
+  const locale = useLocale()
+  const phone = contactPhone(locale)
+  // Los anclajes viven en la home: desde páginas internas se navega a /#seccion.
+  const home = localePath(locale)
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 py-12">
@@ -60,7 +75,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="#inicio"
+                  href={`${home}#inicio`}
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                 >
                   {tNav("inicio")}
@@ -68,7 +83,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#quienes-somos"
+                  href={`${home}#quienes-somos`}
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                 >
                   {tNav("quienesSomos")}
@@ -76,7 +91,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#servicios"
+                  href={`${home}#servicios`}
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                 >
                   {tNav("servicios")}
@@ -84,7 +99,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#cobertura"
+                  href={`${home}#cobertura`}
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                 >
                   {tNav("cobertura")}
@@ -92,7 +107,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#clientes"
+                  href={`${home}#clientes`}
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                 >
                   {tNav("clientes")}
@@ -104,10 +119,18 @@ export function Footer() {
           {/* Services */}
           <div>
             <h4 className="font-semibold mb-4">{t("servicesTitle")}</h4>
-            <ul className="space-y-2 text-primary-foreground/80">
-              {[0, 1, 2, 3].map((i) => (
-                <li key={i}>{t(`services.${i}`)}</li>
+            <ul className="space-y-2">
+              {serviceHrefs.map((href, i) => (
+                <li key={href}>
+                  <LocaleLink
+                    href={href}
+                    className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                  >
+                    {t(`services.${i}`)}
+                  </LocaleLink>
+                </li>
               ))}
+              <li className="text-primary-foreground/80">{t("servicesExtra")}</li>
             </ul>
           </div>
 

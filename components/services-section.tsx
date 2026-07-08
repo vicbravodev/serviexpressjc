@@ -1,11 +1,27 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
-import Link from "next/link"
 import { useTranslations } from "next-intl"
+import { Link } from "@/i18n/navigation"
+import type { ContentHref } from "@/i18n/routing"
 import { Reveal, RevealGroup, RevealChild } from "@/components/motion-primitives"
 import { FleetImage } from "@/components/fleet-image"
 
 const zoneIndexes = [0, 1, 2, 3]
+
+/** Cada tag de carga especializada enlaza a su página de servicio. */
+const specializedHrefs: ContentHref[] = [
+  "/transporte-de-acero",
+  "/plataforma",
+  "/caja-seca-53",
+  "/carga-sobredimensionada",
+]
+
+const routeHrefs: ContentHref[] = [
+  "/rutas/monterrey-laredo",
+  "/rutas/monterrey-houston",
+  "/rutas/monterrey-dallas",
+  "/rutas/monterrey-cdmx",
+]
 
 export function ServicesSection() {
   const t = useTranslations("Services")
@@ -53,7 +69,7 @@ export function ServicesSection() {
                   ))}
                 </div>
                 <Button variant="outline" className="mt-6 w-full bg-transparent" asChild>
-                  <Link href="#cobertura">
+                  <Link href="/transporte-nacional">
                     {t("national.cta")}
                     <ArrowRight className="ml-2" size={16} />
                   </Link>
@@ -93,7 +109,7 @@ export function ServicesSection() {
                   ))}
                 </div>
                 <Button className="mt-6 w-full bg-secondary hover:bg-secondary/90" asChild>
-                  <Link href="#cotizacion">
+                  <Link href="/transporte-internacional-mexico-usa">
                     {t("international.cta")}
                     <ArrowRight className="ml-2" size={16} />
                   </Link>
@@ -124,12 +140,43 @@ export function ServicesSection() {
               </p>
               <div className="mt-6 grid grid-cols-2 gap-3">
                 {[0, 1, 2, 3].map((i) => (
-                  <div key={i} className="flex items-center gap-2 text-sm">
+                  <Link
+                    key={i}
+                    href={specializedHrefs[i]}
+                    className="group/tag flex items-center gap-2 text-sm"
+                  >
                     <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-yellow-accent" />
-                    <span className="text-foreground">{t(`specialized.tags.${i}`)}</span>
-                  </div>
+                    <span className="text-foreground underline-offset-4 transition-colors group-hover/tag:text-yellow-accent group-hover/tag:underline">
+                      {t(`specialized.tags.${i}`)}
+                    </span>
+                  </Link>
                 ))}
               </div>
+            </div>
+          </div>
+        </Reveal>
+
+        {/* Rutas long-tail: enlaces descriptivos a las páginas de ruta */}
+        <Reveal className="mt-10">
+          <div className="rounded-2xl border border-border bg-card p-7 sm:p-8">
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
+              {t("routes.kicker")}
+            </span>
+            <h3 className="mt-2 text-2xl font-bold">{t("routes.title")}</h3>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {routeHrefs.map((href, i) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="group flex items-center justify-between gap-2 rounded-xl border border-border bg-muted/30 px-4 py-3.5 text-sm font-medium transition-colors hover:border-yellow-accent/60"
+                >
+                  <span>{t(`routes.items.${i}`)}</span>
+                  <ArrowRight
+                    size={14}
+                    className="shrink-0 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-yellow-accent"
+                  />
+                </Link>
+              ))}
             </div>
           </div>
         </Reveal>

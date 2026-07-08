@@ -4,8 +4,9 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { Link as LocaleLink } from "@/i18n/navigation"
+import { localePath } from "@/lib/site"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
@@ -13,6 +14,8 @@ import Image from "next/image"
 
 export function Header() {
   const t = useTranslations("Header")
+  // Los anclajes viven en la home: desde páginas internas se navega a /#seccion.
+  const home = localePath(useLocale())
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeLink, setActiveLink] = useState("")
@@ -44,11 +47,13 @@ export function Header() {
   ]
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault()
-    setActiveLink(href)
-
     const targetId = href.replace("#", "")
     const element = document.getElementById(targetId)
+    // Fuera de la home no existe el ancla: deja que el Link navegue a /#seccion.
+    if (!element) return
+
+    e.preventDefault()
+    setActiveLink(href)
 
     if (element) {
       const offset = 100 // Account for fixed header
@@ -94,7 +99,7 @@ export function Header() {
             {navItems.map((item) => (
               <Link
                 key={item.href}
-                href={item.href}
+                href={`${home}${item.href}`}
                 onClick={(e) => handleNavClick(e, item.href)}
                 className={`relative text-base font-medium transition-colors duration-300 group ${
                   solid ? "text-foreground/80 hover:text-foreground" : "text-white/85 hover:text-white"
@@ -121,10 +126,10 @@ export function Header() {
                 solid ? "" : "text-white border-white/40 hover:bg-white/10"
               }`}
             >
-              <Link href="#postulate">{t("apply")}</Link>
+              <Link href={`${home}#postulate`}>{t("apply")}</Link>
             </Button>
             <Button size="lg" asChild className="bg-secondary hover:bg-secondary/90 relative overflow-hidden group">
-              <Link href="#cotizacion">
+              <Link href={`${home}#cotizacion`}>
                 <span className="relative z-10">{t("quote")}</span>
                 <span className="absolute inset-0 bg-yellow-accent/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               </Link>
@@ -150,7 +155,7 @@ export function Header() {
               {navItems.map((item, index) => (
                 <Link
                   key={item.href}
-                  href={item.href}
+                  href={`${home}${item.href}`}
                   className={`relative text-base font-medium text-foreground/80 hover:text-foreground transition-colors py-3 group ${
                     activeLink === item.href ? "text-yellow-accent" : ""
                   }`}
@@ -176,10 +181,10 @@ export function Header() {
                   asChild
                   className="hover:border-yellow-accent hover:text-yellow-accent bg-transparent"
                 >
-                  <Link href="#postulate">{t("apply")}</Link>
+                  <Link href={`${home}#postulate`}>{t("apply")}</Link>
                 </Button>
                 <Button size="lg" asChild className="bg-secondary hover:bg-secondary/90">
-                  <Link href="#cotizacion">{t("quote")}</Link>
+                  <Link href={`${home}#cotizacion`}>{t("quote")}</Link>
                 </Button>
               </div>
             </nav>
