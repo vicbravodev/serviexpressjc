@@ -9,6 +9,8 @@ import { FleetImage } from "@/components/fleet-image"
 import { Button } from "@/components/ui/button"
 import { Breadcrumbs } from "@/components/seo/breadcrumbs"
 import { FaqBlock } from "@/components/seo/faq-block"
+import { JsonLd } from "@/components/seo/json-ld"
+import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schema"
 import { getPageContent, type Section } from "@/content"
 
 function SectionBlock({ section }: { section: Section }) {
@@ -52,10 +54,14 @@ function SectionBlock({ section }: { section: Section }) {
 export async function ContentPage({ href, locale }: { href: ContentHref; locale: string }) {
   const c = getPageContent(href, locale)
   const t = await getTranslations({ locale, namespace: "ContentPage" })
-  const quoteHref = `${getPathname({ locale: locale as "es" | "en", href: "/" })}#cotizacion`.replace("//", "/")
+  const l = locale === "en" ? ("en" as const) : ("es" as const)
+  const quoteHref = `${getPathname({ locale: l, href: "/" })}#cotizacion`.replace("//", "/")
 
   return (
     <div className="min-h-screen">
+      <JsonLd data={serviceSchema(l, href, c)} />
+      <JsonLd data={faqSchema(c.faqs)} />
+      <JsonLd data={breadcrumbSchema(l, href, t("home"), c.breadcrumb)} />
       <Header />
       <main>
         {/* Banda oscura de apertura: garantiza contraste del header transparente */}

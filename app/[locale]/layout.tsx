@@ -8,15 +8,9 @@ import { NextIntlClientProvider, hasLocale } from "next-intl"
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server"
 import { routing } from "@/i18n/routing"
 import { pageMetadata } from "@/lib/seo"
-import {
-  SITE_URL,
-  FOUNDING_YEAR,
-  yearsInService,
-  CONTACT_EMAIL,
-  contactPhone,
-  ADDRESS,
-  SOCIAL_LINKS,
-} from "@/lib/site"
+import { organizationSchema } from "@/lib/schema"
+import { yearsInService } from "@/lib/site"
+import { JsonLd } from "@/components/seo/json-ld"
 import "../globals.css"
 
 const GA_MEASUREMENT_ID = "G-J6RD1ZV13R"
@@ -65,37 +59,11 @@ export default async function RootLayout({
   const messages = await getMessages()
 
   const tMeta = await getTranslations({ locale, namespace: "Metadata" })
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "ServiExpress JC",
-    url: SITE_URL,
-    logo: `${SITE_URL}/logo-white-bg.png`,
-    description: tMeta("description", { years: yearsInService() }),
-    foundingDate: String(FOUNDING_YEAR),
-    email: CONTACT_EMAIL,
-    telephone: contactPhone(locale).tel,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: ADDRESS.street,
-      addressLocality: ADDRESS.locality,
-      addressRegion: ADDRESS.region,
-      addressCountry: ADDRESS.country,
-    },
-    areaServed: [
-      { "@type": "Country", name: "Mexico" },
-      { "@type": "Country", name: "United States" },
-    ],
-    sameAs: [SOCIAL_LINKS.instagram, SOCIAL_LINKS.facebook, SOCIAL_LINKS.linkedin],
-  }
 
   return (
     <html lang={locale} className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="font-sans antialiased">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
-        />
+        <JsonLd data={organizationSchema(tMeta("description", { years: yearsInService() }))} />
         <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
         <Analytics />
         <Script
