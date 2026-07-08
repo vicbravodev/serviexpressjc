@@ -5,6 +5,8 @@
   },
   "NotFound": {
     "title": "Página no encontrada",
+    "description": "La página que buscas no existe o cambió de dirección. Estos servicios te pueden interesar:",
+    "explore": "Servicios principales",
     "back": "Volver al inicio"
   },
   "LanguageSwitcher": {
