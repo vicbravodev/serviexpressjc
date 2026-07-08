@@ -8,7 +8,8 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    // Optimización activa (Vercel): AVIF/WebP y tamaños responsivos.
+    formats: ["image/avif", "image/webp"],
   },
   async redirects() {
     return [
