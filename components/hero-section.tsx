@@ -3,21 +3,12 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Play, Volume2, VolumeX, Maximize2, X } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { useCallback, useEffect, useRef, useState } from "react"
-import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { useTranslations } from "next-intl"
 import { yearsInService } from "@/lib/site"
 import { trackEvent } from "@/lib/analytics"
-
-const heroContainer: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
-}
-
-const heroItem: Variants = {
-  hidden: { opacity: 0, y: 28 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
-}
 
 export function HeroSection() {
   const t = useTranslations("Hero")
@@ -53,12 +44,40 @@ export function HeroSection() {
     if (videoRef.current && videoRef.current.readyState >= 3) setVideoLoaded(true)
   }, [])
 
+  // Video diferido: el LCP es el poster optimizado (next/image priority), no el
+  // MP4 de 18 MB. El video arranca solo cuando el hero es visible y la página
+  // ya cargó, respetando prefers-reduced-motion y save-data.
   useEffect(() => {
-    // Save-data: don't autoplay the heavy presentation, keep the poster frame.
+    const v = videoRef.current
+    const container = videoContainerRef.current
+    if (!v || !container) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
-    if (conn?.saveData && videoRef.current) {
-      videoRef.current.removeAttribute("autoplay")
-      videoRef.current.pause()
+    if (conn?.saveData) return
+
+    let started = false
+    const start = () => {
+      if (started) return
+      started = true
+      v.play().catch(() => {})
+    }
+    const whenIdle = () => {
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(start, { timeout: 2500 })
+      } else {
+        setTimeout(start, 400)
+      }
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return
+      observer.disconnect()
+      if (document.readyState === "complete") whenIdle()
+      else window.addEventListener("load", whenIdle, { once: true })
+    })
+    observer.observe(container)
+    return () => {
+      observer.disconnect()
+      window.removeEventListener("load", whenIdle)
     }
   }, [])
 
@@ -111,17 +130,24 @@ export function HeroSection() {
     >
       {/* Parallax video layer, oversized so movement never reveals the edges */}
       <div ref={videoContainerRef} className="absolute -inset-x-0 -top-[8%] h-[124%] z-0 parallax-video">
+        {/* Poster optimizado: es el LCP y pinta de inmediato; el video hace fade-in encima */}
+        <Image
+          src="/fleet/flota-patio.jpg"
+          alt="Flota de tractocamiones de ServiExpress JC en su terminal de Apodaca"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
         <video
           ref={videoRef}
-          autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="none"
           onCanPlay={() => setVideoLoaded(true)}
           data-loaded={videoLoaded}
-          className="hero-video w-full h-full object-cover"
-          poster="/fleet/flota-patio.jpg"
+          className="hero-video absolute inset-0 w-full h-full object-cover"
         >
           <source src="/hero-videop.mp4" type="video/mp4" />
         </video>
@@ -135,16 +161,12 @@ export function HeroSection() {
 
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10 pt-24 pb-40 sm:pb-44">
-        <motion.div
-          className="max-w-4xl mx-auto text-center"
-          variants={heroContainer}
-          initial={reduceMotion ? false : "hidden"}
-          animate="show"
-        >
+        {/* Entrada por CSS (animate-hero-rise): el texto pinta sin esperar JS */}
+        <div className="max-w-4xl mx-auto text-center">
           {/* Live operations badge */}
-          <motion.div
-            variants={heroItem}
-            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-8"
+          <div
+            className="animate-hero-rise inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-8"
+            style={{ animationDelay: "0.15s" }}
           >
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full rounded-full bg-yellow-accent-bright opacity-75 animate-ping" />
@@ -153,24 +175,35 @@ export function HeroSection() {
             <span className="text-xs sm:text-sm font-medium text-white/90 font-mono tracking-wide uppercase">
               {t("badge")}<span className="hidden sm:inline">{t("badgeYears", { years: yearsInService() })}</span>
             </span>
-          </motion.div>
+          </div>
 
-          <motion.h1
-            variants={heroItem}
-            className="text-4xl md:text-6xl font-bold mb-6 text-balance leading-[1.08] text-white"
+          <h1
+            className="animate-hero-rise text-4xl md:text-6xl font-bold mb-5 text-balance leading-[1.08] text-white"
+            style={{ animationDelay: "0.27s" }}
           >
             {t("titleLead")}{" "}
             <span className="text-yellow-accent-bright">{t("titleAccent")}</span>
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            variants={heroItem}
-            className="text-xl md:text-2xl text-white/80 mb-10 text-pretty max-w-3xl mx-auto leading-relaxed"
+          {/* Slogan histórico: se conserva como subtítulo visual (ya no es el H1) */}
+          <p
+            className="animate-hero-rise mb-6 font-mono text-xs sm:text-sm uppercase tracking-[0.24em] text-yellow-accent-bright/90"
+            style={{ animationDelay: "0.39s" }}
+          >
+            {t("slogan")}
+          </p>
+
+          <p
+            className="animate-hero-rise text-xl md:text-2xl text-white/80 mb-10 text-pretty max-w-3xl mx-auto leading-relaxed"
+            style={{ animationDelay: "0.51s" }}
           >
             {t("subtitle")}
-          </motion.p>
+          </p>
 
-          <motion.div variants={heroItem} className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div
+            className="animate-hero-rise flex flex-col sm:flex-row items-center justify-center gap-4"
+            style={{ animationDelay: "0.63s" }}
+          >
             <Button
               size="lg"
               className="group bg-secondary hover:bg-secondary/90 text-lg px-8 h-14"
@@ -197,8 +230,8 @@ export function HeroSection() {
                 <span className="block text-xs text-white/60 font-mono">{t("watchMeta")}</span>
               </span>
             </button>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
 
       {/* Ambient video controls: bottom-left on mobile, top-right (under header) on desktop */}

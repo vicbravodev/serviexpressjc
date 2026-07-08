@@ -1,4 +1,7 @@
-import { setRequestLocale } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
+import { JsonLd } from "@/components/seo/json-ld"
+import { localBusinessSchema } from "@/lib/schema"
+import { yearsInService } from "@/lib/site"
 import { Header } from "@/components/header"
 import { HeroSection } from "@/components/hero-section"
 import { StatsSection } from "@/components/stats-section"
@@ -18,8 +21,10 @@ export default async function LandingPage({
 }) {
   const { locale } = await params
   setRequestLocale(locale)
+  const tMeta = await getTranslations({ locale, namespace: "Metadata" })
   return (
     <div className="min-h-screen">
+      <JsonLd data={localBusinessSchema(tMeta("description", { years: yearsInService() }))} />
       <Header />
       <main>
         <HeroSection />

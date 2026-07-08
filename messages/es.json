@@ -1,10 +1,12 @@
 {
   "Metadata": {
     "title": "ServiExpress JC · Transporte de Carga México–USA",
-    "description": "Empresa de transporte especializada en carga nacional e internacional entre México y Estados Unidos. {years} años en ruta desde 2005, flota propia y monitoreo GPS 24/7."
+    "description": "Transporte de carga nacional y México–Estados Unidos con flota propia y GPS 24/7 desde 2005. Base en Monterrey, cruce por Laredo. Cotiza hoy."
   },
   "NotFound": {
     "title": "Página no encontrada",
+    "description": "La página que buscas no existe o cambió de dirección. Estos servicios te pueden interesar:",
+    "explore": "Servicios principales",
     "back": "Volver al inicio"
   },
   "LanguageSwitcher": {
@@ -28,8 +30,9 @@
   "Hero": {
     "badge": "Operación en vivo",
     "badgeYears": " · {years} años en ruta",
-    "titleLead": "Eficiencia sobre ruedas,",
-    "titleAccent": "compromiso sin fronteras",
+    "titleLead": "Transporte de carga México–Estados Unidos",
+    "titleAccent": "con flota propia",
+    "slogan": "Eficiencia sobre ruedas, compromiso sin fronteras",
     "subtitle": "Transporte especializado de carga entre México y Estados Unidos. Cada unidad, monitoreada por GPS las 24 horas, desde nuestra sala de control hasta tu cliente final.",
     "cta": "Solicita tu cotización",
     "watch": "Ver presentación",
@@ -63,7 +66,7 @@
       "title": "Transporte nacional",
       "description": "Local, regional y larga distancia por todo México. Carga siderúrgica, suelta, seca y sobredimensionada, monitoreada por GPS de origen a destino.",
       "zones": ["Norte", "Bajío", "Pacífico", "Occidente"],
-      "cta": "Ver cobertura"
+      "cta": "Ver transporte nacional"
     },
     "international": {
       "badge": "Internacional · MX → USA",
@@ -72,7 +75,7 @@
       "title": "Transporte internacional",
       "description": "Servicio transfronterizo puerta a puerta. Cruce por Laredo, TX con operadores certificados B1 y unidades de doble placa.",
       "zones": ["Texas", "Midwest", "Southeast", "West"],
-      "cta": "Solicitar cotización"
+      "cta": "Ver transporte internacional MX–USA"
     },
     "specialized": {
       "kicker": "Carga especializada",
@@ -80,8 +83,24 @@
       "imageCaption": "Carga de acero · plataforma",
       "title": "Una flota, muchos tipos de carga",
       "description": "Nuestra especialidad es el acero: varilla, perfiles y bobinas. También movemos carga suelta y caja seca de 53 pies, en plataformas o equipo sobredimensionado, siempre amarrada y monitoreada.",
-      "tags": ["Siderúrgica / acero", "Carga suelta", "Caja seca (53')", "Sobredimensionada"]
+      "tags": ["Transporte de acero", "Plataforma y carga suelta", "Caja seca 53'", "Carga sobredimensionada"]
+    },
+    "routes": {
+      "kicker": "Rutas",
+      "title": "Rutas más solicitadas",
+      "items": ["Flete Monterrey–Laredo", "Flete Monterrey–Houston", "Flete Monterrey–Dallas", "Flete Monterrey–CDMX"]
     }
+  },
+  "ContentPage": {
+    "home": "Inicio",
+    "breadcrumbsAria": "Ruta de navegación",
+    "faqTitle": "Preguntas frecuentes",
+    "ctaTitle": "¿Listo para mover tu carga?",
+    "ctaDescription": "Cotiza en un minuto: elige ruta, unidad y peso, y un agente te confirma tarifa y programa por WhatsApp.",
+    "ctaButton": "Solicita tu cotización",
+    "ctaNote": "Respuesta el mismo día · sin compromiso",
+    "relatedKicker": "Red de servicios",
+    "relatedTitle": "Servicios y rutas relacionados"
   },
   "Certifications": {
     "title": "Certificaciones y Garantías",
@@ -256,11 +275,14 @@
     "quickLinksTitle": "Enlaces Rápidos",
     "servicesTitle": "Servicios",
     "services": [
-      "Transporte Nacional",
-      "Transporte Internacional",
-      "Servicio Puerta a Puerta",
-      "Refaccionaria Los César"
+      "Transporte nacional",
+      "Transporte internacional MX–USA",
+      "Transporte de acero",
+      "Carga sobredimensionada",
+      "Caja seca 53'",
+      "Plataforma"
     ],
+    "servicesExtra": "Refaccionaria Los César",
     "contactTitle": "Contacto",
     "addressLine1": "Carretera Mezquital Santa Rosa Km 05",
     "addressLine2": "Apodaca, N.L., México",

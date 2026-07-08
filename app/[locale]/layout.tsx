@@ -7,16 +7,10 @@ import { notFound } from "next/navigation"
 import { NextIntlClientProvider, hasLocale } from "next-intl"
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server"
 import { routing } from "@/i18n/routing"
-import {
-  SITE_URL,
-  localePath,
-  FOUNDING_YEAR,
-  yearsInService,
-  CONTACT_EMAIL,
-  contactPhone,
-  ADDRESS,
-  SOCIAL_LINKS,
-} from "@/lib/site"
+import { pageMetadata } from "@/lib/seo"
+import { organizationSchema } from "@/lib/schema"
+import { yearsInService } from "@/lib/site"
+import { JsonLd } from "@/components/seo/json-ld"
 import "../globals.css"
 
 const GA_MEASUREMENT_ID = "G-J6RD1ZV13R"
@@ -43,39 +37,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: "Metadata" })
-  const path = localePath(locale)
 
-  const description = t("description", { years: yearsInService() })
-
-  return {
-    metadataBase: new URL(SITE_URL),
+  return pageMetadata({
+    locale,
+    href: "/",
     title: t("title"),
-    description,
-    alternates: {
-      canonical: path,
-      languages: {
-        "es-MX": "/",
-        "en-US": "/en",
-        "x-default": "/",
-      },
-    },
-    openGraph: {
-      type: "website",
-      siteName: "ServiExpress JC",
-      url: path,
-      title: t("title"),
-      description,
-      locale: locale === "es" ? "es_MX" : "en_US",
-      alternateLocale: locale === "es" ? "en_US" : "es_MX",
-      images: [{ url: "/fleet/flota-patio.jpg", width: 1600, height: 829, alt: "ServiExpress JC" }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: t("title"),
-      description,
-      images: ["/fleet/flota-patio.jpg"],
-    },
-  }
+    description: t("description", { years: yearsInService() }),
+  })
 }
 
 export default async function RootLayout({
@@ -91,37 +59,11 @@ export default async function RootLayout({
   const messages = await getMessages()
 
   const tMeta = await getTranslations({ locale, namespace: "Metadata" })
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "ServiExpress JC",
-    url: SITE_URL,
-    logo: `${SITE_URL}/logo-white-bg.png`,
-    description: tMeta("description", { years: yearsInService() }),
-    foundingDate: String(FOUNDING_YEAR),
-    email: CONTACT_EMAIL,
-    telephone: contactPhone(locale).tel,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: ADDRESS.street,
-      addressLocality: ADDRESS.locality,
-      addressRegion: ADDRESS.region,
-      addressCountry: ADDRESS.country,
-    },
-    areaServed: [
-      { "@type": "Country", name: "Mexico" },
-      { "@type": "Country", name: "United States" },
-    ],
-    sameAs: [SOCIAL_LINKS.instagram, SOCIAL_LINKS.facebook, SOCIAL_LINKS.linkedin],
-  }
 
   return (
     <html lang={locale} className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="font-sans antialiased">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
-        />
+        <JsonLd data={organizationSchema(tMeta("description", { years: yearsInService() }))} />
         <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
         <Analytics />
         <Script

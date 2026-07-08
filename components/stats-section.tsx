@@ -24,14 +24,12 @@ const metrics: Metric[] = [
 ]
 
 function useCountUp(target: number | null, active: boolean, duration = 1400) {
-  const [value, setValue] = useState(0)
+  // SSR/HTML inicial: SIEMPRE el valor real (Google no debe indexar "0").
+  // El roll-up 0→target corre solo en cliente, como mejora visual.
+  const [value, setValue] = useState(target ?? 0)
   const reduce = useReducedMotion()
   useEffect(() => {
-    if (target === null || !active) return
-    if (reduce) {
-      setValue(target)
-      return
-    }
+    if (target === null || !active || reduce) return
     let raf = 0
     let start = 0
     const tick = (now: number) => {

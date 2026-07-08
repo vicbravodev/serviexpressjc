@@ -1,10 +1,12 @@
 {
   "Metadata": {
     "title": "ServiExpress JC · Cross-Border Freight Between Mexico & the U.S.",
-    "description": "Trucking company specializing in domestic and cross-border freight between Mexico and the United States. {years} years on the road since 2005, company-owned fleet, 24/7 GPS tracking."
+    "description": "Cross-border trucking between Mexico and the U.S. with our own fleet and 24/7 GPS tracking since 2005. Based in Monterrey, crossing at Laredo. Get a quote."
   },
   "NotFound": {
     "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has moved. These services might help:",
+    "explore": "Main services",
     "back": "Back to home"
   },
   "LanguageSwitcher": {
@@ -28,8 +30,9 @@
   "Hero": {
     "badge": "Live operations",
     "badgeYears": " · {years} years on the road",
-    "titleLead": "Efficiency on wheels,",
-    "titleAccent": "commitment beyond borders",
+    "titleLead": "Mexico–U.S. cross-border trucking",
+    "titleAccent": "with our own fleet",
+    "slogan": "Efficiency on wheels, commitment beyond borders",
     "subtitle": "Specialized freight transport between Mexico and the United States. Every truck tracked by GPS around the clock, from our control room to your end customer.",
     "cta": "Request your quote",
     "watch": "Watch the video",
@@ -63,7 +66,7 @@
       "title": "Domestic freight",
       "description": "Local, regional, and long-haul service across Mexico. Steel, loose, dry, and oversized freight, GPS-tracked from origin to destination.",
       "zones": ["North", "Bajío", "Pacific", "West"],
-      "cta": "View coverage"
+      "cta": "Explore domestic trucking"
     },
     "international": {
       "badge": "Cross-border · MX → USA",
@@ -72,7 +75,7 @@
       "title": "Cross-border freight",
       "description": "Door-to-door cross-border service. Crossing at Laredo, TX with B1-certified drivers and dual-plated trucks.",
       "zones": ["Texas", "Midwest", "Southeast", "West"],
-      "cta": "Get a quote"
+      "cta": "Explore cross-border trucking"
     },
     "specialized": {
       "kicker": "Specialized freight",
@@ -80,8 +83,24 @@
       "imageCaption": "Steel freight · flatbed",
       "title": "One fleet, many kinds of freight",
       "description": "Steel is our specialty: rebar, profiles, and coils. We also move loose freight and 53-foot dry vans, on flatbeds or oversized equipment, always secured and tracked.",
-      "tags": ["Steel", "Loose freight", "Dry van (53')", "Oversized"]
+      "tags": ["Steel hauling", "Flatbed & loose freight", "53' dry van", "Oversize loads"]
+    },
+    "routes": {
+      "kicker": "Lanes",
+      "title": "Most requested lanes",
+      "items": ["Monterrey–Laredo freight", "Monterrey–Houston freight", "Monterrey–Dallas freight", "Monterrey–Mexico City freight"]
     }
+  },
+  "ContentPage": {
+    "home": "Home",
+    "breadcrumbsAria": "Breadcrumb",
+    "faqTitle": "Frequently asked questions",
+    "ctaTitle": "Ready to move your freight?",
+    "ctaDescription": "Get a quote in a minute: pick lane, equipment and weight, and an agent confirms rate and schedule over WhatsApp.",
+    "ctaButton": "Request your quote",
+    "ctaNote": "Same-day response · no strings attached",
+    "relatedKicker": "Service network",
+    "relatedTitle": "Related services and lanes"
   },
   "Certifications": {
     "title": "Certifications & Guarantees",
@@ -256,11 +275,14 @@
     "quickLinksTitle": "Quick Links",
     "servicesTitle": "Services",
     "services": [
-      "Domestic Freight",
-      "Cross-Border Freight",
-      "Door-to-Door Service",
-      "Los César Parts Store"
+      "Domestic trucking in Mexico",
+      "Cross-border trucking MX–USA",
+      "Steel hauling",
+      "Oversize load transport",
+      "53' dry van",
+      "Flatbed trucking"
     ],
+    "servicesExtra": "Los César Parts Store",
     "contactTitle": "Contact",
     "addressLine1": "Carretera Mezquital Santa Rosa Km 05",
     "addressLine2": "Apodaca, N.L., Mexico",
