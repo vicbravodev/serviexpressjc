@@ -1,63 +1,100 @@
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import { cookies } from "next/headers"
 import { requireAdmin } from "@/lib/admin/auth"
+import {
+  applicationStatusMeta,
+  experienceLabel,
+  fmtShort,
+  folio,
+  positionLabel,
+} from "@/lib/admin/meta"
+import { getStaffOptions } from "@/lib/admin/staff"
 import { createClient } from "@/utils/supabase/server"
-import { StatusForm } from "@/app/admin/_components/status-form"
-import { NoteForm } from "@/app/admin/_components/note-form"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { AuditHistory, type AuditRow } from "@/app/admin/_components/audit-history"
+import { ManagePanel } from "@/app/admin/_components/manage-panel"
 
 export const dynamic = "force-dynamic"
-const APPLICATION_STATUSES = ["new", "reviewed", "contacted", "hired", "rejected"]
 
 export default async function ApplicationDetail({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin()
   const { id } = await params
   const supabase = createClient(await cookies())
 
-  const { data: app } = await supabase.from("job_applications").select("*").eq("id", id).single()
+  const [{ data: app }, { data: timeline }, staff] = await Promise.all([
+    supabase.from("job_applications").select("*").eq("id", id).single(),
+    supabase
+      .from("audit_log")
+      .select("id, created_at, actor_email, action, old_value, new_value, note")
+      .eq("entity_type", "job_application")
+      .eq("entity_id", id)
+      .order("created_at", { ascending: false }),
+    getStaffOptions(),
+  ])
   if (!app) notFound()
-  const { data: timeline } = await supabase
-    .from("audit_log")
-    .select("id, created_at, actor_email, action, old_value, new_value, note")
-    .eq("entity_type", "job_application")
-    .eq("entity_id", id)
-    .order("created_at", { ascending: false })
+
+  const meta = applicationStatusMeta(app.status)
+  const mono = "font-mono text-sm"
+  const txt = "text-sm"
+  const pairs = [
+    { k: "PUESTO", v: positionLabel(app.position), cls: txt },
+    { k: "EXPERIENCIA", v: experienceLabel(app.experience), cls: txt },
+    { k: "TELÉFONO", v: app.phone || "—", cls: mono },
+    { k: "IDIOMA", v: app.locale === "en" ? "Inglés" : "Español", cls: txt },
+    { k: "RECIBIDA", v: fmtShort(app.created_at), cls: mono },
+  ]
 
   return (
-    <div className="grid gap-8 lg:grid-cols-3">
-      <div className="space-y-4 lg:col-span-2">
-        <h1 className="text-2xl font-bold">{app.name}</h1>
-        <dl className="grid grid-cols-2 gap-2 rounded-xl border border-border p-4 text-sm">
-          <dt className="text-muted-foreground">Teléfono</dt><dd>{app.phone}</dd>
-          <dt className="text-muted-foreground">Puesto</dt><dd>{app.position}</dd>
-          <dt className="text-muted-foreground">Experiencia</dt><dd>{app.experience}</dd>
-        </dl>
-        <section className="space-y-2">
-          <h2 className="font-semibold">Seguimiento</h2>
-          <NoteForm entityType="job_application" entityId={id} />
-          <ul className="space-y-3 pt-2">
-            {(timeline ?? []).map((e) => (
-              <li key={e.id} className="rounded-md border border-border p-3 text-sm">
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>{e.action}{e.actor_email ? ` · ${e.actor_email}` : " · público"}</span>
-                  <span>{new Date(e.created_at).toLocaleString("es-MX")}</span>
-                </div>
-                {e.action === "note" ? <p className="mt-1">{e.note}</p> : null}
-                {e.action === "status_change" ? (
-                  <p className="mt-1">
-                    {(e.old_value as { status?: string } | null)?.status} → {(e.new_value as { status?: string } | null)?.status}
-                  </p>
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        </section>
-      </div>
-      <aside className="space-y-4">
-        <div className="rounded-xl border border-border p-4">
-          <h2 className="mb-3 font-semibold">Status</h2>
-          <StatusForm kind="application" id={id} current={app.status} options={APPLICATION_STATUSES} />
+    <div className="mx-auto flex w-full max-w-[1100px] flex-col gap-5 p-6">
+      <div className="flex flex-col items-start gap-2">
+        <Button variant="ghost" size="sm" asChild>
+          <Link href="/admin/postulaciones">← Volver a Postulaciones</Link>
+        </Button>
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="font-mono text-[11px] tracking-[0.14em] text-muted-foreground">{folio("POS", id)}</span>
+          <Badge variant={meta.variant} className={meta.className}>
+            {meta.label}
+          </Badge>
         </div>
-      </aside>
+        <h1 className="text-2xl font-semibold tracking-tight">{app.name}</h1>
+        <p className="text-sm text-muted-foreground">
+          {positionLabel(app.position)} · {experienceLabel(app.experience)}
+        </p>
+      </div>
+
+      <div className="flex flex-wrap items-start gap-4">
+        <div className="flex min-w-[300px] flex-[1.2] flex-col gap-4 sm:min-w-[320px]">
+          <Card>
+            <CardHeader>
+              <CardTitle>Candidato</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-3.5 gap-x-5 [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))]">
+                {pairs.map((par) => (
+                  <div key={par.k} className="flex flex-col gap-1">
+                    <span className="font-mono text-[10px] tracking-[0.12em] text-muted-foreground">{par.k}</span>
+                    <span className={par.cls}>{par.v}</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="flex min-w-[300px] flex-1 flex-col gap-4 sm:min-w-[320px]">
+          <ManagePanel
+            kind="application"
+            id={id}
+            status={app.status}
+            assigneeId={app.assigned_to}
+            staff={staff.map((s) => ({ id: s.id, name: s.name }))}
+          />
+          <AuditHistory rows={(timeline ?? []) as AuditRow[]} statusLabel={applicationStatusMeta} />
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,44 +1,47 @@
-import Link from "next/link"
 import { cookies } from "next/headers"
 import { requireAdmin } from "@/lib/admin/auth"
+import { experienceLabel, folio, positionLabel } from "@/lib/admin/meta"
+import { getStaffOptions } from "@/lib/admin/staff"
 import { createClient } from "@/utils/supabase/server"
+import { AppsTable, type AppRow } from "../_components/apps-table"
 
 export const dynamic = "force-dynamic"
 
 export default async function ApplicationsPage() {
   await requireAdmin()
   const supabase = createClient(await cookies())
-  const { data: apps } = await supabase
-    .from("job_applications")
-    .select("id, created_at, name, phone, position, experience, status")
-    .order("created_at", { ascending: false })
-    .limit(200)
+  const [{ data: apps }, staff] = await Promise.all([
+    supabase
+      .from("job_applications")
+      .select("id, created_at, name, phone, position, experience, status, assigned_to")
+      .order("created_at", { ascending: false })
+      .limit(200),
+    getStaffOptions(),
+  ])
+
+  const staffById = new Map(staff.map((s) => [s.id, s.name]))
+  const rows: AppRow[] = (apps ?? []).map((a) => ({
+    id: a.id,
+    folio: folio("POS", a.id),
+    nombre: a.name,
+    tel: a.phone,
+    puesto: positionLabel(a.position),
+    experiencia: experienceLabel(a.experience),
+    status: a.status,
+    asignadoId: a.assigned_to,
+    asignadoName: a.assigned_to ? (staffById.get(a.assigned_to) ?? "Equipo") : null,
+  }))
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Postulaciones</h1>
-      <div className="overflow-x-auto rounded-xl border border-border">
-        <table className="w-full text-sm">
-          <thead className="bg-muted/50 text-left text-xs uppercase text-muted-foreground">
-            <tr>
-              <th className="p-3">Fecha</th><th className="p-3">Nombre</th><th className="p-3">Teléfono</th>
-              <th className="p-3">Puesto</th><th className="p-3">Status</th><th className="p-3"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {(apps ?? []).map((a) => (
-              <tr key={a.id} className="border-t border-border">
-                <td className="p-3 whitespace-nowrap">{new Date(a.created_at).toLocaleString("es-MX")}</td>
-                <td className="p-3">{a.name}</td>
-                <td className="p-3">{a.phone}</td>
-                <td className="p-3">{a.position}</td>
-                <td className="p-3">{a.status}</td>
-                <td className="p-3"><Link className="underline" href={`/admin/postulaciones/${a.id}`}>Ver</Link></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-5 p-6">
+      <div className="flex flex-col gap-1">
+        <span className="font-mono text-[11px] tracking-[0.14em] text-muted-foreground">OPERACIÓN</span>
+        <h1 className="text-2xl font-semibold tracking-tight">Postulaciones</h1>
+        <p className="text-sm text-muted-foreground">
+          Candidatos para operación y taller. Haz clic en una fila para gestionarla.
+        </p>
       </div>
+      <AppsTable rows={rows} staff={staff.map((s) => ({ id: s.id, name: s.name }))} />
     </div>
   )
 }
