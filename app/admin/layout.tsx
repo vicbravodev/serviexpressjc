@@ -1,10 +1,16 @@
-import Link from "next/link"
 import type { ReactNode } from "react"
+import { cookies } from "next/headers"
+import { Geist, Geist_Mono } from "next/font/google"
 import { getSessionClaims } from "@/lib/admin/auth"
-import { SignOutButton } from "./_components/sign-out-button"
+import { createClient } from "@/utils/supabase/server"
+import { Toaster } from "@/components/ui/sonner"
+import { AdminShell } from "./_components/admin-shell"
 import "../globals.css"
 
 export const dynamic = "force-dynamic"
+
+const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" })
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" })
 
 // app/admin/** vive fuera de app/[locale], así que no hereda su <html>/<body>.
 // El root layout (app/layout.tsx) es un passthrough, así que este layout debe
@@ -17,32 +23,39 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
   if (!isStaff) {
     return (
-      <html lang="es" suppressHydrationWarning>
-        <body className="font-sans antialiased">{children}</body>
+      <html lang="es" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
+        <body className="font-sans antialiased">
+          {children}
+          <Toaster position="bottom-right" />
+        </body>
       </html>
     )
   }
 
+  const supabase = createClient(await cookies())
+  const { count: newLeads } = await supabase
+    .from("load_requests")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "new")
+  let newApplications: number | null = null
+  if (claims.role === "admin") {
+    const { count } = await supabase
+      .from("job_applications")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "new")
+    newApplications = count ?? 0
+  }
+
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="font-sans antialiased">
-        <div className="min-h-screen bg-background text-foreground">
-          <header className="border-b border-border">
-            <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
-              <nav className="flex items-center gap-4 text-sm font-medium">
-                <Link href="/admin">Inicio</Link>
-                <Link href="/admin/leads">Leads</Link>
-                {claims.role === "admin" ? <Link href="/admin/postulaciones">Postulaciones</Link> : null}
-                {claims.role === "admin" ? <Link href="/admin/usuarios">Usuarios</Link> : null}
-              </nav>
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-muted-foreground">{claims.email} · {claims.role}</span>
-                <SignOutButton />
-              </div>
-            </div>
-          </header>
-          <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
-        </div>
+        <AdminShell
+          user={{ email: claims.email, role: claims.role as "admin" | "user" }}
+          counts={{ newLeads: newLeads ?? 0, newApplications }}
+        >
+          {children}
+        </AdminShell>
+        <Toaster position="bottom-right" />
       </body>
     </html>
   )

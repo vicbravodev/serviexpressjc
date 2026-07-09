@@ -29,13 +29,55 @@ export async function updateLeadStatus(id: string, status: string, lostReason?: 
   revalidatePath("/admin/leads")
 }
 
-export async function updateApplicationStatus(id: string, status: string) {
+export async function updateApplicationStatus(id: string, status: string, reason?: string) {
   if (!APPLICATION_STATUSES.includes(status as (typeof APPLICATION_STATUSES)[number])) throw new Error("Status inválido")
-  const { supabase } = await requireRole(["admin"])
+  const { claims, supabase } = await requireRole(["admin"])
   const { error } = await supabase.from("job_applications").update({ status }).eq("id", id)
   if (error) throw new Error(error.message)
+  // job_applications no tiene columna de motivo; el motivo del rechazo queda como nota en el audit.
+  const body = reason?.trim()
+  if (status === "rejected" && body) {
+    await supabase.from("audit_log").insert({
+      actor_id: claims.userId,
+      actor_email: claims.email,
+      entity_type: "job_application",
+      entity_id: id,
+      action: "note",
+      note: `Motivo del rechazo: ${body}`,
+    })
+  }
   revalidatePath(`/admin/postulaciones/${id}`)
   revalidatePath("/admin/postulaciones")
+}
+
+export async function updateAssignee(
+  entityType: "load_request" | "job_application",
+  entityId: string,
+  assigneeId: string | null,
+  assigneeName?: string,
+) {
+  const roles: Array<"admin" | "user"> = entityType === "load_request" ? ["admin", "user"] : ["admin"]
+  const { claims, supabase } = await requireRole(roles)
+  const table = entityType === "load_request" ? "load_requests" : "job_applications"
+  const { data: updated, error } = await supabase
+    .from(table)
+    .update({ assigned_to: assigneeId })
+    .eq("id", entityId)
+    .select("id")
+  if (error) throw new Error(error.message)
+  if (!updated || updated.length === 0) throw new Error("Registro no encontrado")
+  // El trigger solo audita cambios de status; la asignación se registra como nota.
+  await supabase.from("audit_log").insert({
+    actor_id: claims.userId,
+    actor_email: claims.email,
+    entity_type: entityType,
+    entity_id: entityId,
+    action: "note",
+    note: assigneeId ? `Asignó la gestión a ${assigneeName ?? "un integrante del equipo"}` : "Quitó la asignación",
+  })
+  const base = entityType === "load_request" ? "leads" : "postulaciones"
+  revalidatePath(`/admin/${base}/${entityId}`)
+  revalidatePath(`/admin/${base}`)
 }
 
 export async function addNote(entityType: "load_request" | "job_application", entityId: string, note: string) {
