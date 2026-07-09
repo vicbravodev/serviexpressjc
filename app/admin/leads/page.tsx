@@ -1,7 +1,11 @@
 import Link from "next/link"
 import { cookies } from "next/headers"
+import { ArrowRight } from "lucide-react"
 import { requireStaff } from "@/lib/admin/auth"
 import { createClient } from "@/utils/supabase/server"
+import { Card, CardContent } from "@/components/ui/card"
+import { PageHeader } from "../_components/page-header"
+import { StatusBadge } from "../_components/status-badge"
 
 export const dynamic = "force-dynamic"
 
@@ -14,31 +18,57 @@ export default async function LeadsPage() {
     .order("created_at", { ascending: false })
     .limit(200)
 
+  const rows = leads ?? []
+
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Solicitudes de carga</h1>
-      <div className="overflow-x-auto rounded-xl border border-border">
-        <table className="w-full text-sm">
-          <thead className="bg-muted/50 text-left text-xs uppercase text-muted-foreground">
-            <tr>
-              <th className="p-3">Fecha</th><th className="p-3">Servicio</th><th className="p-3">Ruta</th>
-              <th className="p-3">Contacto</th><th className="p-3">Status</th><th className="p-3"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {(leads ?? []).map((l) => (
-              <tr key={l.id} className="border-t border-border">
-                <td className="p-3 whitespace-nowrap">{new Date(l.created_at).toLocaleString("es-MX")}</td>
-                <td className="p-3">{l.service}</td>
-                <td className="p-3">{l.origin_name} → {l.destination_name}</td>
-                <td className="p-3">{l.contact_name || l.contact_phone || "—"}</td>
-                <td className="p-3">{l.status}</td>
-                <td className="p-3"><Link className="underline" href={`/admin/leads/${l.id}`}>Ver</Link></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+    <div>
+      <PageHeader
+        title="Solicitudes de carga"
+        description={`${rows.length} solicitud${rows.length === 1 ? "" : "es"} más reciente${rows.length === 1 ? "" : "s"}.`}
+      />
+      <Card className="overflow-hidden">
+        <CardContent className="p-0">
+          {rows.length === 0 ? (
+            <p className="px-6 py-12 text-center text-sm text-muted-foreground">No hay solicitudes registradas.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-muted/50 text-left text-xs uppercase tracking-wide text-muted-foreground">
+                  <tr>
+                    <th className="px-4 py-3 font-medium">Fecha</th>
+                    <th className="px-4 py-3 font-medium">Servicio</th>
+                    <th className="px-4 py-3 font-medium">Ruta</th>
+                    <th className="px-4 py-3 font-medium">Contacto</th>
+                    <th className="px-4 py-3 font-medium">Status</th>
+                    <th className="px-4 py-3" />
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {rows.map((l) => (
+                    <tr key={l.id} className="transition-colors hover:bg-muted/40">
+                      <td className="whitespace-nowrap px-4 py-3 text-muted-foreground">
+                        {new Date(l.created_at).toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" })}
+                      </td>
+                      <td className="px-4 py-3">{l.service}</td>
+                      <td className="px-4 py-3 font-medium">{l.origin_name} → {l.destination_name}</td>
+                      <td className="px-4 py-3">{l.contact_name || l.contact_phone || "—"}</td>
+                      <td className="px-4 py-3"><StatusBadge status={l.status} /></td>
+                      <td className="px-4 py-3 text-right">
+                        <Link
+                          href={`/admin/leads/${l.id}`}
+                          className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                        >
+                          Ver <ArrowRight className="size-3.5" />
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   )
 }

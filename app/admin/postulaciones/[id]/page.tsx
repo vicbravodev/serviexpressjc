@@ -1,9 +1,13 @@
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import { cookies } from "next/headers"
+import { ArrowLeft } from "lucide-react"
 import { requireAdmin } from "@/lib/admin/auth"
 import { createClient } from "@/utils/supabase/server"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { StatusForm } from "@/app/admin/_components/status-form"
 import { NoteForm } from "@/app/admin/_components/note-form"
+import { StatusBadge } from "@/app/admin/_components/status-badge"
 
 export const dynamic = "force-dynamic"
 const APPLICATION_STATUSES = ["new", "reviewed", "contacted", "hired", "rejected"]
@@ -23,41 +27,68 @@ export default async function ApplicationDetail({ params }: { params: Promise<{ 
     .order("created_at", { ascending: false })
 
   return (
-    <div className="grid gap-8 lg:grid-cols-3">
-      <div className="space-y-4 lg:col-span-2">
-        <h1 className="text-2xl font-bold">{app.name}</h1>
-        <dl className="grid grid-cols-2 gap-2 rounded-xl border border-border p-4 text-sm">
-          <dt className="text-muted-foreground">Teléfono</dt><dd>{app.phone}</dd>
-          <dt className="text-muted-foreground">Puesto</dt><dd>{app.position}</dd>
-          <dt className="text-muted-foreground">Experiencia</dt><dd>{app.experience}</dd>
-        </dl>
-        <section className="space-y-2">
-          <h2 className="font-semibold">Seguimiento</h2>
-          <NoteForm entityType="job_application" entityId={id} />
-          <ul className="space-y-3 pt-2">
-            {(timeline ?? []).map((e) => (
-              <li key={e.id} className="rounded-md border border-border p-3 text-sm">
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>{e.action}{e.actor_email ? ` · ${e.actor_email}` : " · público"}</span>
-                  <span>{new Date(e.created_at).toLocaleString("es-MX")}</span>
-                </div>
-                {e.action === "note" ? <p className="mt-1">{e.note}</p> : null}
-                {e.action === "status_change" ? (
-                  <p className="mt-1">
-                    {(e.old_value as { status?: string } | null)?.status} → {(e.new_value as { status?: string } | null)?.status}
-                  </p>
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        </section>
+    <div className="space-y-6">
+      <Link href="/admin/postulaciones" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
+        <ArrowLeft className="size-4" /> Postulaciones
+      </Link>
+
+      <div className="flex flex-wrap items-center gap-3">
+        <h1 className="text-2xl font-bold tracking-tight">{app.name}</h1>
+        <StatusBadge status={app.status} />
       </div>
-      <aside className="space-y-4">
-        <div className="rounded-xl border border-border p-4">
-          <h2 className="mb-3 font-semibold">Status</h2>
-          <StatusForm kind="application" id={id} current={app.status} options={APPLICATION_STATUSES} />
+
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="space-y-6 lg:col-span-2">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Detalle de la postulación</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <dl className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
+                <div><dt className="text-muted-foreground">Teléfono</dt><dd className="font-medium">{app.phone}</dd></div>
+                <div><dt className="text-muted-foreground">Puesto</dt><dd className="font-medium">{app.position}</dd></div>
+                <div className="col-span-2"><dt className="text-muted-foreground">Experiencia</dt><dd className="font-medium">{app.experience}</dd></div>
+              </dl>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Seguimiento</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <NoteForm entityType="job_application" entityId={id} />
+              <ul className="space-y-3">
+                {(timeline ?? []).map((e) => (
+                  <li key={e.id} className="rounded-lg border border-border p-3 text-sm">
+                    <div className="flex justify-between text-xs text-muted-foreground">
+                      <span>{e.action}{e.actor_email ? ` · ${e.actor_email}` : " · público"}</span>
+                      <span>{new Date(e.created_at).toLocaleString("es-MX")}</span>
+                    </div>
+                    {e.action === "note" ? <p className="mt-1">{e.note}</p> : null}
+                    {e.action === "status_change" ? (
+                      <p className="mt-1">
+                        {(e.old_value as { status?: string } | null)?.status} → {(e.new_value as { status?: string } | null)?.status}
+                      </p>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
         </div>
-      </aside>
+
+        <aside>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Status</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <StatusForm kind="application" id={id} current={app.status} options={APPLICATION_STATUSES} />
+            </CardContent>
+          </Card>
+        </aside>
+      </div>
     </div>
   )
 }
