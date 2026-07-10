@@ -43,7 +43,6 @@ export function Header() {
     { label: t("nav.quienesSomos"), href: "#quienes-somos" },
     { label: t("nav.servicios"), href: "#servicios" },
     { label: t("nav.cobertura"), href: "#cobertura" },
-    { label: t("nav.clientes"), href: "#clientes" },
   ]
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {

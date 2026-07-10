@@ -19,8 +19,7 @@
       "inicio": "Inicio",
       "quienesSomos": "Quiénes Somos",
       "servicios": "Servicios",
-      "cobertura": "Cobertura",
-      "clientes": "Clientes"
+      "cobertura": "Cobertura"
     },
     "apply": "Postúlate",
     "quote": "Cotización",
@@ -131,10 +130,6 @@
     "kicker": "Quiénes somos",
     "title": "Gente real detrás de cada entrega",
     "subtitle": "Desde 2005 movemos carga nacional e internacional: {years} años de flota propia, operada y mantenida por nuestra propia gente.",
-    "fleetAlt": "Flota de tractocamiones de ServiExpress JC en su terminal",
-    "fleetCaption": "Flota propia · terminal en Apodaca, N.L.",
-    "fleetChip": "Flota propia",
-    "fleetLocation": "Terminal · Apodaca, N.L.",
     "storyLabel1": "Lo que hacemos",
     "story1": "Coordinamos y monitoreamos cada traslado con nuestro propio equipo, de la carga al destino final, para que tu mercancía llegue segura y a tiempo, sin intermediarios.",
     "storyLabel2": "Hacia dónde vamos",
@@ -157,27 +152,6 @@
     "usCount": "48 estados contiguos",
     "reachNote": "Servicio puerta a puerta en ambos países. ¿No ves tu destino? También lo cubrimos.",
     "crossingChip": "Cruce B1 · doble placa"
-  },
-  "SocialProof": {
-    "kicker": "Clientes",
-    "title": "Empresas que ya confían su carga aquí",
-    "subtitle": "Acereras, distribuidores y exportadores que mueven acero, carga suelta y caja seca con nosotros.",
-    "logoAlt": "Logotipo de {name}",
-    "more": "Y muchas más empresas de México y Estados Unidos",
-    "items": [
-      {
-        "quote": "Confiamos en SERVIEXPRESS JC para nuestras rutas del norte y ahora también para exportación. Siempre puntuales y con excelente seguimiento.",
-        "role": "Logística y Abastecimiento"
-      },
-      {
-        "quote": "El servicio de monitoreo GPS nos da tranquilidad total. Sabemos exactamente dónde está nuestra carga en todo momento.",
-        "role": "Cadena de Suministro"
-      },
-      {
-        "quote": "Profesionalismo y atención personalizada. Han sido clave para el crecimiento de nuestro negocio.",
-        "role": "Operaciones y Distribución"
-      }
-    ]
   },
   "Quote": {
     "service": {

@@ -105,14 +105,6 @@ export function Footer() {
                   {tNav("cobertura")}
                 </Link>
               </li>
-              <li>
-                <Link
-                  href={`${home}#clientes`}
-                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
-                >
-                  {tNav("clientes")}
-                </Link>
-              </li>
             </ul>
           </div>
 

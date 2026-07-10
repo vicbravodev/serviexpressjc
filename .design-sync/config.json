@@ -306,9 +306,6 @@
     "CertificationsSection": {
       "cardMode": "column"
     },
-    "SocialProofSection": {
-      "cardMode": "column"
-    },
     "CTASection": {
       "cardMode": "column"
     },
