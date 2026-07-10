@@ -10,7 +10,6 @@ import { CoverageSection } from "@/components/coverage-section"
 import { CertificationsSection } from "@/components/certifications-section"
 import { TalleresSection } from "@/components/talleres-section"
 import { AboutSection } from "@/components/about-section"
-import { SocialProofSection } from "@/components/social-proof-section"
 import { CTASection } from "@/components/cta-section"
 import { Footer } from "@/components/footer"
 
@@ -34,7 +33,6 @@ export default async function LandingPage({
         <CertificationsSection />
         <TalleresSection />
         <AboutSection />
-        <SocialProofSection />
         <CTASection />
       </main>
       <Footer />

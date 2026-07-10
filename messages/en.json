@@ -19,8 +19,7 @@
       "inicio": "Home",
       "quienesSomos": "About Us",
       "servicios": "Services",
-      "cobertura": "Coverage",
-      "clientes": "Clients"
+      "cobertura": "Coverage"
     },
     "apply": "Apply Now",
     "quote": "Get a Quote",
@@ -131,10 +130,6 @@
     "kicker": "About us",
     "title": "Real people behind every delivery",
     "subtitle": "We have moved domestic and cross-border freight since 2005: {years} years of a company-owned fleet, driven and maintained by our own people.",
-    "fleetAlt": "ServiExpress JC tractor fleet at our terminal",
-    "fleetCaption": "Company-owned fleet · Apodaca, N.L. terminal",
-    "fleetChip": "Company-owned fleet",
-    "fleetLocation": "Terminal · Apodaca, N.L.",
     "storyLabel1": "What we do",
     "story1": "We coordinate and monitor every shipment with our own team, from pickup to final destination, so your freight arrives safe and on time, with no middlemen.",
     "storyLabel2": "Where we're headed",
@@ -157,27 +152,6 @@
     "usCount": "48 contiguous states",
     "reachNote": "Door-to-door service in both countries. Don't see your destination? We cover it too.",
     "crossingChip": "B1 crossing · dual plates"
-  },
-  "SocialProof": {
-    "kicker": "Clients",
-    "title": "Companies that already trust us with their freight",
-    "subtitle": "Steel producers, distributors, and exporters moving steel, loose, and dry freight with us.",
-    "logoAlt": "{name} logo",
-    "more": "And many more companies across Mexico and the United States",
-    "items": [
-      {
-        "quote": "We trust SERVIEXPRESS JC with our northern routes, and now with our exports as well. Always on time, with excellent tracking.",
-        "role": "Logistics & Procurement"
-      },
-      {
-        "quote": "Their GPS monitoring gives us total peace of mind. We know exactly where our freight is at all times.",
-        "role": "Supply Chain"
-      },
-      {
-        "quote": "Professionalism and personalized attention. They have been key to the growth of our business.",
-        "role": "Operations & Distribution"
-      }
-    ]
   },
   "Quote": {
     "service": {
