@@ -6,7 +6,7 @@ import { Header } from "@/components/header"
 import { HeroSection } from "@/components/hero-section"
 import { StatsSection } from "@/components/stats-section"
 import { ServicesSection } from "@/components/services-section"
-import { CoverageSection } from "@/components/coverage-section"
+import { CoverageLazy } from "@/components/coverage-lazy"
 import { CertificationsSection } from "@/components/certifications-section"
 import { TalleresSection } from "@/components/talleres-section"
 import { AboutSection } from "@/components/about-section"
@@ -29,7 +29,7 @@ export default async function LandingPage({
         <HeroSection />
         <StatsSection />
         <ServicesSection />
-        <CoverageSection />
+        <CoverageLazy />
         <CertificationsSection />
         <TalleresSection />
         <AboutSection />
