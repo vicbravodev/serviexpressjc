@@ -136,6 +136,8 @@ export function HeroSection() {
           alt="Flota de tractocamiones de ServiExpress JC en su terminal de Apodaca"
           fill
           priority
+          fetchPriority="high"
+          quality={68}
           sizes="100vw"
           className="object-cover"
         />

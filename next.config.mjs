@@ -10,6 +10,9 @@ const nextConfig = {
   images: {
     // Optimización activa (Vercel): AVIF/WebP y tamaños responsivos.
     formats: ["image/avif", "image/webp"],
+    // 68 = poster del hero (LCP más liviano); 75 = default de next/image.
+    // Next 16 exige declarar los valores de quality usados.
+    qualities: [68, 75],
   },
   // Canónico sin www: el redirect www → apex se configura a NIVEL DOMINIO en
   // Vercel (Settings → Domains: el apex sirve el sitio, www con "Redirect to"
