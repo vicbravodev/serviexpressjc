@@ -302,9 +302,10 @@ export function QuoteSimulator() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => {
-                    // Conversión Google Ads/GA4 + eventos estándar (GA4 + Vercel).
+                    // Conversión Google Ads/GA4 + eventos estándar (GA4 + Vercel + Meta Pixel).
                     trackGoogleConversion("conversion_event_request_quote")
-                    trackEvent("generate_lead", { lead_type: "quote", service, unit })
+                    // metaEventId deduplica el pixel contra la Conversions API server-side.
+                    const metaEventId = trackEvent("generate_lead", { lead_type: "quote", service, unit })
                     trackEvent("whatsapp_click", { source: "quote", service })
                     void submitLoadRequest({
                       service,
@@ -320,6 +321,7 @@ export function QuoteSimulator() {
                       contactName,
                       contactPhone,
                       locale,
+                      metaEventId,
                     })
                   }}
                 >

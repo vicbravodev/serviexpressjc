@@ -31,17 +31,19 @@ export function ApplyForm() {
     e.preventDefault()
     if (name.trim().length <= 1 || phone.trim().length < 8 || position === "" || experience === "") return
 
-    // Analytics: lead de postulación (GA4 + Vercel).
-    trackEvent("generate_lead", { lead_type: "job", position })
+    // Analytics: lead de postulación (GA4 + Vercel + Meta Pixel).
+    // metaEventId deduplica el pixel contra la Conversions API server-side.
+    const metaEventId = trackEvent("generate_lead", { lead_type: "job", position })
     trackEvent("whatsapp_click", { source: "apply" })
 
-    // Persistir (no bloquea el window.open de abajo).
+    // Persistir + CAPI (no bloquea el window.open de abajo).
     void submitApplication({
       name: name.trim(),
       phone: phone.trim(),
       position,
       experience,
       locale,
+      metaEventId,
     })
 
     const message = t("whatsappMessage", {
