@@ -2,6 +2,8 @@
 
 import { cookies } from "next/headers"
 import { createClient } from "@/utils/supabase/server"
+import { sendServerEvent } from "@/lib/meta/capi"
+import { metaRequestContext } from "@/lib/meta/request-context"
 
 export type LoadRequestInput = {
   service: string
@@ -17,6 +19,8 @@ export type LoadRequestInput = {
   contactName?: string
   contactPhone?: string
   locale: string
+  /** eventID del Pixel para deduplicar contra la Conversions API. */
+  metaEventId?: string
 }
 
 export type ApplicationInput = {
@@ -25,6 +29,8 @@ export type ApplicationInput = {
   position: string
   experience: string
   locale: string
+  /** eventID del Pixel para deduplicar contra la Conversions API. */
+  metaEventId?: string
 }
 
 export async function submitLoadRequest(input: LoadRequestInput): Promise<{ ok: boolean }> {
@@ -46,6 +52,21 @@ export async function submitLoadRequest(input: LoadRequestInput): Promise<{ ok: 
       locale: input.locale,
     })
     if (error) console.error("submitLoadRequest:", error.message)
+
+    // Meta Conversions API: Lead (server-side, deduplicado por metaEventId).
+    const { userData, eventSourceUrl } = await metaRequestContext()
+    await sendServerEvent({
+      eventName: "Lead",
+      eventId: input.metaEventId,
+      eventSourceUrl,
+      customData: { content_category: input.service },
+      userData: {
+        ...userData,
+        phone: input.contactPhone ?? null,
+        fullName: input.contactName ?? null,
+      },
+    })
+
     return { ok: !error }
   } catch (e) {
     console.error("submitLoadRequest:", e)
@@ -64,6 +85,21 @@ export async function submitApplication(input: ApplicationInput): Promise<{ ok: 
       locale: input.locale,
     })
     if (error) console.error("submitApplication:", error.message)
+
+    // Meta Conversions API: SubmitApplication (server-side, deduplicado por metaEventId).
+    const { userData, eventSourceUrl } = await metaRequestContext()
+    await sendServerEvent({
+      eventName: "SubmitApplication",
+      eventId: input.metaEventId,
+      eventSourceUrl,
+      customData: { content_category: input.position },
+      userData: {
+        ...userData,
+        phone: input.phone,
+        fullName: input.name,
+      },
+    })
+
     return { ok: !error }
   } catch (e) {
     console.error("submitApplication:", e)
