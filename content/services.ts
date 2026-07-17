@@ -19,7 +19,7 @@ export const SERVICE_PAGES: Record<string, LocalizedPage> = {
         "Movemos carga a los 32 estados de la República desde nuestra base en Apodaca, Nuevo León. Operamos con flota 100% propia —sin subcontratar tu carga— y cada unidad viaja monitoreada por GPS las 24 horas desde nuestra sala de control en Monterrey.",
         "Desde 2005 atendemos a la industria siderúrgica, agrícola, manufacturera y de distribución con servicio local, regional y de larga distancia. Si tu mercancía necesita moverse dentro de México, la llevamos de puerta a puerta.",
       ],
-      image: { src: "/fleet/carga-agricola.jpg", alt: "Unidad de ServiExpress JC transportando pacas de forraje en plataformas full por carretera mexicana" },
+      image: { src: "/fleet/transporte-nacional.jpg", alt: "Tractocamión Kenworth de ServiExpress JC con caja seca de 53 pies cargando en un andén de distribución" },
       sections: [
         {
           h2: "Cobertura en toda la República Mexicana",
@@ -96,7 +96,7 @@ export const SERVICE_PAGES: Record<string, LocalizedPage> = {
         "We haul freight to all 32 Mexican states from our terminal in Apodaca, Nuevo León — metropolitan Monterrey. We run a 100% company-owned fleet, so your freight is never brokered out, and every truck is tracked by GPS around the clock from our control room.",
         "Since 2005 we have served the steel, agricultural, manufacturing and distribution industries with local, regional and long-haul service. If your cargo moves inside Mexico, we deliver it door to door.",
       ],
-      image: { src: "/fleet/carga-agricola.jpg", alt: "ServiExpress JC truck hauling forage bales on double flatbed trailers on a Mexican highway" },
+      image: { src: "/fleet/transporte-nacional.jpg", alt: "ServiExpress JC Kenworth tractor with a 53-foot dry van loading at a distribution dock" },
       sections: [
         {
           h2: "Coverage across the Mexican Republic",
