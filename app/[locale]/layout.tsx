@@ -15,7 +15,7 @@ import { JsonLd } from "@/components/seo/json-ld"
 import "../globals.css"
 
 const GA_MEASUREMENT_ID = "G-J6RD1ZV13R"
-const META_PIXEL_ID = "1923289228312662"
+const META_PIXEL_ID = "1359979335628376"
 
 const geistSans = Geist({
   subsets: ["latin"],
