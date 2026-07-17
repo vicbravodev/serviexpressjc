@@ -43,7 +43,7 @@ export function ServicesSection() {
             <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1.5 hover:shadow-xl">
               <div className="relative aspect-[16/9] overflow-hidden">
                 <FleetImage
-                  src="/fleet/carga-agricola.jpg"
+                  src="/fleet/transporte-nacional.jpg"
                   alt={t("national.imageAlt")}
                   caption={t("national.imageCaption")}
                   className="h-full w-full transition-transform duration-500 group-hover:scale-[1.03]"
