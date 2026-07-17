@@ -14,7 +14,7 @@ import { createHash } from "node:crypto"
  */
 
 const GRAPH_VERSION = process.env.META_GRAPH_VERSION ?? "v21.0"
-const PIXEL_ID = process.env.META_PIXEL_ID ?? "1923289228312662"
+const PIXEL_ID = process.env.META_PIXEL_ID ?? "1359979335628376"
 const ACCESS_TOKEN = process.env.META_CAPI_ACCESS_TOKEN
 const TEST_EVENT_CODE = process.env.META_TEST_EVENT_CODE
 
