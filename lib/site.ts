@@ -24,8 +24,8 @@ export const contactPhone = (locale: string) =>
 
 export const CONTACT_EMAIL = "contacto@serviexpressjc.com.mx"
 
-/** Solo dígitos con código de país (formato wa.me). Confirmar con el negocio; override sin deploy vía env. */
-export const WHATSAPP_PHONE = process.env.NEXT_PUBLIC_WHATSAPP_PHONE ?? "13463669867"
+/** WhatsApp de contacto directo (México): +52 81 1524 8593. Solo dígitos con código de país (formato wa.me); override sin deploy vía env. */
+export const WHATSAPP_PHONE = process.env.NEXT_PUBLIC_WHATSAPP_PHONE ?? "5218115248593"
 
 /** WhatsApp para cotizaciones NACIONALES (México): +52 1 81 1552 6349. */
 export const WHATSAPP_PHONE_MX = process.env.NEXT_PUBLIC_WHATSAPP_PHONE_MX ?? "5218115526349"
