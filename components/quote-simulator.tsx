@@ -127,15 +127,17 @@ export function QuoteSimulator() {
       )
     : undefined
 
+  // Readout tipo panel de control: la ruta encabeza a lo ancho, las specs cortas
+  // se emparejan en dos columnas, y mercancía/distancia cierran a lo ancho.
   const summaryRows = routeReady
     ? [
-        { label: t("summary.service"), value: t(`service.${service}`) },
-        { label: t("summary.route"), value: `${originName} → ${destinationName}` },
-        { label: t("summary.unit"), value: t(`unit.${unit}`) },
-        { label: t("summary.weight"), value: t("tons", { tons }) },
-        { label: t("summary.urgency"), value: t(`urgency.${urgency}`) },
-        { label: t("summary.cargo"), value: cargoText },
-        { label: t("summary.distance"), value: t("distance", { km: distanceCountText }) },
+        { label: t("summary.route"), value: `${originName} → ${destinationName}`, wide: true },
+        { label: t("summary.service"), value: t(`service.${service}`), wide: false },
+        { label: t("summary.unit"), value: t(`unit.${unit}`), wide: false },
+        { label: t("summary.weight"), value: t("tons", { tons }), wide: false },
+        { label: t("summary.urgency"), value: t(`urgency.${urgency}`), wide: false },
+        { label: t("summary.cargo"), value: cargoText, wide: true },
+        { label: t("summary.distance"), value: t("distance", { km: distanceCountText }), wide: true },
       ]
     : []
 
@@ -329,7 +331,7 @@ export function QuoteSimulator() {
               {t("summary.title")}
             </p>
             <motion.dl
-              className="divide-y divide-border/60"
+              className="grid grid-cols-2 gap-x-6 gap-y-4"
               variants={summaryListVariants}
               initial={reduce ? false : "hidden"}
               animate="show"
@@ -338,10 +340,14 @@ export function QuoteSimulator() {
                 <motion.div
                   key={row.label}
                   variants={summaryRowVariants}
-                  className="flex items-start justify-between gap-4 py-2"
+                  className={cn("min-w-0", row.wide && "col-span-2")}
                 >
-                  <dt className="text-sm text-muted-foreground">{row.label}</dt>
-                  <dd className="text-right text-sm font-medium text-foreground">{row.value}</dd>
+                  <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                    {row.label}
+                  </dt>
+                  <dd className="mt-1 break-words text-sm font-medium leading-snug text-foreground">
+                    {row.value}
+                  </dd>
                 </motion.div>
               ))}
             </motion.dl>

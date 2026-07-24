@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { QuoteSimulator } from "@/components/quote-simulator"
 import { ApplyForm } from "@/components/apply-form"
 import { TrackedLink } from "@/components/tracked-link"
-import { Reveal, RevealGroup, RevealChild, Pressable } from "@/components/motion-primitives"
+import { RevealGroup, RevealChild, Pressable } from "@/components/motion-primitives"
 import { whatsappUrl } from "@/lib/site"
 
 export function CTASection() {
@@ -13,9 +13,9 @@ export function CTASection() {
   return (
     <section className="py-24">
       <div className="container mx-auto px-4">
-        <RevealGroup className="mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-5">
-          {/* Cotizador autoservicio */}
-          <RevealChild className="lg:col-span-3">
+        <RevealGroup className="mx-auto max-w-3xl space-y-8">
+          {/* Cotizador autoservicio — protagonista de la sección */}
+          <RevealChild>
             <Card id="cotizacion" className="scroll-mt-28 border-border p-6 shadow-none sm:p-8">
               <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
                 {t("quote.kicker")}
@@ -26,33 +26,32 @@ export function CTASection() {
             </Card>
           </RevealChild>
 
-          {/* Postulación de operadores */}
-          <RevealChild className="lg:col-span-2">
+          {/* Postulación de operadores — franja secundaria, formulario horizontal */}
+          <RevealChild>
             <Card id="postulate" className="scroll-mt-28 border-border p-6 shadow-none sm:p-8">
-              <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                {t("apply.kicker")}
-              </span>
-              <div className="mb-6 mt-2 flex items-start gap-4">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                  <Briefcase aria-hidden className="h-6 w-6 text-primary" />
+              <div className="mb-6 flex items-start gap-3">
+                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                  <Briefcase aria-hidden className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="mb-2 text-2xl font-bold">{t("apply.title")}</h3>
-                  <p className="text-muted-foreground">{t("apply.description")}</p>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                    {t("apply.kicker")}
+                  </span>
+                  <h3 className="text-xl font-bold leading-tight">{t("apply.title")}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{t("apply.description")}</p>
                 </div>
               </div>
               <ApplyForm />
             </Card>
           </RevealChild>
-        </RevealGroup>
 
-        {/* Contacto directo */}
-        <Reveal className="mt-12 text-center">
-          <Card className="surface-steel mx-auto max-w-2xl border border-white/10 p-8 text-white shadow-none">
-            <h3 className="mb-3 text-2xl font-bold">{t("whatsapp.title")}</h3>
-            <p className="mb-6 text-white/70">{t("whatsapp.description")}</p>
-            <Pressable className="inline-flex">
-              <Button size="lg" className="h-12 bg-[#25D366] text-white hover:bg-[#20BA5A]" asChild>
+          {/* Contacto directo */}
+          <RevealChild>
+            <Card className="surface-steel border border-white/10 p-8 text-center text-white shadow-none">
+              <h3 className="mb-3 text-2xl font-bold">{t("whatsapp.title")}</h3>
+              <p className="mb-6 text-white/70">{t("whatsapp.description")}</p>
+              <Pressable className="inline-flex">
+                <Button size="lg" className="h-12 bg-[#25D366] text-white hover:bg-[#20BA5A]" asChild>
                 <TrackedLink
                   href={whatsappUrl(t("whatsapp.prefill"))}
                   target="_blank"
@@ -65,10 +64,11 @@ export function CTASection() {
                   </svg>
                   {t("whatsapp.button")}
                 </TrackedLink>
-              </Button>
-            </Pressable>
-          </Card>
-        </Reveal>
+                </Button>
+              </Pressable>
+            </Card>
+          </RevealChild>
+        </RevealGroup>
       </div>
     </section>
   )
