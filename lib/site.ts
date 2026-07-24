@@ -54,12 +54,11 @@ export const LOCATION = {
 } as const
 
 /**
- * Key pública de Google Maps Embed API. Va visible en el iframe (es normal);
- * su seguridad depende de restringirla en Google Cloud por referrer HTTP y a
- * solo "Maps Embed API". Override sin deploy vía env.
+ * Key pública de Google Maps Embed API, provista vía env (definida en Vercel).
+ * Va visible en el iframe (es normal); su seguridad depende de restringirla en
+ * Google Cloud por referrer HTTP y a solo "Maps Embed API".
  */
-export const GOOGLE_MAPS_EMBED_KEY =
-  process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY ?? "AIzaSyANzhut33GBXlBcMvUzKzWORCAhG08MYdU"
+export const GOOGLE_MAPS_EMBED_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY ?? ""
 
 /** URL del iframe de embed apuntando al placeId, con idioma según locale. */
 export const mapsEmbedUrl = (locale: string) =>
