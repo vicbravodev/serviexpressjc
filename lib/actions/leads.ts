@@ -16,8 +16,8 @@ export type LoadRequestInput = {
   urgency: string
   cargo: string
   distanceKm: number | null
-  contactName?: string
-  contactPhone?: string
+  contactName: string
+  contactPhone: string
   locale: string
   /** eventID del Pixel para deduplicar contra la Conversions API. */
   metaEventId?: string
@@ -35,6 +35,14 @@ export type ApplicationInput = {
 
 export async function submitLoadRequest(input: LoadRequestInput): Promise<{ ok: boolean }> {
   try {
+    // Nombre y teléfono son obligatorios: sin contacto el lead no sirve.
+    const contactName = input.contactName?.trim() ?? ""
+    const contactPhone = input.contactPhone?.trim() ?? ""
+    if (contactName.length < 2 || contactPhone.replace(/\D/g, "").length < 8) {
+      console.error("submitLoadRequest: falta nombre o teléfono de contacto")
+      return { ok: false }
+    }
+
     const supabase = createClient(await cookies())
     const { error } = await supabase.from("load_requests").insert({
       service: input.service,
@@ -47,8 +55,8 @@ export async function submitLoadRequest(input: LoadRequestInput): Promise<{ ok: 
       urgency: input.urgency,
       cargo: input.cargo,
       distance_km: input.distanceKm,
-      contact_name: input.contactName?.trim() || null,
-      contact_phone: input.contactPhone?.trim() || null,
+      contact_name: contactName,
+      contact_phone: contactPhone,
       locale: input.locale,
     })
     if (error) console.error("submitLoadRequest:", error.message)
@@ -62,8 +70,8 @@ export async function submitLoadRequest(input: LoadRequestInput): Promise<{ ok: 
       customData: { content_category: input.service },
       userData: {
         ...userData,
-        phone: input.contactPhone ?? null,
-        fullName: input.contactName ?? null,
+        phone: contactPhone,
+        fullName: contactName,
       },
     })
 
