@@ -8,14 +8,21 @@ import {
   CONTACT_PHONE_MX,
   CONTACT_PHONE_US,
   ADDRESS,
+  LOCATION,
   SOCIAL_LINKS,
 } from "@/lib/site"
 
 /**
  * Schemas JSON-LD del sitio. Solo datos reales de lib/site.ts; los campos sin
- * dato confirmado (geo exacto, código postal, horario de oficina) se omiten
- * deliberadamente — ver SEO-CHECKLIST-POSTDEPLOY.md.
+ * dato confirmado (código postal, horario de oficina) se omiten deliberadamente
+ * — ver SEO-CHECKLIST-POSTDEPLOY.md. El geo sí está confirmado (place de Google).
  */
+
+const geoCoordinates = {
+  "@type": "GeoCoordinates",
+  latitude: LOCATION.lat,
+  longitude: LOCATION.lng,
+}
 
 const AREA_MEXICO = { "@type": "Country", name: "Mexico" }
 const AREA_USA = { "@type": "Country", name: "United States" }
@@ -83,6 +90,7 @@ export function localBusinessSchema(description: string) {
     telephone: CONTACT_PHONE_MX,
     email: CONTACT_EMAIL,
     address: postalAddress,
+    geo: geoCoordinates,
     areaServed: [AREA_MEXICO, AREA_TEXAS],
     foundingDate: String(FOUNDING_YEAR),
     sameAs: [SOCIAL_LINKS.instagram, SOCIAL_LINKS.facebook, SOCIAL_LINKS.linkedin],

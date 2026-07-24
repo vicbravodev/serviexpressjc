@@ -245,6 +245,16 @@
       "prefill": "Hola, vengo del sitio de ServiExpress JC y tengo una pregunta."
     }
   },
+  "Location": {
+    "kicker": "Ubicación",
+    "title": "Dónde estamos",
+    "description": "Nuestra sede y talleres operan desde Apodaca, Nuevo León, el corredor logístico del noreste de México hacia la frontera con Estados Unidos.",
+    "addressLine1": "Carr. Mezquital Santa Rosa 3517 Int. C",
+    "addressLine2": "Cd. Apodaca, N.L., México",
+    "mapAlt": "Mapa de la sede de ServiExpress JC en Apodaca, Nuevo León",
+    "cityCaption": "Apodaca, N.L.",
+    "directions": "Cómo llegar"
+  },
   "Footer": {
     "tagline": "Eficiencia sobre ruedas, compromiso sin fronteras",
     "quickLinksTitle": "Enlaces Rápidos",
@@ -259,8 +269,8 @@
     ],
     "servicesExtra": "Refaccionaria Los César",
     "contactTitle": "Contacto",
-    "addressLine1": "Carretera Mezquital Santa Rosa Km 05",
-    "addressLine2": "Apodaca, N.L., México",
+    "addressLine1": "Carr. Mezquital Santa Rosa 3517 Int. C",
+    "addressLine2": "Cd. Apodaca, N.L., México",
     "rights": "Todos los derechos reservados."
   }
 }

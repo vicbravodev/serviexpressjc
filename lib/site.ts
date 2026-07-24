@@ -40,11 +40,36 @@ export const whatsappUrl = (text: string, phone: string = WHATSAPP_PHONE) =>
   `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
 
 export const ADDRESS = {
-  street: "Carretera Mezquital Santa Rosa Km 05",
+  street: "Carr. Mezquital Santa Rosa 3517 Int. C",
   locality: "Apodaca",
   region: "Nuevo León",
   country: "MX",
 } as const
+
+/** Sede física verificada por Google (place único). Fuente de verdad del mapa y del geo del schema. */
+export const LOCATION = {
+  placeId: "ChIJhRqcmcPrYoYR2oaNwumNn9I",
+  lat: 25.7626695,
+  lng: -100.2333454,
+} as const
+
+/**
+ * Key pública de Google Maps Embed API. Va visible en el iframe (es normal);
+ * su seguridad depende de restringirla en Google Cloud por referrer HTTP y a
+ * solo "Maps Embed API". Override sin deploy vía env.
+ */
+export const GOOGLE_MAPS_EMBED_KEY =
+  process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY ?? "AIzaSyANzhut33GBXlBcMvUzKzWORCAhG08MYdU"
+
+/** URL del iframe de embed apuntando al placeId, con idioma según locale. */
+export const mapsEmbedUrl = (locale: string) =>
+  `https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_EMBED_KEY}` +
+  `&q=place_id:${LOCATION.placeId}&language=${locale}&region=MX`
+
+/** URL de "Cómo llegar" (direcciones) al placeId; se abre en Google Maps. */
+export const mapsDirectionsUrl = () =>
+  `https://www.google.com/maps/dir/?api=1&destination=${LOCATION.lat},${LOCATION.lng}` +
+  `&destination_place_id=${LOCATION.placeId}`
 
 export const SOCIAL_LINKS = {
   instagram: "https://instagram.com/serviexpressjc1",

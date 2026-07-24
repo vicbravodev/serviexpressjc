@@ -245,6 +245,16 @@
       "prefill": "Hi, I'm coming from the ServiExpress JC website and have a question."
     }
   },
+  "Location": {
+    "kicker": "Location",
+    "title": "Where we are",
+    "description": "Our headquarters and shops operate out of Apodaca, Nuevo León — northeastern Mexico's logistics corridor toward the U.S. border.",
+    "addressLine1": "Carr. Mezquital Santa Rosa 3517 Int. C",
+    "addressLine2": "Cd. Apodaca, N.L., Mexico",
+    "mapAlt": "Map of ServiExpress JC's headquarters in Apodaca, Nuevo León",
+    "cityCaption": "Apodaca, N.L.",
+    "directions": "Get directions"
+  },
   "Footer": {
     "tagline": "Efficiency on wheels, commitment beyond borders",
     "quickLinksTitle": "Quick Links",
@@ -259,8 +269,8 @@
     ],
     "servicesExtra": "Los César Parts Store",
     "contactTitle": "Contact",
-    "addressLine1": "Carretera Mezquital Santa Rosa Km 05",
-    "addressLine2": "Apodaca, N.L., Mexico",
+    "addressLine1": "Carr. Mezquital Santa Rosa 3517 Int. C",
+    "addressLine2": "Cd. Apodaca, N.L., Mexico",
     "rights": "All rights reserved."
   }
 }

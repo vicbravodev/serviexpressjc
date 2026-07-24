@@ -11,6 +11,7 @@ import { CertificationsSection } from "@/components/certifications-section"
 import { TalleresSection } from "@/components/talleres-section"
 import { AboutSection } from "@/components/about-section"
 import { CTASection } from "@/components/cta-section"
+import { LocationSection } from "@/components/location-section"
 import { Footer } from "@/components/footer"
 
 export default async function LandingPage({
@@ -34,6 +35,7 @@ export default async function LandingPage({
         <TalleresSection />
         <AboutSection />
         <CTASection />
+        <LocationSection />
       </main>
       <Footer />
     </div>
