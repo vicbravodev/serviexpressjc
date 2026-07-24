@@ -86,3 +86,28 @@ export function RevealChild({ children, className, as = "div" }: GroupProps) {
     </Comp>
   )
 }
+
+type PressableProps = {
+  children: ReactNode
+  className?: string
+}
+
+/**
+ * Tactile wrapper for a prominent CTA: lifts slightly on hover and dips on
+ * press. Renders inline-flex so it hugs the button it wraps. Collapses to a
+ * static element under reduced-motion.
+ */
+export function Pressable({ children, className }: PressableProps) {
+  const reduce = useReducedMotion()
+  if (reduce) return <div className={className}>{children}</div>
+  return (
+    <motion.div
+      className={className}
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.2, ease: EASE }}
+    >
+      {children}
+    </motion.div>
+  )
+}

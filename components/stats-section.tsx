@@ -1,10 +1,11 @@
 "use client"
 
 import { Clock, Truck, ShieldCheck, BadgeCheck } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
-import { motion, useInView, useReducedMotion } from "motion/react"
+import { useRef } from "react"
+import { motion, useInView } from "motion/react"
 import { useTranslations } from "next-intl"
 import { yearsInService } from "@/lib/site"
+import { useCountUp } from "@/lib/use-count-up"
 
 type Metric = {
   icon: typeof Clock
@@ -22,29 +23,6 @@ const metrics: Metric[] = [
   { icon: Truck, target: 100, suffix: "%" },
   { icon: ShieldCheck, target: null, display: "B1" },
 ]
-
-function useCountUp(target: number | null, active: boolean, duration = 1400) {
-  // SSR/HTML inicial: SIEMPRE el valor real (Google no debe indexar "0").
-  // El roll-up 0→target corre solo en cliente, como mejora visual.
-  const [value, setValue] = useState(target ?? 0)
-  const reduce = useReducedMotion()
-  useEffect(() => {
-    if (target === null || !active || reduce) return
-    let raf = 0
-    let start = 0
-    const tick = (now: number) => {
-      if (!start) start = now
-      const p = Math.min((now - start) / duration, 1)
-      // easeOutQuart for a confident, decelerating count
-      const eased = 1 - Math.pow(1 - p, 4)
-      setValue(Math.round(target * eased))
-      if (p < 1) raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [target, active, duration, reduce])
-  return value
-}
 
 function MetricCell({ metric, active, index }: { metric: Metric; active: boolean; index: number }) {
   const t = useTranslations("Stats")

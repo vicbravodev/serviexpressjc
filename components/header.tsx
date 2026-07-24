@@ -3,6 +3,14 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+  type Variants,
+} from "motion/react"
 import Link from "next/link"
 import { useLocale, useTranslations } from "next-intl"
 import { Link as LocaleLink } from "@/i18n/navigation"
@@ -12,6 +20,18 @@ import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import Image from "next/image"
 
+const EASE = [0.16, 1, 0.3, 1] as const
+
+// Menú móvil: los enlaces caen en cascada al abrir.
+const mobileNavVariants: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.05, delayChildren: 0.05 } },
+}
+const mobileItemVariants: Variants = {
+  hidden: { opacity: 0, x: -12 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.3, ease: EASE } },
+}
+
 export function Header() {
   const t = useTranslations("Header")
   // Los anclajes viven en la home: desde páginas internas se navega a /#seccion.
@@ -19,6 +39,20 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeLink, setActiveLink] = useState("")
+  const [hidden, setHidden] = useState(false)
+  const reduce = useReducedMotion()
+
+  // Auto-ocultar: el header se retira al bajar y reaparece al subir. Sobre el
+  // hero (poco scroll) o con el menú móvil abierto, siempre visible.
+  const { scrollY } = useScroll()
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0
+    if (isMobileMenuOpen || latest < 200) {
+      setHidden(false)
+      return
+    }
+    setHidden(latest > previous)
+  })
 
   useEffect(() => {
     // Drive the "scrolled" state from an off-screen sentinel rather than a
@@ -74,7 +108,10 @@ export function Header() {
   const solid = isScrolled || isMobileMenuOpen
 
   return (
-    <header
+    <motion.header
+      variants={{ visible: { y: 0 }, hidden: { y: "-100%" } }}
+      animate={reduce ? "visible" : hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.35, ease: EASE }}
       className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,box-shadow] duration-300 ease-out ${
         solid ? "bg-background/95 backdrop-blur-md shadow-md" : "bg-transparent"
       }`}
@@ -148,48 +185,65 @@ export function Header() {
         </div>
 
         {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div id="mobile-menu" className="md:hidden py-4 border-t border-border animate-slide-in">
-            <nav className="flex flex-col gap-5">
-              {navItems.map((item, index) => (
-                <Link
-                  key={item.href}
-                  href={`${home}${item.href}`}
-                  className={`relative text-base font-medium text-foreground/80 hover:text-foreground transition-colors py-3 group ${
-                    activeLink === item.href ? "text-yellow-accent" : ""
-                  }`}
-                  onClick={(e) => {
-                    handleNavClick(e, item.href)
-                    setIsMobileMenuOpen(false)
-                  }}
-                  style={{ animationDelay: `${index * 50}ms` }}
+        <AnimatePresence initial={false}>
+          {isMobileMenuOpen && (
+            <motion.div
+              id="mobile-menu"
+              className="md:hidden overflow-hidden border-t border-border"
+              initial={reduce ? false : { height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: EASE }}
+            >
+              <motion.nav
+                className="flex flex-col gap-5 py-4"
+                variants={mobileNavVariants}
+                initial={reduce ? false : "hidden"}
+                animate="show"
+              >
+                {navItems.map((item) => (
+                  <motion.div key={item.href} variants={mobileItemVariants}>
+                    <Link
+                      href={`${home}${item.href}`}
+                      className={`relative block text-base font-medium text-foreground/80 hover:text-foreground transition-colors py-3 group ${
+                        activeLink === item.href ? "text-yellow-accent" : ""
+                      }`}
+                      onClick={(e) => {
+                        handleNavClick(e, item.href)
+                        setIsMobileMenuOpen(false)
+                      }}
+                    >
+                      {item.label}
+                      <span
+                        className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-yellow-accent rounded-r transition-opacity ${
+                          activeLink === item.href ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                        }`}
+                      />
+                    </Link>
+                  </motion.div>
+                ))}
+                <motion.div
+                  variants={mobileItemVariants}
+                  className="flex flex-col gap-3 pt-4 border-t border-border"
                 >
-                  {item.label}
-                  <span
-                    className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-yellow-accent rounded-r transition-opacity ${
-                      activeLink === item.href ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-                    }`}
-                  />
-                </Link>
-              ))}
-              <div className="flex flex-col gap-3 pt-4 border-t border-border">
-                <LanguageSwitcher solid />
-                <Button
-                  variant="outline"
-                  size="lg"
-                  asChild
-                  className="hover:border-yellow-accent hover:text-yellow-accent bg-transparent"
-                >
-                  <Link href={`${home}#postulate`}>{t("apply")}</Link>
-                </Button>
-                <Button size="lg" asChild className="bg-secondary hover:bg-secondary/90">
-                  <Link href={`${home}#cotizacion`}>{t("quote")}</Link>
-                </Button>
-              </div>
-            </nav>
-          </div>
-        )}
+                  <LanguageSwitcher solid />
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    asChild
+                    className="hover:border-yellow-accent hover:text-yellow-accent bg-transparent"
+                  >
+                    <Link href={`${home}#postulate`}>{t("apply")}</Link>
+                  </Button>
+                  <Button size="lg" asChild className="bg-secondary hover:bg-secondary/90">
+                    <Link href={`${home}#cotizacion`}>{t("quote")}</Link>
+                  </Button>
+                </motion.div>
+              </motion.nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </header>
+    </motion.header>
   )
 }

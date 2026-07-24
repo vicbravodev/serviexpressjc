@@ -1,8 +1,10 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
+import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react"
 import { useLocale, useTranslations } from "next-intl"
 import { MessageCircle, Phone } from "lucide-react"
+import { useCountUp } from "@/lib/use-count-up"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -21,6 +23,17 @@ const URGENCIES: Urgency[] = ["normal", "urgente"]
 
 /** Internacional (MX → USA) tope a 20 t; nacional permite hasta 35 t. */
 const maxTonsFor = (service: ServiceType) => (service === "internacional" ? 20 : 35)
+
+const EASE = [0.16, 1, 0.3, 1] as const
+// Filas del resumen entran escalonadas cuando aparece el bloque.
+const summaryListVariants: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.05 } },
+}
+const summaryRowVariants: Variants = {
+  hidden: { opacity: 0, y: 8 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE } },
+}
 
 export function QuoteSimulator() {
   const t = useTranslations("Quote")
@@ -79,10 +92,17 @@ export function QuoteSimulator() {
     }
   }, [routeReady, service])
 
+  const reduce = useReducedMotion()
+
   const originName = cityById(originId)?.name ?? ""
   const destinationName = cityById(destinationId)?.name ?? ""
   const cargoText = cargo.trim() || t("cargo.unspecified")
   const distanceText = distanceKm !== null ? distanceKm.toLocaleString(locale === "es" ? "es-MX" : "en-US") : ""
+
+  // Distancia con roll-up al fijar/cambiar de ruta (solo display; el mensaje de
+  // WhatsApp usa siempre el valor final `distanceText`).
+  const distanceCount = useCountUp(distanceKm, routeReady, 900)
+  const distanceCountText = distanceCount.toLocaleString(locale === "es" ? "es-MX" : "en-US")
 
   // Nacional → WhatsApp México; internacional (rutas a USA) → WhatsApp USA.
   const whatsappPhone = service === "nacional" ? WHATSAPP_PHONE_MX : WHATSAPP_PHONE_US
@@ -115,7 +135,7 @@ export function QuoteSimulator() {
         { label: t("summary.weight"), value: t("tons", { tons }) },
         { label: t("summary.urgency"), value: t(`urgency.${urgency}`) },
         { label: t("summary.cargo"), value: cargoText },
-        { label: t("summary.distance"), value: t("distance", { km: distanceText }) },
+        { label: t("summary.distance"), value: t("distance", { km: distanceCountText }) },
       ]
     : []
 
@@ -295,23 +315,51 @@ export function QuoteSimulator() {
 
       {/* Recopilado de la solicitud (sin precios) */}
       <div className="rounded-xl border border-border bg-muted/40 p-6">
-        {routeReady ? (
-          <div className="space-y-4">
+        <AnimatePresence mode="wait" initial={false}>
+          {routeReady ? (
+          <motion.div
+            key="summary"
+            className="space-y-4"
+            initial={reduce ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduce ? undefined : { opacity: 0, y: -8 }}
+            transition={{ duration: 0.35, ease: EASE }}
+          >
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
               {t("summary.title")}
             </p>
-            <dl className="divide-y divide-border/60">
+            <motion.dl
+              className="divide-y divide-border/60"
+              variants={summaryListVariants}
+              initial={reduce ? false : "hidden"}
+              animate="show"
+            >
               {summaryRows.map((row) => (
-                <div key={row.label} className="flex items-start justify-between gap-4 py-2">
+                <motion.div
+                  key={row.label}
+                  variants={summaryRowVariants}
+                  className="flex items-start justify-between gap-4 py-2"
+                >
                   <dt className="text-sm text-muted-foreground">{row.label}</dt>
                   <dd className="text-right text-sm font-medium text-foreground">{row.value}</dd>
-                </div>
+                </motion.div>
               ))}
-            </dl>
+            </motion.dl>
             <p className="text-sm leading-relaxed text-muted-foreground">{t("summaryNote")}</p>
-            {!contactValid && (
-              <p className="text-sm font-medium leading-relaxed text-secondary">{t("contact.required")}</p>
-            )}
+            <AnimatePresence initial={false}>
+              {!contactValid && (
+                <motion.p
+                  key="contact-required"
+                  initial={reduce ? false : { opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={reduce ? { opacity: 0 } : { opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3, ease: EASE }}
+                  className="overflow-hidden text-sm font-medium leading-relaxed text-secondary"
+                >
+                  {t("contact.required")}
+                </motion.p>
+              )}
+            </AnimatePresence>
             <div className="flex flex-col gap-3 sm:flex-row">
               {contactValid ? (
                 <Button size="lg" className="h-12 bg-secondary hover:bg-secondary/90 sm:flex-1" asChild>
@@ -368,10 +416,20 @@ export function QuoteSimulator() {
                 </a>
               </Button>
             </div>
-          </div>
-        ) : (
-          <p className="text-sm leading-relaxed text-muted-foreground">{t("empty")}</p>
-        )}
+          </motion.div>
+          ) : (
+            <motion.p
+              key="empty"
+              initial={reduce ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={reduce ? undefined : { opacity: 0 }}
+              transition={{ duration: 0.25, ease: EASE }}
+              className="text-sm leading-relaxed text-muted-foreground"
+            >
+              {t("empty")}
+            </motion.p>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   )

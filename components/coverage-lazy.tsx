@@ -2,6 +2,9 @@
 
 import dynamic from "next/dynamic"
 import { useEffect, useRef, useState } from "react"
+import { motion, useReducedMotion } from "motion/react"
+
+const EASE = [0.16, 1, 0.3, 1] as const
 
 // El mapa de cobertura arrastra ~225 KB de geometría SVG + framer-motion y vive
 // muy por debajo del pliegue. Se carga en un chunk aparte (ssr:false) y solo
@@ -44,12 +47,27 @@ export function CoverageLazy() {
     return () => io.disconnect()
   }, [])
 
-  if (show) return <CoverageSection />
+  const reduce = useReducedMotion()
+
+  if (show) {
+    // El mapa real entra desde el shimmer con un fade + lift sutil (o directo
+    // bajo reduced-motion). Ocupa el mismo espacio que reservaba el placeholder.
+    if (reduce) return <CoverageSection />
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: EASE }}
+      >
+        <CoverageSection />
+      </motion.div>
+    )
+  }
 
   return (
     <section id="cobertura" ref={ref} aria-busy="true" className="py-24">
       <div className="container mx-auto px-4">
-        <div className="min-h-[600px] rounded-2xl border border-white/10 surface-steel animate-pulse" />
+        <div className="min-h-[600px] rounded-2xl border border-white/10 surface-steel animate-shimmer" />
       </div>
     </section>
   )
