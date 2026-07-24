@@ -182,10 +182,11 @@
       "unspecified": "Sin especificar"
     },
     "contact": {
-      "nameLabel": "Nombre (opcional)",
+      "nameLabel": "Nombre de contacto",
       "namePh": "Ej. Juan Pérez",
-      "phoneLabel": "Teléfono (opcional)",
-      "phonePh": "Ej. 81 1234 5678"
+      "phoneLabel": "Teléfono de contacto",
+      "phonePh": "Ej. 81 1234 5678",
+      "required": "Ingresa tu nombre y teléfono para enviar la solicitud."
     },
     "summary": {
       "title": "Resumen de tu solicitud",
@@ -201,7 +202,7 @@
     "summaryNote": "Con estos datos un agente prepara tu cotización y te la envía por WhatsApp.",
     "empty": "Completa tu ruta para armar el resumen de tu solicitud.",
     "send": "Enviar solicitud por WhatsApp",
-    "whatsappMessage": "Hola, quiero solicitar una cotización con estos datos:\n· Servicio: {service}\n· Ruta: {origin} → {destination}\n· Unidad: {unit}\n· Peso: {tons} t\n· Urgencia: {urgency}\n· Mercancía: {cargo}\n· Distancia aprox.: {distance} km por carretera\n¿Me ayudan con la cotización?"
+    "whatsappMessage": "Hola, quiero solicitar una cotización con estos datos:\n· Nombre: {name}\n· Teléfono: {phone}\n· Servicio: {service}\n· Ruta: {origin} → {destination}\n· Unidad: {unit}\n· Peso: {tons} t\n· Urgencia: {urgency}\n· Mercancía: {cargo}\n· Distancia aprox.: {distance} km por carretera\n¿Me ayudan con la cotización?"
   },
   "CTA": {
     "quote": {

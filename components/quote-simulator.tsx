@@ -59,17 +59,25 @@ export function QuoteSimulator() {
     [originId, destinationId],
   )
 
-  // El recopilado está listo cuando hay ruta válida (origen ≠ destino).
-  const ready = Boolean(destinationId && distanceKm !== null)
+  // El resumen se arma cuando hay ruta válida (origen ≠ destino).
+  const routeReady = Boolean(destinationId && distanceKm !== null)
+
+  // Nombre y teléfono son obligatorios para enviar la solicitud (sin ellos el
+  // lead no sirve para dar seguimiento).
+  const contactValid =
+    contactName.trim().length > 1 && contactPhone.replace(/\D/g, "").length >= 8
+
+  // Listo para enviar: ruta válida + contacto completo.
+  const ready = routeReady && contactValid
 
   // Funnel: registra una sola vez cuando el visitante arma una ruta válida.
   const quoteReadyFired = useRef(false)
   useEffect(() => {
-    if (ready && !quoteReadyFired.current) {
+    if (routeReady && !quoteReadyFired.current) {
       quoteReadyFired.current = true
       trackEvent("quote_ready", { service })
     }
-  }, [ready, service])
+  }, [routeReady, service])
 
   const originName = cityById(originId)?.name ?? ""
   const destinationName = cityById(destinationId)?.name ?? ""
@@ -92,12 +100,14 @@ export function QuoteSimulator() {
           urgency: t(`urgency.${urgency}`),
           cargo: cargoText,
           distance: distanceText,
+          name: contactName.trim(),
+          phone: contactPhone.trim(),
         }),
         whatsappPhone,
       )
     : undefined
 
-  const summaryRows = ready
+  const summaryRows = routeReady
     ? [
         { label: t("summary.service"), value: t(`service.${service}`) },
         { label: t("summary.route"), value: `${originName} → ${destinationName}` },
@@ -250,12 +260,14 @@ export function QuoteSimulator() {
         />
       </div>
 
-      {/* Contacto (opcional) para seguimiento */}
+      {/* Contacto (obligatorio) para dar seguimiento al lead */}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="quote-contact-name">{t("contact.nameLabel")}</Label>
           <Input
             id="quote-contact-name"
+            required
+            aria-required="true"
             value={contactName}
             onChange={(e) => setContactName(e.target.value)}
             placeholder={t("contact.namePh")}
@@ -269,6 +281,8 @@ export function QuoteSimulator() {
           <Input
             id="quote-contact-phone"
             type="tel"
+            required
+            aria-required="true"
             value={contactPhone}
             onChange={(e) => setContactPhone(e.target.value)}
             placeholder={t("contact.phonePh")}
@@ -281,7 +295,7 @@ export function QuoteSimulator() {
 
       {/* Recopilado de la solicitud (sin precios) */}
       <div className="rounded-xl border border-border bg-muted/40 p-6">
-        {ready ? (
+        {routeReady ? (
           <div className="space-y-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
               {t("summary.title")}
@@ -295,40 +309,55 @@ export function QuoteSimulator() {
               ))}
             </dl>
             <p className="text-sm leading-relaxed text-muted-foreground">{t("summaryNote")}</p>
+            {!contactValid && (
+              <p className="text-sm font-medium leading-relaxed text-secondary">{t("contact.required")}</p>
+            )}
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" className="h-12 bg-secondary hover:bg-secondary/90 sm:flex-1" asChild>
-                <a
-                  href={whatsappHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => {
-                    // Conversión Google Ads/GA4 + eventos estándar (GA4 + Vercel + Meta Pixel).
-                    trackGoogleConversion("conversion_event_request_quote")
-                    // metaEventId deduplica el pixel contra la Conversions API server-side.
-                    const metaEventId = trackEvent("generate_lead", { lead_type: "quote", service, unit })
-                    trackEvent("whatsapp_click", { source: "quote", service })
-                    void submitLoadRequest({
-                      service,
-                      originId,
-                      originName,
-                      destinationId,
-                      destinationName,
-                      unit,
-                      tons,
-                      urgency,
-                      cargo: cargoText,
-                      distanceKm,
-                      contactName,
-                      contactPhone,
-                      locale,
-                      metaEventId,
-                    })
-                  }}
+              {contactValid ? (
+                <Button size="lg" className="h-12 bg-secondary hover:bg-secondary/90 sm:flex-1" asChild>
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                      // Conversión Google Ads/GA4 + eventos estándar (GA4 + Vercel + Meta Pixel).
+                      trackGoogleConversion("conversion_event_request_quote")
+                      // metaEventId deduplica el pixel contra la Conversions API server-side.
+                      const metaEventId = trackEvent("generate_lead", { lead_type: "quote", service, unit })
+                      trackEvent("whatsapp_click", { source: "quote", service })
+                      void submitLoadRequest({
+                        service,
+                        originId,
+                        originName,
+                        destinationId,
+                        destinationName,
+                        unit,
+                        tons,
+                        urgency,
+                        cargo: cargoText,
+                        distanceKm,
+                        contactName,
+                        contactPhone,
+                        locale,
+                        metaEventId,
+                      })
+                    }}
+                  >
+                    <MessageCircle aria-hidden className="mr-2 h-5 w-5" />
+                    {t("send")}
+                  </a>
+                </Button>
+              ) : (
+                <Button
+                  size="lg"
+                  disabled
+                  className="h-12 bg-secondary sm:flex-1"
+                  aria-label={t("contact.required")}
                 >
                   <MessageCircle aria-hidden className="mr-2 h-5 w-5" />
                   {t("send")}
-                </a>
-              </Button>
+                </Button>
+              )}
               <Button size="lg" variant="outline" className="h-12 bg-transparent" asChild>
                 <a
                   href={`tel:${phone.tel}`}

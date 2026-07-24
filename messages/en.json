@@ -182,10 +182,11 @@
       "unspecified": "Not specified"
     },
     "contact": {
-      "nameLabel": "Name (optional)",
+      "nameLabel": "Contact name",
       "namePh": "e.g. John Doe",
-      "phoneLabel": "Phone (optional)",
-      "phonePh": "e.g. +1 346 366 9867"
+      "phoneLabel": "Contact phone",
+      "phonePh": "e.g. +1 346 366 9867",
+      "required": "Enter your name and phone to send the request."
     },
     "summary": {
       "title": "Your request summary",
@@ -201,7 +202,7 @@
     "summaryNote": "With these details an agent prepares your quote and sends it to you on WhatsApp.",
     "empty": "Complete your lane to build your request summary.",
     "send": "Send request on WhatsApp",
-    "whatsappMessage": "Hi, I'd like to request a quote with these details:\n· Service: {service}\n· Lane: {origin} → {destination}\n· Equipment: {unit}\n· Weight: {tons} t\n· Urgency: {urgency}\n· Cargo: {cargo}\n· Approx. distance: {distance} km by road\nCan you help me with the quote?"
+    "whatsappMessage": "Hi, I'd like to request a quote with these details:\n· Name: {name}\n· Phone: {phone}\n· Service: {service}\n· Lane: {origin} → {destination}\n· Equipment: {unit}\n· Weight: {tons} t\n· Urgency: {urgency}\n· Cargo: {cargo}\n· Approx. distance: {distance} km by road\nCan you help me with the quote?"
   },
   "CTA": {
     "quote": {
