@@ -36,6 +36,9 @@ export const WHATSAPP_PHONE_US = process.env.NEXT_PUBLIC_WHATSAPP_PHONE_US ?? "1
 /** WhatsApp para POSTULACIONES de operadores (México): +52 81 1524 8593. */
 export const WHATSAPP_PHONE_JOBS = process.env.NEXT_PUBLIC_WHATSAPP_PHONE_JOBS ?? "5218115248593"
 
+/** WhatsApp para SOCIOS COMERCIALES (México): +52 812 416 9848. */
+export const WHATSAPP_PHONE_PARTNERS = process.env.NEXT_PUBLIC_WHATSAPP_PHONE_PARTNERS ?? "528124169848"
+
 export const whatsappUrl = (text: string, phone: string = WHATSAPP_PHONE) =>
   `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
 
