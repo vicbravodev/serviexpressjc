@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { WHATSAPP_PHONE_JOBS, whatsappUrl } from "@/lib/site"
 import { submitPartnerLead } from "@/lib/actions/leads"
-import { trackEvent } from "@/lib/analytics"
+import { trackEvent, trackGoogleConversion } from "@/lib/analytics"
 
 const UNIT_TYPES = ["tractor", "plataforma", "ambos"] as const
 type UnitType = (typeof UNIT_TYPES)[number]
@@ -28,6 +28,8 @@ export function PartnerLeadForm() {
     e.preventDefault()
     if (name.trim().length <= 1 || phone.trim().length < 8 || unitType === "") return
 
+    // Conversión Google Ads: acción distinta a la del cotizador (ver lib/analytics.ts).
+    trackGoogleConversion("conversion_event_partner_lead")
     const metaEventId = trackEvent("generate_lead", { lead_type: "partner", unit_type: unitType })
     trackEvent("whatsapp_click", { source: "partners" })
 
