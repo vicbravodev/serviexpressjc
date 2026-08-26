@@ -272,5 +272,58 @@
     "addressLine1": "Carr. Mezquital Santa Rosa 3517 Int. C",
     "addressLine2": "Cd. Apodaca, N.L., México",
     "rights": "Todos los derechos reservados."
+  },
+  "Partners": {
+    "metaTitle": "Socios Comerciales · JC Serviexpress",
+    "metaDescription": "Únete como Socio Comercial de JC Serviexpress: grúas y lavados gratis, financiamiento de diésel, talleres propios, renta con opción a compra y rutas constantes. Aplica hoy.",
+    "hero": {
+      "kicker": "Socios comerciales",
+      "titleLead": "Súmate como Socio Comercial de",
+      "titleAccent": "JC Serviexpress",
+      "subtitle": "Si tienes tu propio tractocamión o plataforma, únete a nuestra red de socios comerciales y accede a beneficios reales: grúas y lavados gratis, financiamiento de diésel, talleres propios, tarifas competitivas y rutas constantes.",
+      "cta": "Quiero ser socio",
+      "statYears": "{years} años operando",
+      "statWorkshops": "5 talleres propios"
+    },
+    "benefits": {
+      "kicker": "Lo que ganas",
+      "title": "Beneficios de ser Socio Comercial",
+      "subtitle": "Esto es lo que obtienes al sumar tu unidad a la flota de JC Serviexpress.",
+      "items": [
+        { "title": "2 grúas gratis al año", "description": "Asistencia vial sin costo, dos veces por unidad cada año." },
+        { "title": "Un lavado gratis al año", "description": "Un lavado completo de tu unidad, por cortesía, cada año." },
+        { "title": "Renta de plataformas", "description": "Accede a plataformas en renta cuando las necesites, sin comprar una unidad extra." },
+        { "title": "Financiamiento de diésel", "description": "Apoyo para financiar el combustible de tus viajes." },
+        { "title": "Talleres propios para tractor y plataforma", "description": "Nuestros 5 talleres dan mantenimiento a tu tractocamión y a tu plataforma." },
+        { "title": "$5,000 + IVA por viaje", "description": "Tarifa competitiva y clara por cada viaje realizado." },
+        { "title": "Renta con opción a compra", "description": "Consigue tractocamión o plataforma en renta con opción a compra." },
+        { "title": "Ruta local y regional", "description": "Trabaja en rutas locales y regionales, sin salir de tu zona si así lo prefieres." },
+        { "title": "Apoyo en viajes de Ternium", "description": "Respaldo directo de Ternium en los viajes que operas para ellos." },
+        { "title": "Viajes foráneos en bodegas y maquilas", "description": "Cargas foráneas en bodegas y maquilas para que tu unidad nunca se detenga." }
+      ]
+    },
+    "requirements": {
+      "kicker": "Requisito",
+      "title": "Lo único que pedimos",
+      "items": ["Tractocamión modelo 2010 en adelante."]
+    },
+    "form": {
+      "kicker": "Da el siguiente paso",
+      "title": "Solicita tu afiliación",
+      "description": "Déjanos tus datos: un asesor de RH te contacta por WhatsApp para revisar tu unidad y arrancar el proceso.",
+      "name": "Nombre completo",
+      "namePh": "Ej. Juan Pérez",
+      "phone": "Teléfono",
+      "phonePh": "Ej. 81 1234 5678",
+      "unitType": "¿Con qué unidad cuentas?",
+      "unitTypePh": "Elige una opción",
+      "unitTypes": {
+        "tractor": "Tractocamión",
+        "plataforma": "Plataforma",
+        "ambos": "Tractocamión y plataforma"
+      },
+      "submit": "Enviar por WhatsApp",
+      "whatsappMessage": "Hola, soy {name} ({phone}). Quiero ser Socio Comercial de JC Serviexpress. Cuento con: {unitType}."
+    }
   }
 }

@@ -3,7 +3,7 @@
 import { type ReactNode } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { FileText, LayoutDashboard, LogOut, Shield, Users } from "lucide-react"
+import { FileText, Handshake, LayoutDashboard, LogOut, Shield, Users } from "lucide-react"
 import { signOut } from "@/lib/actions/auth"
 import { folio, initials } from "@/lib/admin/meta"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -34,7 +34,7 @@ import {
 
 type Props = {
   user: { email: string; role: "admin" | "user" }
-  counts: { newLeads: number; newApplications: number | null }
+  counts: { newLeads: number; newApplications: number | null; newPartners: number }
   children: ReactNode
 }
 
@@ -42,7 +42,13 @@ const SECTION_TITLES: Record<string, string> = {
   "": "Tablero",
   leads: "Cotizaciones",
   postulaciones: "Postulaciones",
+  socios: "Socios comerciales",
   usuarios: "Usuarios",
+}
+
+const FOLIO_PREFIX: Record<string, "COT" | "POS" | "SOC"> = {
+  postulaciones: "POS",
+  socios: "SOC",
 }
 
 export function AdminShell({ user, counts, children }: Props) {
@@ -53,7 +59,7 @@ export function AdminShell({ user, counts, children }: Props) {
   const userName = user.email.split("@")[0].replace(/[.\-_]/g, " ")
 
   const crumbTitle = SECTION_TITLES[section] ?? "Tablero"
-  const detailFolio = detailId ? folio(section === "postulaciones" ? "POS" : "COT", detailId) : null
+  const detailFolio = detailId ? folio(FOLIO_PREFIX[section] ?? "COT", detailId) : null
 
   return (
     <SidebarProvider>
@@ -93,6 +99,15 @@ export function AdminShell({ user, counts, children }: Props) {
                       <FileText />
                       <span>Cotizaciones</span>
                       <span className="ml-auto font-mono text-xs text-muted-foreground">{counts.newLeads}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive={section === "socios"}>
+                    <Link href="/admin/socios">
+                      <Handshake />
+                      <span>Socios comerciales</span>
+                      <span className="ml-auto font-mono text-xs text-muted-foreground">{counts.newPartners}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

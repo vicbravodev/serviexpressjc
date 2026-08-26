@@ -33,6 +33,15 @@ export type ApplicationInput = {
   metaEventId?: string
 }
 
+export type PartnerLeadInput = {
+  name: string
+  phone: string
+  unitType: string
+  locale: string
+  /** eventID del Pixel para deduplicar contra la Conversions API. */
+  metaEventId?: string
+}
+
 export async function submitLoadRequest(input: LoadRequestInput): Promise<{ ok: boolean }> {
   try {
     // Nombre y teléfono son obligatorios: sin contacto el lead no sirve.
@@ -111,6 +120,38 @@ export async function submitApplication(input: ApplicationInput): Promise<{ ok: 
     return { ok: !error }
   } catch (e) {
     console.error("submitApplication:", e)
+    return { ok: false }
+  }
+}
+
+export async function submitPartnerLead(input: PartnerLeadInput): Promise<{ ok: boolean }> {
+  try {
+    const supabase = createClient(await cookies())
+    const { error } = await supabase.from("partner_leads").insert({
+      name: input.name.trim(),
+      phone: input.phone.trim(),
+      unit_type: input.unitType,
+      locale: input.locale,
+    })
+    if (error) console.error("submitPartnerLead:", error.message)
+
+    // Meta Conversions API: Lead (server-side, deduplicado por metaEventId).
+    const { userData, eventSourceUrl } = await metaRequestContext()
+    await sendServerEvent({
+      eventName: "Lead",
+      eventId: input.metaEventId,
+      eventSourceUrl,
+      customData: { content_category: "socio_comercial" },
+      userData: {
+        ...userData,
+        phone: input.phone,
+        fullName: input.name,
+      },
+    })
+
+    return { ok: !error }
+  } catch (e) {
+    console.error("submitPartnerLead:", e)
     return { ok: false }
   }
 }

@@ -272,5 +272,58 @@
     "addressLine1": "Carr. Mezquital Santa Rosa 3517 Int. C",
     "addressLine2": "Cd. Apodaca, N.L., Mexico",
     "rights": "All rights reserved."
+  },
+  "Partners": {
+    "metaTitle": "Business Partners · JC Serviexpress",
+    "metaDescription": "Join as a Business Partner of JC Serviexpress: free towing and washes, diesel financing, in-house shops, rent-to-own and steady routes. Apply today.",
+    "hero": {
+      "kicker": "Business partners",
+      "titleLead": "Become a Business Partner of",
+      "titleAccent": "JC Serviexpress",
+      "subtitle": "If you own your tractor-trailer or flatbed, join our partner network and get real benefits: free towing and washes, diesel financing, in-house shops, competitive rates and steady routes.",
+      "cta": "I want to become a partner",
+      "statYears": "{years} years in operation",
+      "statWorkshops": "5 in-house shops"
+    },
+    "benefits": {
+      "kicker": "What you get",
+      "title": "Business Partner benefits",
+      "subtitle": "This is what you get by adding your unit to the JC Serviexpress fleet.",
+      "items": [
+        { "title": "2 free tows per year", "description": "Free roadside towing assistance, twice a year per unit." },
+        { "title": "One free wash per year", "description": "A full wash for your unit, on us, every year." },
+        { "title": "Flatbed rentals", "description": "Rent a flatbed whenever you need one, no extra unit required." },
+        { "title": "Diesel financing", "description": "Support to finance the diesel for your trips." },
+        { "title": "In-house shops for tractor and flatbed", "description": "Our 5 in-house shops maintain both your tractor and your flatbed." },
+        { "title": "$5,000 MXN + VAT per trip", "description": "Clear, competitive pay for every trip completed." },
+        { "title": "Rent-to-own", "description": "Get a tractor or flatbed on a rent-to-own plan." },
+        { "title": "Local and regional routes", "description": "Work local and regional routes, close to home if you prefer." },
+        { "title": "Ternium trip support", "description": "Direct backing from Ternium on the trips you run for them." },
+        { "title": "Out-of-town loads in warehouses and maquilas", "description": "Out-of-town loads in warehouses and maquilas so your unit never stops." }
+      ]
+    },
+    "requirements": {
+      "kicker": "Requirement",
+      "title": "The only thing we ask",
+      "items": ["Tractor model year 2010 or newer."]
+    },
+    "form": {
+      "kicker": "Take the next step",
+      "title": "Apply to join",
+      "description": "Leave your info and an HR advisor will reach out on WhatsApp to review your unit and get the process started.",
+      "name": "Full name",
+      "namePh": "E.g. John Smith",
+      "phone": "Phone",
+      "phonePh": "E.g. 81 1234 5678",
+      "unitType": "What unit do you have?",
+      "unitTypePh": "Choose an option",
+      "unitTypes": {
+        "tractor": "Tractor",
+        "plataforma": "Flatbed",
+        "ambos": "Tractor and flatbed"
+      },
+      "submit": "Send via WhatsApp",
+      "whatsappMessage": "Hi, I'm {name} ({phone}). I want to become a Business Partner of JC Serviexpress. I have: {unitType}."
+    }
   }
 }
