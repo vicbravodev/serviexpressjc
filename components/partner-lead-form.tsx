@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { WHATSAPP_PHONE_JOBS, whatsappUrl } from "@/lib/site"
+import { WHATSAPP_PHONE_PARTNERS, whatsappUrl } from "@/lib/site"
 import { submitPartnerLead } from "@/lib/actions/leads"
 import { trackEvent, trackGoogleConversion } from "@/lib/analytics"
 
@@ -46,7 +46,7 @@ export function PartnerLeadForm() {
       phone: phone.trim(),
       unitType: t(`unitTypes.${unitType}`),
     })
-    window.open(whatsappUrl(message, WHATSAPP_PHONE_JOBS), "_blank", "noopener,noreferrer")
+    window.open(whatsappUrl(message, WHATSAPP_PHONE_PARTNERS), "_blank", "noopener,noreferrer")
   }
 
   return (
