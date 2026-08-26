@@ -18,7 +18,7 @@ export default async function AdminHome() {
   monthStart.setDate(1)
   monthStart.setHours(0, 0, 0, 0)
 
-  const [{ count: newLeads }, { count: contacted }, { count: inProgress }, { count: wonMonth }, { data: recent }] =
+  const [{ count: newLeads }, { count: contacted }, { count: inProgress }, { count: wonMonth }, { count: newPartners }, { data: recent }] =
     await Promise.all([
       supabase.from("load_requests").select("*", { count: "exact", head: true }).eq("status", "new"),
       supabase.from("load_requests").select("*", { count: "exact", head: true }).eq("status", "contacted"),
@@ -28,6 +28,7 @@ export default async function AdminHome() {
         .select("*", { count: "exact", head: true })
         .eq("status", "won")
         .gte("updated_at", monthStart.toISOString()),
+      supabase.from("partner_leads").select("*", { count: "exact", head: true }).eq("status", "new"),
       supabase
         .from("load_requests")
         .select("id, origin_name, destination_name, contact_name, contact_phone, status")
@@ -48,6 +49,7 @@ export default async function AdminHome() {
     { label: "COTIZACIONES NUEVAS", value: newLeads ?? 0 },
     { label: "EN SEGUIMIENTO", value: (contacted ?? 0) + (inProgress ?? 0) },
     { label: "GANADAS ESTE MES", value: wonMonth ?? 0 },
+    { label: "SOCIOS NUEVOS", value: newPartners ?? 0 },
   ]
   if (newApplications !== null) stats.push({ label: "POSTULACIONES NUEVAS", value: newApplications })
 
@@ -112,6 +114,9 @@ export default async function AdminHome() {
             <div className="flex flex-col gap-2">
               <Button variant="outline" asChild>
                 <Link href="/admin/leads">Revisar cotizaciones</Link>
+              </Button>
+              <Button variant="outline" asChild>
+                <Link href="/admin/socios">Revisar solicitudes de socios</Link>
               </Button>
               {isAdmin ? (
                 <>

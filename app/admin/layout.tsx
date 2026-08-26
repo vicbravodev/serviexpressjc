@@ -33,10 +33,10 @@ export default async function AdminLayout({ children }: { children: ReactNode })
   }
 
   const supabase = createClient(await cookies())
-  const { count: newLeads } = await supabase
-    .from("load_requests")
-    .select("*", { count: "exact", head: true })
-    .eq("status", "new")
+  const [{ count: newLeads }, { count: newPartners }] = await Promise.all([
+    supabase.from("load_requests").select("*", { count: "exact", head: true }).eq("status", "new"),
+    supabase.from("partner_leads").select("*", { count: "exact", head: true }).eq("status", "new"),
+  ])
   let newApplications: number | null = null
   if (claims.role === "admin") {
     const { count } = await supabase
@@ -51,7 +51,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
       <body className="font-sans antialiased">
         <AdminShell
           user={{ email: claims.email, role: claims.role as "admin" | "user" }}
-          counts={{ newLeads: newLeads ?? 0, newApplications }}
+          counts={{ newLeads: newLeads ?? 0, newApplications, newPartners: newPartners ?? 0 }}
         >
           {children}
         </AdminShell>

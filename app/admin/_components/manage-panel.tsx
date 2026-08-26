@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react"
 import { toast } from "sonner"
-import { addNote, updateApplicationStatus, updateAssignee, updateLeadStatus } from "@/lib/actions/admin"
+import { addNote, updateApplicationStatus, updateAssignee, updateLeadStatus, updatePartnerStatus } from "@/lib/actions/admin"
 import {
   applicationStatusMeta,
   APPLICATION_STATUSES,
@@ -31,7 +31,7 @@ import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 
 type Props = {
-  kind: "lead" | "application"
+  kind: "lead" | "application" | "partner"
   id: string
   status: string
   assigneeId: string | null
@@ -45,15 +45,16 @@ export function ManagePanel({ kind, id, status, assigneeId, staff }: Props) {
   const [motivo, setMotivo] = useState("")
   const [pendingStatus, setPendingStatus] = useState<string | null>(null)
 
-  const entityType = kind === "lead" ? "load_request" : "job_application"
-  const statuses = kind === "lead" ? LEAD_STATUSES : APPLICATION_STATUSES
-  const metaOf = kind === "lead" ? leadStatusMeta : applicationStatusMeta
-  const needsMotivo = (s: string) => (kind === "lead" ? s === "lost" : s === "rejected")
+  const entityType = kind === "lead" ? "load_request" : kind === "partner" ? "partner_lead" : "job_application"
+  const statuses = kind === "application" ? APPLICATION_STATUSES : LEAD_STATUSES
+  const metaOf = kind === "application" ? applicationStatusMeta : leadStatusMeta
+  const needsMotivo = (s: string) => (kind === "application" ? s === "rejected" : s === "lost")
 
   const applyStatus = (nuevo: string, razon?: string) =>
     start(async () => {
       try {
         if (kind === "lead") await updateLeadStatus(id, nuevo, razon)
+        else if (kind === "partner") await updatePartnerStatus(id, nuevo, razon)
         else await updateApplicationStatus(id, nuevo, razon)
         toast.success(`Estatus actualizado a ${metaOf(nuevo).label}`)
       } catch (e) {
@@ -164,7 +165,7 @@ export function ManagePanel({ kind, id, status, assigneeId, staff }: Props) {
         <Dialog open={motivoOpen} onOpenChange={(open) => !open && setMotivoOpen(false)}>
           <DialogContent className="sm:max-w-[400px]">
             <DialogHeader>
-              <DialogTitle>{kind === "lead" ? "Marcar como perdida" : "Rechazar postulación"}</DialogTitle>
+              <DialogTitle>{kind === "application" ? "Rechazar postulación" : "Marcar como perdida"}</DialogTitle>
               <DialogDescription>Registra el motivo, quedará en el historial de auditoría.</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-1.5">
@@ -181,7 +182,7 @@ export function ManagePanel({ kind, id, status, assigneeId, staff }: Props) {
                 Cancelar
               </Button>
               <Button variant="destructive" onClick={confirmMotivo} disabled={pending}>
-                {kind === "lead" ? "Marcar perdida" : "Rechazar"}
+                {kind === "application" ? "Rechazar" : "Marcar perdida"}
               </Button>
             </DialogFooter>
           </DialogContent>

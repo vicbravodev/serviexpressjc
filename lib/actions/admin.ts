@@ -29,6 +29,17 @@ export async function updateLeadStatus(id: string, status: string, lostReason?: 
   revalidatePath("/admin/leads")
 }
 
+export async function updatePartnerStatus(id: string, status: string, lostReason?: string) {
+  if (!LEAD_STATUSES.includes(status as (typeof LEAD_STATUSES)[number])) throw new Error("Status inválido")
+  const { supabase } = await requireRole(["admin", "user"])
+  const patch: Record<string, unknown> = { status }
+  patch.lost_reason = status === "lost" ? (lostReason?.trim() || null) : null
+  const { error } = await supabase.from("partner_leads").update(patch).eq("id", id)
+  if (error) throw new Error(error.message)
+  revalidatePath(`/admin/socios/${id}`)
+  revalidatePath("/admin/socios")
+}
+
 export async function updateApplicationStatus(id: string, status: string, reason?: string) {
   if (!APPLICATION_STATUSES.includes(status as (typeof APPLICATION_STATUSES)[number])) throw new Error("Status inválido")
   const { claims, supabase } = await requireRole(["admin"])
@@ -50,17 +61,33 @@ export async function updateApplicationStatus(id: string, status: string, reason
   revalidatePath("/admin/postulaciones")
 }
 
+type EntityType = "load_request" | "job_application" | "partner_lead"
+
+const ENTITY_TABLE: Record<EntityType, string> = {
+  load_request: "load_requests",
+  job_application: "job_applications",
+  partner_lead: "partner_leads",
+}
+const ENTITY_BASE: Record<EntityType, string> = {
+  load_request: "leads",
+  job_application: "postulaciones",
+  partner_lead: "socios",
+}
+const ENTITY_ROLES: Record<EntityType, Array<"admin" | "user">> = {
+  load_request: ["admin", "user"],
+  job_application: ["admin"],
+  partner_lead: ["admin", "user"],
+}
+
 export async function updateAssignee(
-  entityType: "load_request" | "job_application",
+  entityType: EntityType,
   entityId: string,
   assigneeId: string | null,
   assigneeName?: string,
 ) {
-  const roles: Array<"admin" | "user"> = entityType === "load_request" ? ["admin", "user"] : ["admin"]
-  const { claims, supabase } = await requireRole(roles)
-  const table = entityType === "load_request" ? "load_requests" : "job_applications"
+  const { claims, supabase } = await requireRole(ENTITY_ROLES[entityType])
   const { data: updated, error } = await supabase
-    .from(table)
+    .from(ENTITY_TABLE[entityType])
     .update({ assigned_to: assigneeId })
     .eq("id", entityId)
     .select("id")
@@ -75,14 +102,13 @@ export async function updateAssignee(
     action: "note",
     note: assigneeId ? `Asignó la gestión a ${assigneeName ?? "un integrante del equipo"}` : "Quitó la asignación",
   })
-  const base = entityType === "load_request" ? "leads" : "postulaciones"
+  const base = ENTITY_BASE[entityType]
   revalidatePath(`/admin/${base}/${entityId}`)
   revalidatePath(`/admin/${base}`)
 }
 
-export async function addNote(entityType: "load_request" | "job_application", entityId: string, note: string) {
-  const roles: Array<"admin" | "user"> = entityType === "load_request" ? ["admin", "user"] : ["admin"]
-  const { claims, supabase } = await requireRole(roles)
+export async function addNote(entityType: EntityType, entityId: string, note: string) {
+  const { claims, supabase } = await requireRole(ENTITY_ROLES[entityType])
   const body = note.trim()
   if (!body) throw new Error("La nota está vacía")
   const { error } = await supabase.from("audit_log").insert({
@@ -94,7 +120,7 @@ export async function addNote(entityType: "load_request" | "job_application", en
     note: body,
   })
   if (error) throw new Error(error.message)
-  revalidatePath(`/admin/${entityType === "load_request" ? "leads" : "postulaciones"}/${entityId}`)
+  revalidatePath(`/admin/${ENTITY_BASE[entityType]}/${entityId}`)
 }
 
 export async function createUser(input: { email: string; password: string; fullName?: string; role: "admin" | "user" }) {

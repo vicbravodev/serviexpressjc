@@ -66,15 +66,21 @@ const EXPERIENCE_LABELS: Record<string, string> = {
   "5to10": "5 a 10 años",
   gt10: "Más de 10 años",
 }
+const PARTNER_UNIT_LABELS: Record<string, string> = {
+  tractor: "Tractocamión",
+  plataforma: "Plataforma",
+  ambos: "Tractocamión + plataforma",
+}
 
 export const serviceLabel = (v: string | null) => (v ? (SERVICE_LABELS[v] ?? v) : "—")
 export const unitLabel = (v: string | null) => (v ? (UNIT_LABELS[v] ?? v) : "—")
 export const urgencyLabel = (v: string | null) => (v ? (URGENCY_LABELS[v] ?? v) : "—")
 export const positionLabel = (v: string | null) => (v ? (POSITION_LABELS[v] ?? v) : "—")
 export const experienceLabel = (v: string | null) => (v ? (EXPERIENCE_LABELS[v] ?? v) : "—")
+export const partnerUnitLabel = (v: string | null) => (v ? (PARTNER_UNIT_LABELS[v] ?? v) : "—")
 
 /** Folio corto legible derivado del uuid (ej. COT-3F2A91). */
-export function folio(prefix: "COT" | "POS", id: string): string {
+export function folio(prefix: "COT" | "POS" | "SOC", id: string): string {
   return `${prefix}-${id.replace(/-/g, "").slice(0, 6).toUpperCase()}`
 }
 
