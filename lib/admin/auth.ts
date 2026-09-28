@@ -1,10 +1,15 @@
+import { cache } from "react"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { createClient } from "@/utils/supabase/server"
 
 export type SessionClaims = { userId: string; email: string; role: "admin" | "user" | "none" }
 
-export async function getSessionClaims(): Promise<SessionClaims | null> {
+/**
+ * Memoizado por request (React `cache`): layout + página + guards comparten una sola
+ * verificación del JWT en vez de repetirla en cada nivel del árbol.
+ */
+export const getSessionClaims = cache(async (): Promise<SessionClaims | null> => {
   const supabase = createClient(await cookies())
   const { data } = await supabase.auth.getClaims()
   const claims = data?.claims as Record<string, unknown> | undefined
@@ -15,7 +20,7 @@ export async function getSessionClaims(): Promise<SessionClaims | null> {
     email: String(claims.email ?? ""),
     role: (appMeta.role as SessionClaims["role"]) ?? "none",
   }
-}
+})
 
 /** Exige sesión válida con rol admin|user. Redirige a login si no. Devuelve los claims. */
 export async function requireStaff(): Promise<SessionClaims> {

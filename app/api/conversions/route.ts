@@ -1,5 +1,5 @@
-import { NextResponse, type NextRequest } from "next/server"
-import { sendServerEvent, type MetaStandardEvent } from "@/lib/meta/capi"
+import { after, NextResponse, type NextRequest } from "next/server"
+import { sendServerEvent, type MetaStandardEvent, type ServerEventInput } from "@/lib/meta/capi"
 
 export const runtime = "nodejs"
 
@@ -40,11 +40,12 @@ export async function POST(req: NextRequest) {
   }
 
   const forwardedFor = req.headers.get("x-forwarded-for")
-  await sendServerEvent({
+  // Responde de inmediato; el reenvío a Meta corre después de la respuesta.
+  const event: ServerEventInput = {
     eventName: eventName as MetaStandardEvent,
-    eventId: typeof body.eventId === "string" ? body.eventId : undefined,
+    eventId: typeof body.eventId === "string" ? body.eventId.slice(0, 100) : undefined,
     eventSourceUrl:
-      typeof body.eventSourceUrl === "string" ? body.eventSourceUrl : req.headers.get("referer"),
+      typeof body.eventSourceUrl === "string" ? body.eventSourceUrl.slice(0, 2000) : req.headers.get("referer"),
     customData: sanitizeCustomData(body.customData),
     userData: {
       fbp: req.cookies.get("_fbp")?.value ?? null,
@@ -52,7 +53,8 @@ export async function POST(req: NextRequest) {
       clientIp: forwardedFor ? forwardedFor.split(",")[0].trim() : null,
       userAgent: req.headers.get("user-agent"),
     },
-  })
+  }
+  after(() => sendServerEvent(event))
 
   return NextResponse.json({ ok: true })
 }

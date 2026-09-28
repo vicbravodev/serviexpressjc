@@ -32,7 +32,8 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
       .select("id, created_at, actor_email, action, old_value, new_value, note")
       .eq("entity_type", "load_request")
       .eq("entity_id", id)
-      .order("created_at", { ascending: false }),
+      .order("created_at", { ascending: false })
+      .limit(100),
     getStaffOptions(),
   ])
   if (!lead) notFound()

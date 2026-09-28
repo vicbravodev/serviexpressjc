@@ -13,6 +13,21 @@ const containerVariants: Variants = {
   },
 }
 
+/**
+ * `motion.create(as)` devuelve un componente NUEVO en cada llamada. Invocarlo dentro
+ * del render hace que React vea un tipo distinto en cada re-render: desmonta y
+ * vuelve a montar todo el subárbol (y reinicia la animación). Se cachea por tag.
+ */
+const motionCache = new Map<ElementType, ElementType>()
+function motionComponent(as: ElementType): ElementType {
+  let comp = motionCache.get(as)
+  if (!comp) {
+    comp = motion.create(as as never) as ElementType
+    motionCache.set(as, comp)
+  }
+  return comp
+}
+
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 24 },
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
@@ -35,7 +50,7 @@ type RevealProps = {
  */
 export function Reveal({ children, className, y = 24, delay = 0, as = "div" }: RevealProps) {
   const reduce = useReducedMotion()
-  const Comp = motion(as as ElementType)
+  const Comp = motionComponent(as)
 
   return (
     <Comp
@@ -62,7 +77,7 @@ type GroupProps = {
  */
 export function RevealGroup({ children, className, as = "div" }: GroupProps) {
   const reduce = useReducedMotion()
-  const Comp = motion(as as ElementType)
+  const Comp = motionComponent(as)
 
   return (
     <Comp
@@ -79,7 +94,7 @@ export function RevealGroup({ children, className, as = "div" }: GroupProps) {
 
 /** One staggered child inside a <RevealGroup>. */
 export function RevealChild({ children, className, as = "div" }: GroupProps) {
-  const Comp = motion(as as ElementType)
+  const Comp = motionComponent(as)
   return (
     <Comp className={className} variants={itemVariants}>
       {children}

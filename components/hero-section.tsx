@@ -52,8 +52,10 @@ export function HeroSection() {
     const container = videoContainerRef.current
     if (!v || !container) return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
-    if (conn?.saveData) return
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } })
+      .connection
+    // 18 MB de video en 2G/3G compite con el resto de la página: se queda el poster.
+    if (conn?.saveData || /(^|-)(2g|3g)$/.test(conn?.effectiveType ?? "")) return
 
     let started = false
     const start = () => {

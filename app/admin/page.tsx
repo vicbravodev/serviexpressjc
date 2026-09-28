@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { cookies } from "next/headers"
 import { requireStaff } from "@/lib/admin/auth"
+import { getPendingCounts } from "@/lib/admin/counts"
 import { folio } from "@/lib/admin/meta"
 import { createClient } from "@/utils/supabase/server"
 import { Button } from "@/components/ui/button"
@@ -14,42 +15,34 @@ export default async function AdminHome() {
   const supabase = createClient(await cookies())
   const isAdmin = claims.role === "admin"
 
-  const monthStart = new Date()
-  monthStart.setDate(1)
-  monthStart.setHours(0, 0, 0, 0)
+  // Inicio de mes en hora de Monterrey (UTC-6 fijo desde 2022), no en la zona del servidor (UTC).
+  const [y, m] = new Intl.DateTimeFormat("en-CA", { year: "numeric", month: "2-digit", timeZone: "America/Monterrey" })
+    .format(new Date())
+    .split("-")
+  const monthStart = new Date(`${y}-${m}-01T00:00:00-06:00`)
 
-  const [{ count: newLeads }, { count: contacted }, { count: inProgress }, { count: wonMonth }, { count: newPartners }, { data: recent }] =
+  // Los pendientes (status = 'new') vienen memoizados del layout: no se vuelven a consultar.
+  const countStatus = (status: string) =>
+    supabase.from("load_requests").select("id", { count: "exact", head: true }).eq("status", status)
+  const [pending, { count: contacted }, { count: inProgress }, { count: wonMonth }, { data: recent }] =
     await Promise.all([
-      supabase.from("load_requests").select("*", { count: "exact", head: true }).eq("status", "new"),
-      supabase.from("load_requests").select("*", { count: "exact", head: true }).eq("status", "contacted"),
-      supabase.from("load_requests").select("*", { count: "exact", head: true }).eq("status", "in_progress"),
-      supabase
-        .from("load_requests")
-        .select("*", { count: "exact", head: true })
-        .eq("status", "won")
-        .gte("updated_at", monthStart.toISOString()),
-      supabase.from("partner_leads").select("*", { count: "exact", head: true }).eq("status", "new"),
+      getPendingCounts(isAdmin),
+      countStatus("contacted"),
+      countStatus("in_progress"),
+      countStatus("won").gte("updated_at", monthStart.toISOString()),
       supabase
         .from("load_requests")
         .select("id, origin_name, destination_name, contact_name, contact_phone, status")
         .order("created_at", { ascending: false })
         .limit(5),
     ])
-
-  let newApplications: number | null = null
-  if (isAdmin) {
-    const { count } = await supabase
-      .from("job_applications")
-      .select("*", { count: "exact", head: true })
-      .eq("status", "new")
-    newApplications = count ?? 0
-  }
+  const { newLeads, newPartners, newApplications } = pending
 
   const stats: Array<{ label: string; value: number }> = [
-    { label: "COTIZACIONES NUEVAS", value: newLeads ?? 0 },
+    { label: "COTIZACIONES NUEVAS", value: newLeads },
     { label: "EN SEGUIMIENTO", value: (contacted ?? 0) + (inProgress ?? 0) },
     { label: "GANADAS ESTE MES", value: wonMonth ?? 0 },
-    { label: "SOCIOS NUEVOS", value: newPartners ?? 0 },
+    { label: "SOCIOS NUEVOS", value: newPartners },
   ]
   if (newApplications !== null) stats.push({ label: "POSTULACIONES NUEVAS", value: newApplications })
 

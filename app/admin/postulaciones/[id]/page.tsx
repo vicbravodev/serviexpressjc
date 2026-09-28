@@ -31,7 +31,8 @@ export default async function ApplicationDetail({ params }: { params: Promise<{ 
       .select("id, created_at, actor_email, action, old_value, new_value, note")
       .eq("entity_type", "job_application")
       .eq("entity_id", id)
-      .order("created_at", { ascending: false }),
+      .order("created_at", { ascending: false })
+      .limit(100),
     getStaffOptions(),
   ])
   if (!app) notFound()
