@@ -405,6 +405,9 @@ export function QuoteSimulator() {
                         locale,
                         metaEventId,
                       })
+                        // Si no se guardó, libera la firma para que un reintento sí persista.
+                        .then((r) => { if (!r.ok) lastSubmitted.current = "" })
+                        .catch(() => { lastSubmitted.current = "" })
                     }}
                   >
                     <MessageCircle aria-hidden className="mr-2 h-5 w-5" />

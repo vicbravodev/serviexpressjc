@@ -51,6 +51,9 @@ export function ApplyForm() {
         locale,
         metaEventId,
       })
+        // Si no se guardó, libera la firma para que un reintento sí persista.
+        .then((r) => { if (!r.ok) lastSubmitted.current = "" })
+        .catch(() => { lastSubmitted.current = "" })
     }
 
     const message = t("whatsappMessage", {
