@@ -1,8 +1,7 @@
 import type { ReactNode } from "react"
-import { cookies } from "next/headers"
 import { Geist, Geist_Mono } from "next/font/google"
 import { getSessionClaims } from "@/lib/admin/auth"
-import { createClient } from "@/utils/supabase/server"
+import { getPendingCounts } from "@/lib/admin/counts"
 import { Toaster } from "@/components/ui/sonner"
 import { AdminShell } from "./_components/admin-shell"
 import "../globals.css"
@@ -32,26 +31,14 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     )
   }
 
-  const supabase = createClient(await cookies())
-  const [{ count: newLeads }, { count: newPartners }] = await Promise.all([
-    supabase.from("load_requests").select("*", { count: "exact", head: true }).eq("status", "new"),
-    supabase.from("partner_leads").select("*", { count: "exact", head: true }).eq("status", "new"),
-  ])
-  let newApplications: number | null = null
-  if (claims.role === "admin") {
-    const { count } = await supabase
-      .from("job_applications")
-      .select("*", { count: "exact", head: true })
-      .eq("status", "new")
-    newApplications = count ?? 0
-  }
+  const counts = await getPendingCounts(claims.role === "admin")
 
   return (
     <html lang="es" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="font-sans antialiased">
         <AdminShell
           user={{ email: claims.email, role: claims.role as "admin" | "user" }}
-          counts={{ newLeads: newLeads ?? 0, newApplications, newPartners: newPartners ?? 0 }}
+          counts={counts}
         >
           {children}
         </AdminShell>

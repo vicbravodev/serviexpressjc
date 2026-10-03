@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type FormEvent } from "react"
+import { useRef, useState, type FormEvent } from "react"
 import { useLocale, useTranslations } from "next-intl"
 import { MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -24,6 +24,9 @@ export function PartnerLeadForm() {
 
   const isValid = name.trim().length > 1 && phone.trim().length >= 8 && unitType !== ""
 
+  // Evita filas duplicadas si el visitante reenvía los mismos datos (WhatsApp sí se reabre).
+  const lastSubmitted = useRef("")
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     if (name.trim().length <= 1 || phone.trim().length < 8 || unitType === "") return
@@ -33,13 +36,20 @@ export function PartnerLeadForm() {
     const metaEventId = trackEvent("generate_lead", { lead_type: "partner", unit_type: unitType })
     trackEvent("whatsapp_click", { source: "partners" })
 
-    void submitPartnerLead({
-      name: name.trim(),
-      phone: phone.trim(),
-      unitType,
-      locale,
-      metaEventId,
-    })
+    const signature = JSON.stringify([name.trim(), phone.trim(), unitType])
+    if (lastSubmitted.current !== signature) {
+      lastSubmitted.current = signature
+      void submitPartnerLead({
+        name: name.trim(),
+        phone: phone.trim(),
+        unitType,
+        locale,
+        metaEventId,
+      })
+        // Si no se guardó, libera la firma para que un reintento sí persista.
+        .then((r) => { if (!r.ok) lastSubmitted.current = "" })
+        .catch(() => { lastSubmitted.current = "" })
+    }
 
     const message = t("whatsappMessage", {
       name: name.trim(),

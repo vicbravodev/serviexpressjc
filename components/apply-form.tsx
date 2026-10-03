@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type FormEvent } from "react"
+import { useRef, useState, type FormEvent } from "react"
 import { useLocale, useTranslations } from "next-intl"
 import { MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -27,6 +27,9 @@ export function ApplyForm() {
 
   const isValid = name.trim().length > 1 && phone.trim().length >= 8 && position !== "" && experience !== ""
 
+  // Evita filas duplicadas si el visitante reenvía los mismos datos (WhatsApp sí se reabre).
+  const lastSubmitted = useRef("")
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     if (name.trim().length <= 1 || phone.trim().length < 8 || position === "" || experience === "") return
@@ -37,14 +40,21 @@ export function ApplyForm() {
     trackEvent("whatsapp_click", { source: "apply" })
 
     // Persistir + CAPI (no bloquea el window.open de abajo).
-    void submitApplication({
-      name: name.trim(),
-      phone: phone.trim(),
-      position,
-      experience,
-      locale,
-      metaEventId,
-    })
+    const signature = JSON.stringify([name.trim(), phone.trim(), position, experience])
+    if (lastSubmitted.current !== signature) {
+      lastSubmitted.current = signature
+      void submitApplication({
+        name: name.trim(),
+        phone: phone.trim(),
+        position,
+        experience,
+        locale,
+        metaEventId,
+      })
+        // Si no se guardó, libera la firma para que un reintento sí persista.
+        .then((r) => { if (!r.ok) lastSubmitted.current = "" })
+        .catch(() => { lastSubmitted.current = "" })
+    }
 
     const message = t("whatsappMessage", {
       name: name.trim(),

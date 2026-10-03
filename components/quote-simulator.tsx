@@ -92,6 +92,10 @@ export function QuoteSimulator() {
     }
   }, [routeReady, service])
 
+  // Evita filas duplicadas en load_requests cuando el visitante vuelve a tocar
+  // "Enviar" con los mismos datos (p. ej. regresa de WhatsApp y reintenta).
+  const lastSubmitted = useRef("")
+
   const reduce = useReducedMotion()
 
   const originName = cityById(originId)?.name ?? ""
@@ -379,6 +383,12 @@ export function QuoteSimulator() {
                       // metaEventId deduplica el pixel contra la Conversions API server-side.
                       const metaEventId = trackEvent("generate_lead", { lead_type: "quote", service, unit })
                       trackEvent("whatsapp_click", { source: "quote", service })
+                      const signature = JSON.stringify([
+                        service, originId, destinationId, unit, tons, urgency, cargoText,
+                        contactName.trim(), contactPhone.trim(),
+                      ])
+                      if (lastSubmitted.current === signature) return
+                      lastSubmitted.current = signature
                       void submitLoadRequest({
                         service,
                         originId,
@@ -395,6 +405,9 @@ export function QuoteSimulator() {
                         locale,
                         metaEventId,
                       })
+                        // Si no se guardó, libera la firma para que un reintento sí persista.
+                        .then((r) => { if (!r.ok) lastSubmitted.current = "" })
+                        .catch(() => { lastSubmitted.current = "" })
                     }}
                   >
                     <MessageCircle aria-hidden className="mr-2 h-5 w-5" />
