@@ -274,12 +274,12 @@
     "rights": "Todos los derechos reservados."
   },
   "Partners": {
-    "metaTitle": "Socios Comerciales · JC Serviexpress",
-    "metaDescription": "Únete como Socio Comercial de JC Serviexpress: grúas y lavados gratis, financiamiento de diésel, talleres propios, renta con opción a compra y rutas constantes. Aplica hoy.",
+    "metaTitle": "Socios Comerciales · ServiExpress JC",
+    "metaDescription": "Únete como Socio Comercial de ServiExpress JC: grúas y lavados gratis, financiamiento de diésel, talleres propios, renta con opción a compra y rutas constantes. Aplica hoy.",
     "hero": {
       "kicker": "Socios comerciales",
       "titleLead": "Súmate como Socio Comercial de",
-      "titleAccent": "JC Serviexpress",
+      "titleAccent": "ServiExpress JC",
       "subtitle": "Si tienes tu propio tractocamión o plataforma, únete a nuestra red de socios comerciales y accede a beneficios reales: grúas y lavados gratis, financiamiento de diésel, talleres propios, tarifas competitivas y rutas constantes.",
       "cta": "Quiero ser socio",
       "statYears": "{years} años operando",
@@ -288,7 +288,7 @@
     "benefits": {
       "kicker": "Lo que ganas",
       "title": "Beneficios de ser Socio Comercial",
-      "subtitle": "Esto es lo que obtienes al sumar tu unidad a la flota de JC Serviexpress.",
+      "subtitle": "Esto es lo que obtienes al sumar tu unidad a la flota de ServiExpress JC.",
       "items": [
         { "title": "2 grúas gratis al año", "description": "Asistencia vial sin costo, dos veces por unidad cada año." },
         { "title": "Un lavado gratis al año", "description": "Un lavado completo de tu unidad, por cortesía, cada año." },
@@ -323,7 +323,7 @@
         "ambos": "Tractocamión y plataforma"
       },
       "submit": "Enviar por WhatsApp",
-      "whatsappMessage": "Hola, soy {name} ({phone}). Quiero ser Socio Comercial de JC Serviexpress. Cuento con: {unitType}."
+      "whatsappMessage": "Hola, soy {name} ({phone}). Quiero ser Socio Comercial de ServiExpress JC. Cuento con: {unitType}."
     }
   }
 }

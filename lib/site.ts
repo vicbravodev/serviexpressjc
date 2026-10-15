@@ -3,7 +3,7 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://serviexpres
 /** Ruta pública por locale: es vive en la raíz (localePrefix as-needed). */
 export const localePath = (locale: string) => (locale === "es" ? "/" : `/${locale}`)
 
-/** Año de fundación de JC Serviexpress. Los años de experiencia SIEMPRE se calculan desde aquí. */
+/** Año de fundación de ServiExpress JC. Los años de experiencia SIEMPRE se calculan desde aquí. */
 export const FOUNDING_YEAR = 2005
 
 /** Años completos de operación. Nunca hardcodear "10+"/"20+" en copy: usar este valor vía ICU {years}. */
