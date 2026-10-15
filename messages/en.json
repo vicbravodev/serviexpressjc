@@ -274,12 +274,12 @@
     "rights": "All rights reserved."
   },
   "Partners": {
-    "metaTitle": "Business Partners · JC Serviexpress",
-    "metaDescription": "Join as a Business Partner of JC Serviexpress: free towing and washes, diesel financing, in-house shops, rent-to-own and steady routes. Apply today.",
+    "metaTitle": "Business Partners · ServiExpress JC",
+    "metaDescription": "Join as a Business Partner of ServiExpress JC: free towing and washes, diesel financing, in-house shops, rent-to-own and steady routes. Apply today.",
     "hero": {
       "kicker": "Business partners",
       "titleLead": "Become a Business Partner of",
-      "titleAccent": "JC Serviexpress",
+      "titleAccent": "ServiExpress JC",
       "subtitle": "If you own your tractor-trailer or flatbed, join our partner network and get real benefits: free towing and washes, diesel financing, in-house shops, competitive rates and steady routes.",
       "cta": "I want to become a partner",
       "statYears": "{years} years in operation",
@@ -288,7 +288,7 @@
     "benefits": {
       "kicker": "What you get",
       "title": "Business Partner benefits",
-      "subtitle": "This is what you get by adding your unit to the JC Serviexpress fleet.",
+      "subtitle": "This is what you get by adding your unit to the ServiExpress JC fleet.",
       "items": [
         { "title": "2 free tows per year", "description": "Free roadside towing assistance, twice a year per unit." },
         { "title": "One free wash per year", "description": "A full wash for your unit, on us, every year." },
@@ -323,7 +323,7 @@
         "ambos": "Tractor and flatbed"
       },
       "submit": "Send via WhatsApp",
-      "whatsappMessage": "Hi, I'm {name} ({phone}). I want to become a Business Partner of JC Serviexpress. I have: {unitType}."
+      "whatsappMessage": "Hi, I'm {name} ({phone}). I want to become a Business Partner of ServiExpress JC. I have: {unitType}."
     }
   }
 }
