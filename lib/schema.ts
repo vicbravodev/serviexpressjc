@@ -61,7 +61,7 @@ export function organizationSchema(description: string) {
     name: "ServiExpress JC",
     legalName: "Serviexpress JC LLC",
     url: SITE_URL,
-    logo: `${SITE_URL}/logo-white-bg.png`,
+    logo: `${SITE_URL}/icon-512.png`,
     description,
     foundingDate: String(FOUNDING_YEAR),
     email: CONTACT_EMAIL,
