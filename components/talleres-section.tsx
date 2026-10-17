@@ -22,22 +22,13 @@ export function TalleresSection() {
                 className="aspect-[4/5] w-full sm:aspect-[16/10] lg:absolute lg:inset-0 lg:aspect-auto lg:h-full"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 font-mono text-[11px] text-white/80">
-                <span className="h-1.5 w-1.5 rounded-full bg-yellow-accent-bright animate-live-blink" />
-                <span className="rounded-md border border-white/15 bg-black/40 px-3 py-1.5 backdrop-blur-sm">
-                  {t("overlay")}
-                </span>
-              </div>
             </div>
           </Reveal>
 
           {/* Story + pillars */}
           <div className="order-1 lg:order-2">
             <Reveal>
-              <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                {t("kicker")}
-              </span>
-              <h2 className="mt-3 text-3xl md:text-5xl font-bold text-balance">
+              <h2 className="text-3xl md:text-5xl font-bold text-balance">
                 {t("titleLead")} <span className="text-primary">{t("titleAccent")}</span>
               </h2>
               <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty">
@@ -55,7 +46,7 @@ export function TalleresSection() {
                     <Icon className="h-5 w-5" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-semibold leading-snug">{t(`pillars.${i}.title`)}</h3>
-                  <p className="font-mono text-[11px] leading-relaxed text-muted-foreground">
+                  <p className="text-sm leading-relaxed text-muted-foreground">
                     {t(`pillars.${i}.caption`)}
                   </p>
                 </RevealChild>

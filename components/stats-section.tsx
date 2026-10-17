@@ -35,12 +35,7 @@ function MetricCell({ metric, active, index }: { metric: Metric; active: boolean
       transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
       className="group relative flex flex-col gap-3 bg-[oklch(0.16_0.012_255)] px-6 py-7 sm:px-8 sm:py-9 transition-colors hover:bg-[oklch(0.185_0.014_255)]"
     >
-      <div className="flex items-center justify-between">
-        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/55">
-          {String(index + 1).padStart(2, "0")}
-        </span>
-        <Icon className="h-4 w-4 text-yellow-accent-bright/70" />
-      </div>
+      <Icon aria-hidden className="h-5 w-5 text-yellow-accent-bright/70" />
       <div className="flex items-baseline gap-0.5 text-white">
         <span className="text-4xl sm:text-5xl font-bold tabular-nums tracking-tight">
           {metric.target === null ? metric.display : `${metric.prefix ?? ""}${counted}`}
@@ -51,7 +46,7 @@ function MetricCell({ metric, active, index }: { metric: Metric; active: boolean
       </div>
       <div>
         <p className="text-sm font-semibold text-white/90">{t(`metrics.${index}.label`)}</p>
-        <p className="font-mono text-[11px] text-white/60">{t(`metrics.${index}.caption`)}</p>
+        <p className="text-xs text-white/60">{t(`metrics.${index}.caption`)}</p>
       </div>
     </motion.div>
   )
@@ -71,18 +66,7 @@ export function StatsSection({ years }: { years: number }) {
           ref={ref}
           className="relative mx-auto max-w-6xl overflow-hidden rounded-2xl border border-white/10 surface-steel"
         >
-          {/* Console header bar */}
-          <div className="flex items-center justify-between border-b border-white/10 px-6 py-3.5 sm:px-8">
-            <div className="flex items-center gap-2.5">
-              <span className="h-2 w-2 rounded-full bg-yellow-accent-bright animate-live-blink" />
-              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/70">
-                {t("console")}
-              </span>
-            </div>
-            <span className="hidden font-mono text-[11px] text-white/55 sm:inline">{t("consoleTag")}</span>
-          </div>
-
-          {/* Instrument cells, hairline-divided (no identical card grid) */}
+          {/* Celdas divididas por hairlines (no grid de cards idénticas) */}
           <div className="grid grid-cols-2 gap-px bg-white/10 md:grid-cols-4">
             {metrics.map((metric, i) => (
               <MetricCell key={i} metric={metric} active={inView} index={i} />

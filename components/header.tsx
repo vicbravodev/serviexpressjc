@@ -122,7 +122,7 @@ export function Header() {
       }`}
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-24">
+        <div className="flex items-center justify-between h-[72px]">
           {/* Logo */}
           <LocaleLink href="/" className="flex items-center gap-2">
             <Image
@@ -130,7 +130,7 @@ export function Header() {
               alt="ServiExpress JC"
               width={114}
               height={64}
-              className="h-16 w-auto"
+              className="h-14 w-auto"
               priority
             />
           </LocaleLink>
