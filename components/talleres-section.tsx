@@ -9,50 +9,43 @@ export function TalleresSection() {
   const t = useTranslations("Talleres")
 
   return (
-    <section id="talleres" className="py-24 bg-muted/30">
-      <div className="container mx-auto px-4">
-        <div className="grid gap-10 lg:grid-cols-2">
-          {/* Proof: a unit kept in show condition by their own shops */}
-          <Reveal className="order-2 lg:order-1">
-            <div className="relative h-full overflow-hidden rounded-2xl border border-white/10">
-              <FleetImage
-                src="/fleet/kenworth-clasico.jpg"
-                alt={t("imageAlt")}
-                caption={t("imageCaption")}
-                className="aspect-[4/5] w-full sm:aspect-[16/10] lg:absolute lg:inset-0 lg:aspect-auto lg:h-full"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
-            </div>
+    <section id="talleres" className="relative bg-muted/30 lg:min-h-[640px]">
+      {/* Foto a sangre: en escritorio ocupa la mitad derecha hasta el borde del viewport */}
+      <Reveal className="relative lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+        <FleetImage
+          src="/fleet/kenworth-clasico.jpg"
+          alt={t("imageAlt")}
+          caption={t("imageCaption")}
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="aspect-[4/3] w-full sm:aspect-[16/9] lg:absolute lg:inset-0 lg:aspect-auto lg:h-full"
+        />
+      </Reveal>
+
+      <div className="container mx-auto px-4 py-16 md:py-24">
+        <div className="lg:w-1/2 lg:pr-14">
+          <Reveal>
+            <h2 className="text-3xl md:text-5xl font-bold text-balance">
+              {t("titleLead")} <span className="text-primary">{t("titleAccent")}</span>
+            </h2>
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty">
+              {t("description")}
+            </p>
           </Reveal>
 
-          {/* Story + pillars */}
-          <div className="order-1 lg:order-2">
-            <Reveal>
-              <h2 className="text-3xl md:text-5xl font-bold text-balance">
-                {t("titleLead")} <span className="text-primary">{t("titleAccent")}</span>
-              </h2>
-              <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty">
-                {t("description")}
-              </p>
-            </Reveal>
-
-            <RevealGroup className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2">
-              {pillarIcons.map((Icon, i) => (
-                <RevealChild
-                  key={i}
-                  className="group flex flex-col gap-3 bg-card p-6 transition-colors duration-300 hover:bg-muted/40"
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
-                    <Icon className="h-5 w-5" strokeWidth={1.5} />
-                  </div>
+          {/* Pilares como lista con ícono en línea, no como cajas */}
+          <RevealGroup as="ul" className="mt-10 grid gap-x-8 gap-y-6 sm:grid-cols-2">
+            {pillarIcons.map((Icon, i) => (
+              <RevealChild key={i} as="li" className="flex gap-3">
+                <Icon aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-primary" strokeWidth={1.5} />
+                <div>
                   <h3 className="font-semibold leading-snug">{t(`pillars.${i}.title`)}</h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                     {t(`pillars.${i}.caption`)}
                   </p>
-                </RevealChild>
-              ))}
-            </RevealGroup>
-          </div>
+                </div>
+              </RevealChild>
+            ))}
+          </RevealGroup>
         </div>
       </div>
     </section>

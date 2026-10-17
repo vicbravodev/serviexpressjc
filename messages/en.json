@@ -45,12 +45,17 @@
     "pauseAria": "Pause background video",
     "playAria": "Play background video"
   },
-  "Stats": {
-    "metrics": [
-      { "label": "Years on the road", "caption": "Since 2005, nonstop" },
-      { "label": "GPS tracking", "caption": "Real-time visibility" },
-      { "label": "Company-owned fleet", "caption": "We never broker your freight" },
-      { "label": "Drivers", "caption": "Certified for the border crossing" }
+  "Evidence": {
+    "title": "What backs every trip",
+    "subtitle": "Licenses, plates, insurance, and trucks in order. Facts you can check before you request a quote.",
+    "yearsTitle": "{years} years on the road",
+    "yearsDescription": "Moving domestic and cross-border freight since 2005.",
+    "items": [
+      { "title": "Company-owned fleet", "description": "Our own tractors and trailers. We never broker your freight." },
+      { "title": "24/7 GPS tracking", "description": "Every truck tracked in real time, from origin to destination." },
+      { "title": "B1-licensed drivers", "description": "Federal B1 license, certified for the crossing into the United States." },
+      { "title": "Mexico-U.S. dual plates", "description": "Trucks plated in both countries to cross at Laredo, TX." },
+      { "title": "Cargo insurance", "description": "Your goods travel insured from origin to destination." }
     ]
   },
   "Services": {
@@ -95,16 +100,6 @@
     "relatedKicker": "Service network",
     "relatedTitle": "Related services and lanes"
   },
-  "Certifications": {
-    "title": "Certifications & Guarantees",
-    "subtitle": "Licenses, plates, insurance and maintenance in order on every trip.",
-    "items": [
-      { "title": "B1 Certification", "description": "Drivers certified with a federal B1 license for freight transport" },
-      { "title": "Dual Plates", "description": "Trucks with dual Mexico-U.S. plates for a hassle-free border crossing" },
-      { "title": "Cargo Insurance", "description": "Your goods travel insured from origin to destination" },
-      { "title": "Certified Fleet", "description": "Trucks with current inspections and ongoing preventive maintenance" }
-    ]
-  },
   "Talleres": {
     "titleLead": "5 secure storage yards.",
     "titleAccent": "Under surveillance.",
@@ -124,7 +119,8 @@
     "storyLabel1": "What we do",
     "story1": "We coordinate and monitor every shipment with our own team, from pickup to final destination, so your freight arrives safe and on time, with no middlemen.",
     "storyLabel2": "Where we're headed",
-    "story2": "To be one of the most competitive carriers in Mexico and the United States, growing year after year without losing the direct relationships that got us here."
+    "story2": "To be one of the most competitive carriers in Mexico and the United States, growing year after year without losing the direct relationships that got us here.",
+    "teamPhotoAlt": "The ServiExpress JC team"
   },
   "Coverage": {
     "kicker": "Operating network",
@@ -237,7 +233,7 @@
   },
   "Location": {
     "title": "Where we are",
-    "description": "Our headquarters and shops operate out of Apodaca, Nuevo León — northeastern Mexico's logistics corridor toward the U.S. border.",
+    "description": "Our headquarters and shops operate out of Apodaca, Nuevo León, northeastern Mexico's logistics corridor toward the U.S. border.",
     "addressLine1": "Carr. Mezquital Santa Rosa 3517 Int. C",
     "addressLine2": "Cd. Apodaca, N.L., Mexico",
     "mapAlt": "Map of ServiExpress JC's headquarters in Apodaca, Nuevo León",

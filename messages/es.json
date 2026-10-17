@@ -45,12 +45,17 @@
     "pauseAria": "Pausar video de fondo",
     "playAria": "Reproducir video de fondo"
   },
-  "Stats": {
-    "metrics": [
-      { "label": "Años en ruta", "caption": "Desde 2005, sin parar" },
-      { "label": "Monitoreo GPS", "caption": "Rastreo en tiempo real" },
-      { "label": "Flota propia", "caption": "Sin subcontratar tu carga" },
-      { "label": "Operadores", "caption": "Certificados para cruce" }
+  "Evidence": {
+    "title": "Lo que respalda cada viaje",
+    "subtitle": "Licencias, placas, seguro y unidades en regla. Hechos que puedes verificar antes de cotizar.",
+    "yearsTitle": "{years} años en ruta",
+    "yearsDescription": "Moviendo carga nacional e internacional desde 2005.",
+    "items": [
+      { "title": "Flota propia", "description": "Tractos y cajas de la empresa. No subcontratamos tu carga." },
+      { "title": "Monitoreo GPS 24/7", "description": "Cada unidad rastreada en tiempo real, de origen a destino." },
+      { "title": "Operadores con licencia B1", "description": "Licencia federal tipo B1, certificados para el cruce a Estados Unidos." },
+      { "title": "Doble placa México-USA", "description": "Unidades emplacadas en ambos países para cruzar por Laredo, TX." },
+      { "title": "Seguro de carga", "description": "Tu mercancía viaja asegurada de origen a destino." }
     ]
   },
   "Services": {
@@ -95,16 +100,6 @@
     "relatedKicker": "Red de servicios",
     "relatedTitle": "Servicios y rutas relacionados"
   },
-  "Certifications": {
-    "title": "Certificaciones y Garantías",
-    "subtitle": "Licencias, placas, seguro y mantenimiento en regla en cada viaje.",
-    "items": [
-      { "title": "Certificación B1", "description": "Operadores certificados con licencia federal tipo B1 para transporte de carga" },
-      { "title": "Doble Placa", "description": "Vehículos con doble placa México-USA para cruce fronterizo sin complicaciones" },
-      { "title": "Seguro de carga", "description": "Tu mercancía viaja asegurada de origen a destino" },
-      { "title": "Flota Certificada", "description": "Unidades con verificación vigente y mantenimiento preventivo constante" }
-    ]
-  },
   "Talleres": {
     "titleLead": "5 patios de resguardo.",
     "titleAccent": "Bajo vigilancia.",
@@ -124,7 +119,8 @@
     "storyLabel1": "Lo que hacemos",
     "story1": "Coordinamos y monitoreamos cada traslado con nuestro propio equipo, de la carga al destino final, para que tu mercancía llegue segura y a tiempo, sin intermediarios.",
     "storyLabel2": "Hacia dónde vamos",
-    "story2": "Ser de las transportistas más competitivas de México y Estados Unidos, creciendo año con año sin perder el trato directo que nos trajo hasta aquí."
+    "story2": "Ser de las transportistas más competitivas de México y Estados Unidos, creciendo año con año sin perder el trato directo que nos trajo hasta aquí.",
+    "teamPhotoAlt": "Equipo de ServiExpress JC"
   },
   "Coverage": {
     "kicker": "Red de operación",
