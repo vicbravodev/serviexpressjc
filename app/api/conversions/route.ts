@@ -27,6 +27,12 @@ function sanitizeCustomData(input: unknown): Record<string, string> | undefined 
 }
 
 export async function POST(req: NextRequest) {
+  // Solo el propio sitio dispara estos eventos: un Origin ajeno es un replay desde otro lado.
+  const origin = req.headers.get("origin")
+  if (origin && origin !== req.nextUrl.origin) {
+    return NextResponse.json({ ok: false }, { status: 403 })
+  }
+
   let body: Record<string, unknown>
   try {
     body = (await req.json()) as Record<string, unknown>

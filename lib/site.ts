@@ -39,6 +39,9 @@ export const WHATSAPP_PHONE_JOBS = process.env.NEXT_PUBLIC_WHATSAPP_PHONE_JOBS ?
 /** WhatsApp para SOCIOS COMERCIALES (México): +52 812 416 9848. */
 export const WHATSAPP_PHONE_PARTNERS = process.env.NEXT_PUBLIC_WHATSAPP_PHONE_PARTNERS ?? "528124169848"
 
+/** Contacto mínimo de un lead: nombre de 2+ caracteres y 8+ dígitos (se ignoran espacios y guiones). Lo usan los formularios y las Server Actions. */
+export const hasContact = (name: string, phone: string) => name.trim().length >= 2 && phone.replace(/\D/g, "").length >= 8
+
 export const whatsappUrl = (text: string, phone: string = WHATSAPP_PHONE) =>
   `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
 

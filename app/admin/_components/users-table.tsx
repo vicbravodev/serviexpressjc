@@ -45,6 +45,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+/** Las acciones devuelven `{ error }` en vez de lanzar (Next oculta el mensaje en producción). */
+const ok = ({ error }: { error?: string }) => {
+  if (error) throw new Error(error)
+}
+
 export type UserRow = {
   id: string
   nombre: string
@@ -68,7 +73,7 @@ export function UsersTable({ users, selfId }: { users: UserRow[]; selfId: string
   const onRol = (u: UserRow) => (v: string) =>
     start(async () => {
       try {
-        await updateUserRole(u.id, v as "admin" | "user")
+        ok(await updateUserRole(u.id, v as "admin" | "user"))
         toast.success(`Rol actualizado a ${v === "admin" ? "Admin" : "Usuario"}`)
       } catch (e) {
         toast.error(e instanceof Error ? e.message : "No se pudo actualizar el rol")
@@ -82,7 +87,7 @@ export function UsersTable({ users, selfId }: { users: UserRow[]; selfId: string
     }
     start(async () => {
       try {
-        await setUserActive(u.id, checked)
+        ok(await setUserActive(u.id, checked))
         toast.success(`${u.nombre} ${checked ? "reactivado" : "desactivado"}`)
       } catch (e) {
         toast.error(e instanceof Error ? e.message : "No se pudo actualizar la cuenta")
@@ -96,7 +101,7 @@ export function UsersTable({ users, selfId }: { users: UserRow[]; selfId: string
     if (!u) return
     start(async () => {
       try {
-        await setUserActive(u.id, false)
+        ok(await setUserActive(u.id, false))
         toast.success(`${u.nombre} desactivado`)
       } catch (e) {
         toast.error(e instanceof Error ? e.message : "No se pudo desactivar la cuenta")
@@ -107,7 +112,7 @@ export function UsersTable({ users, selfId }: { users: UserRow[]; selfId: string
   const confirmCreate = () =>
     start(async () => {
       try {
-        await createUser({ email, password, fullName: nombre, role: rol })
+        ok(await createUser({ email, password, fullName: nombre, role: rol }))
         toast.success(`Cuenta creada para ${email.trim()}`)
         setInviteOpen(false)
         setNombre("")
@@ -234,9 +239,9 @@ export function UsersTable({ users, selfId }: { users: UserRow[]; selfId: string
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label>Rol</Label>
+              <Label htmlFor="inv-rol">Rol</Label>
               <Select value={rol} onValueChange={(v) => setRol(v as "admin" | "user")}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="inv-rol" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

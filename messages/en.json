@@ -42,7 +42,10 @@
     "unmuteAria": "Unmute video",
     "fullscreenAria": "Watch the presentation in fullscreen",
     "modalAria": "ServiExpress JC company presentation",
-    "closeAria": "Close presentation"
+    "closeAria": "Close presentation",
+    "posterAlt": "ServiExpress JC tractor-trailer fleet at its Apodaca terminal",
+    "pauseAria": "Pause background video",
+    "playAria": "Play background video"
   },
   "Stats": {
     "console": "Real-time monitoring · 24/7",
@@ -277,6 +280,7 @@
     "metaTitle": "Business Partners · ServiExpress JC",
     "metaDescription": "Join as a Business Partner of ServiExpress JC: free towing and washes, diesel financing, in-house shops, rent-to-own and steady routes. Apply today.",
     "hero": {
+      "imageAlt": "Tractor-trailer from the ServiExpress JC fleet",
       "kicker": "Business partners",
       "titleLead": "Become a Business Partner of",
       "titleAccent": "ServiExpress JC",

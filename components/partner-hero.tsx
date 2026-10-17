@@ -52,8 +52,9 @@ export function PartnerHero() {
           <div className="relative hidden aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 lg:block">
             <FleetImage
               src="/fleet/kenworth-clasico.jpg"
-              alt="Tractocamión de la flota de ServiExpress JC"
+              alt={t("imageAlt")}
               className="h-full w-full"
+              priority
             />
           </div>
         </div>

@@ -25,6 +25,7 @@ export function LanguageSwitcher({ solid }: { solid: boolean }) {
       <button
         type="button"
         onClick={() => switchTo("es")}
+        lang="es"
         aria-pressed={locale === "es"}
         aria-label={t("switchToEs")}
         className={`${base} ${locale === "es" ? active : idle}`}
@@ -35,6 +36,7 @@ export function LanguageSwitcher({ solid }: { solid: boolean }) {
       <button
         type="button"
         onClick={() => switchTo("en")}
+        lang="en"
         aria-pressed={locale === "en"}
         aria-label={t("switchToEn")}
         className={`${base} ${locale === "en" ? active : idle}`}

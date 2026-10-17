@@ -1,22 +1,26 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Play, Volume2, VolumeX, Maximize2, X } from "lucide-react"
+import { ArrowRight, Pause, Play, Volume2, VolumeX, Maximize2, X } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { useTranslations } from "next-intl"
-import { yearsInService } from "@/lib/site"
 import { trackEvent } from "@/lib/analytics"
 
-export function HeroSection() {
+/** `years` llega del servidor: calcularlo aquí con `new Date()` desfasa la hidratación al cambiar de año. */
+export function HeroSection({ years }: { years: number }) {
   const t = useTranslations("Hero")
   const reduceMotion = useReducedMotion()
   const videoContainerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const modalVideoRef = useRef<HTMLVideoElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  // Solo se reanuda al cerrar el modal si ya estaba corriendo: respeta reduced-motion y redes lentas.
+  const resumeAmbientRef = useRef(false)
   const [videoLoaded, setVideoLoaded] = useState(false)
+  const [playing, setPlaying] = useState(false)
   const [soundOn, setSoundOn] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -92,23 +96,32 @@ export function HeroSection() {
     setSoundOn(next)
   }, [soundOn])
 
+  const togglePlay = useCallback(() => {
+    const v = videoRef.current
+    if (!v) return
+    if (v.paused) v.play().catch(() => {})
+    else v.pause()
+  }, [])
+
   const openModal = useCallback(() => {
-    videoRef.current?.pause()
+    const v = videoRef.current
+    resumeAmbientRef.current = Boolean(v && !v.paused)
+    v?.pause()
     setModalOpen(true)
     trackEvent("hero_video_play", {})
   }, [])
 
   const closeModal = useCallback(() => {
     setModalOpen(false)
-    const v = videoRef.current
-    if (v && !(navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData) {
-      v.play().catch(() => {})
-    }
+    if (resumeAmbientRef.current) videoRef.current?.play().catch(() => {})
   }, [])
 
-  // Modal: lock scroll, autoplay from the start with sound, close on Escape.
+  // Modal: lock scroll, autoplay from the start with sound, close on Escape,
+  // focus inside while open (Tab cycles close button ↔ video) and back to the trigger on close.
   useEffect(() => {
     if (!modalOpen) return
+    const trigger = document.activeElement as HTMLElement | null
+    closeButtonRef.current?.focus()
     const prev = document.body.style.overflow
     document.body.style.overflow = "hidden"
     const mv = modalVideoRef.current
@@ -117,11 +130,20 @@ export function HeroSection() {
       mv.muted = false
       mv.play().catch(() => {})
     }
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && closeModal()
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") return closeModal()
+      if (e.key !== "Tab") return
+      const focusables = [closeButtonRef.current, modalVideoRef.current].filter(Boolean) as HTMLElement[]
+      const i = focusables.indexOf(document.activeElement as HTMLElement)
+      const next = focusables[(i + (e.shiftKey ? -1 : 1) + focusables.length) % focusables.length]
+      e.preventDefault()
+      next.focus()
+    }
     window.addEventListener("keydown", onKey)
     return () => {
       document.body.style.overflow = prev
       window.removeEventListener("keydown", onKey)
+      trigger?.focus()
     }
   }, [modalOpen, closeModal])
 
@@ -135,7 +157,7 @@ export function HeroSection() {
         {/* Poster optimizado: es el LCP y pinta de inmediato; el video hace fade-in encima */}
         <Image
           src="/fleet/flota-patio.jpg"
-          alt="Flota de tractocamiones de ServiExpress JC en su terminal de Apodaca"
+          alt={t("posterAlt")}
           fill
           priority
           fetchPriority="high"
@@ -149,7 +171,10 @@ export function HeroSection() {
           loop
           playsInline
           preload="none"
+          aria-hidden="true"
           onCanPlay={() => setVideoLoaded(true)}
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
           data-loaded={videoLoaded}
           className="hero-video absolute inset-0 w-full h-full object-cover"
         >
@@ -177,7 +202,7 @@ export function HeroSection() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-yellow-accent-bright" />
             </span>
             <span className="text-xs sm:text-sm font-medium text-white/90 font-mono tracking-wide uppercase">
-              {t("badge")}<span className="hidden sm:inline">{t("badgeYears", { years: yearsInService() })}</span>
+              {t("badge")}<span className="hidden sm:inline">{t("badgeYears", { years })}</span>
             </span>
           </div>
 
@@ -243,7 +268,6 @@ export function HeroSection() {
         <button
           type="button"
           onClick={toggleSound}
-          aria-pressed={soundOn}
           aria-label={soundOn ? t("muteAria") : t("unmuteAria")}
           className="relative flex h-11 items-center gap-2 rounded-full border border-white/25 bg-black/40 backdrop-blur-md px-4 text-xs font-medium text-white/90 transition-colors hover:border-yellow-accent-bright/70 hover:text-white"
         >
@@ -255,6 +279,14 @@ export function HeroSection() {
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-yellow-accent-bright" />
             </span>
           )}
+        </button>
+        <button
+          type="button"
+          onClick={togglePlay}
+          aria-label={playing ? t("pauseAria") : t("playAria")}
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-black/40 backdrop-blur-md text-white/90 transition-colors hover:border-yellow-accent-bright/70 hover:text-white"
+        >
+          {playing ? <Pause size={16} /> : <Play size={16} className="ml-0.5" />}
         </button>
         <button
           type="button"
@@ -289,6 +321,7 @@ export function HeroSection() {
               onClick={(e) => e.stopPropagation()}
             >
               <button
+                ref={closeButtonRef}
                 type="button"
                 onClick={closeModal}
                 aria-label={t("closeAria")}

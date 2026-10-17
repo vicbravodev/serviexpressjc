@@ -95,8 +95,11 @@ export function Header() {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: "smooth",
+        behavior: reduce ? "auto" : "smooth",
       })
+      // Lleva el foco a la sección: el siguiente Tab sigue desde ahí, no desde el header.
+      if (!element.hasAttribute("tabindex")) element.tabIndex = -1
+      element.focus({ preventScroll: true })
     }
 
     // Reset active state after animation
@@ -112,6 +115,8 @@ export function Header() {
       variants={{ visible: { y: 0 }, hidden: { y: "-100%" } }}
       animate={reduce ? "visible" : hidden ? "hidden" : "visible"}
       transition={{ duration: 0.35, ease: EASE }}
+      // Si el foco entra al header oculto (Shift+Tab), reaparece para no enfocar algo fuera de pantalla.
+      onFocusCapture={() => setHidden(false)}
       className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,box-shadow] duration-300 ease-out ${
         solid ? "bg-background/95 backdrop-blur-md shadow-md" : "bg-transparent"
       }`}
@@ -123,8 +128,8 @@ export function Header() {
             <Image
               src="/logo-white-bg.png"
               alt="ServiExpress JC"
-              width={200}
-              height={70}
+              width={114}
+              height={64}
               className="h-16 w-auto"
               priority
             />

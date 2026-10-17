@@ -16,14 +16,16 @@ import { useReducedMotion } from "motion/react"
  */
 export function useCountUp(target: number | null, active: boolean, duration = 1400) {
   const [value, setValue] = useState(target ?? 0)
-  const fromRef = useRef(target ?? 0)
+  // Arranca en 0 para que el primer roll-up sea 0→target (el HTML ya trae el valor real).
+  const fromRef = useRef(0)
+  const shownRef = useRef(target ?? 0)
   const reduce = useReducedMotion()
 
   useEffect(() => {
     if (target === null || !active) return
     if (reduce) {
       setValue(target)
-      fromRef.current = target
+      fromRef.current = shownRef.current = target
       return
     }
     const from = fromRef.current
@@ -35,12 +37,16 @@ export function useCountUp(target: number | null, active: boolean, duration = 14
       const p = Math.min((now - start) / duration, 1)
       // easeOutQuart para un conteo decidido, desacelerando
       const eased = 1 - Math.pow(1 - p, 4)
-      setValue(Math.round(from + (target - from) * eased))
+      shownRef.current = Math.round(from + (target - from) * eased)
+      setValue(shownRef.current)
       if (p < 1) raf = requestAnimationFrame(tick)
-      else fromRef.current = target
     }
     raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
+    return () => {
+      cancelAnimationFrame(raf)
+      // Si el target cambia a mitad del conteo, el siguiente parte del valor visible.
+      fromRef.current = shownRef.current
+    }
   }, [target, active, duration, reduce])
 
   return value

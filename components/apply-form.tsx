@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { WHATSAPP_PHONE_JOBS, whatsappUrl } from "@/lib/site"
+import { WHATSAPP_PHONE_JOBS, hasContact, whatsappUrl } from "@/lib/site"
 import { submitApplication } from "@/lib/actions/leads"
 import { trackEvent } from "@/lib/analytics"
 
@@ -25,24 +25,25 @@ export function ApplyForm() {
   const [position, setPosition] = useState<Position | "">("")
   const [experience, setExperience] = useState<Experience | "">("")
 
-  const isValid = name.trim().length > 1 && phone.trim().length >= 8 && position !== "" && experience !== ""
+  const isValid = hasContact(name, phone) && position !== "" && experience !== ""
 
   // Evita filas duplicadas si el visitante reenvía los mismos datos (WhatsApp sí se reabre).
   const lastSubmitted = useRef("")
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    if (name.trim().length <= 1 || phone.trim().length < 8 || position === "" || experience === "") return
+    if (!isValid) return
 
-    // Analytics: lead de postulación (GA4 + Vercel + Meta Pixel).
-    // metaEventId deduplica el pixel contra la Conversions API server-side.
-    const metaEventId = trackEvent("generate_lead", { lead_type: "job", position })
     trackEvent("whatsapp_click", { source: "apply" })
 
-    // Persistir + CAPI (no bloquea el window.open de abajo).
+    // Persistir + CAPI (no bloquea el window.open de abajo). El lead solo cuenta
+    // la primera vez que se envían estos datos: un reenvío no infla conversiones.
     const signature = JSON.stringify([name.trim(), phone.trim(), position, experience])
     if (lastSubmitted.current !== signature) {
       lastSubmitted.current = signature
+      // Analytics: lead de postulación (GA4 + Vercel + Meta Pixel).
+      // metaEventId deduplica el pixel contra la Conversions API server-side.
+      const metaEventId = trackEvent("generate_lead", { lead_type: "job", position })
       void submitApplication({
         name: name.trim(),
         phone: phone.trim(),

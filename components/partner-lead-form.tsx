@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { WHATSAPP_PHONE_PARTNERS, whatsappUrl } from "@/lib/site"
+import { WHATSAPP_PHONE_PARTNERS, whatsappUrl, hasContact } from "@/lib/site"
 import { submitPartnerLead } from "@/lib/actions/leads"
 import { trackEvent, trackGoogleConversion } from "@/lib/analytics"
 
@@ -22,23 +22,24 @@ export function PartnerLeadForm() {
   const [phone, setPhone] = useState("")
   const [unitType, setUnitType] = useState<UnitType | "">("")
 
-  const isValid = name.trim().length > 1 && phone.trim().length >= 8 && unitType !== ""
+  const isValid = hasContact(name, phone) && unitType !== ""
 
   // Evita filas duplicadas si el visitante reenvía los mismos datos (WhatsApp sí se reabre).
   const lastSubmitted = useRef("")
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    if (name.trim().length <= 1 || phone.trim().length < 8 || unitType === "") return
+    if (!isValid) return
 
-    // Conversión Google Ads: acción distinta a la del cotizador (ver lib/analytics.ts).
-    trackGoogleConversion("conversion_event_partner_lead")
-    const metaEventId = trackEvent("generate_lead", { lead_type: "partner", unit_type: unitType })
     trackEvent("whatsapp_click", { source: "partners" })
 
+    // El lead solo cuenta la primera vez que se envían estos datos.
     const signature = JSON.stringify([name.trim(), phone.trim(), unitType])
     if (lastSubmitted.current !== signature) {
       lastSubmitted.current = signature
+      // Conversión Google Ads: acción distinta a la del cotizador (ver lib/analytics.ts).
+      trackGoogleConversion("conversion_event_partner_lead")
+      const metaEventId = trackEvent("generate_lead", { lead_type: "partner", unit_type: unitType })
       void submitPartnerLead({
         name: name.trim(),
         phone: phone.trim(),

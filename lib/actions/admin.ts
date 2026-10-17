@@ -9,6 +9,22 @@ import { getSessionClaims } from "@/lib/admin/auth"
 const LEAD_STATUSES = ["new", "contacted", "in_progress", "won", "lost"] as const
 const APPLICATION_STATUSES = ["new", "reviewed", "contacted", "hired", "rejected"] as const
 
+/**
+ * Next oculta en producción el mensaje de un error lanzado en una Server Action
+ * ("An error occurred in the Server Components render…"). Las acciones devuelven
+ * el error como dato para que el panel muestre el motivo real.
+ */
+function withResult<A extends unknown[]>(fn: (...args: A) => Promise<void>) {
+  return async (...args: A): Promise<{ error?: string }> => {
+    try {
+      await fn(...args)
+      return {}
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : "Error inesperado" }
+    }
+  }
+}
+
 async function requireRole(roles: Array<"admin" | "user">) {
   const claims = await getSessionClaims()
   if (!claims || !roles.includes(claims.role as "admin" | "user")) {
@@ -18,7 +34,7 @@ async function requireRole(roles: Array<"admin" | "user">) {
   return { claims, supabase }
 }
 
-export async function updateLeadStatus(id: string, status: string, lostReason?: string) {
+export const updateLeadStatus = withResult(async (id: string, status: string, lostReason?: string) => {
   if (!LEAD_STATUSES.includes(status as (typeof LEAD_STATUSES)[number])) throw new Error("Status inválido")
   const { supabase } = await requireRole(["admin", "user"])
   const patch: Record<string, unknown> = { status }
@@ -27,9 +43,9 @@ export async function updateLeadStatus(id: string, status: string, lostReason?: 
   if (error) throw new Error(error.message)
   revalidatePath(`/admin/leads/${id}`)
   revalidatePath("/admin/leads")
-}
+})
 
-export async function updatePartnerStatus(id: string, status: string, lostReason?: string) {
+export const updatePartnerStatus = withResult(async (id: string, status: string, lostReason?: string) => {
   if (!LEAD_STATUSES.includes(status as (typeof LEAD_STATUSES)[number])) throw new Error("Status inválido")
   const { supabase } = await requireRole(["admin", "user"])
   const patch: Record<string, unknown> = { status }
@@ -38,9 +54,9 @@ export async function updatePartnerStatus(id: string, status: string, lostReason
   if (error) throw new Error(error.message)
   revalidatePath(`/admin/socios/${id}`)
   revalidatePath("/admin/socios")
-}
+})
 
-export async function updateApplicationStatus(id: string, status: string, reason?: string) {
+export const updateApplicationStatus = withResult(async (id: string, status: string, reason?: string) => {
   if (!APPLICATION_STATUSES.includes(status as (typeof APPLICATION_STATUSES)[number])) throw new Error("Status inválido")
   const { claims, supabase } = await requireRole(["admin"])
   const { error } = await supabase.from("job_applications").update({ status }).eq("id", id)
@@ -59,7 +75,7 @@ export async function updateApplicationStatus(id: string, status: string, reason
   }
   revalidatePath(`/admin/postulaciones/${id}`)
   revalidatePath("/admin/postulaciones")
-}
+})
 
 type EntityType = "load_request" | "job_application" | "partner_lead"
 
@@ -79,12 +95,12 @@ const ENTITY_ROLES: Record<EntityType, Array<"admin" | "user">> = {
   partner_lead: ["admin", "user"],
 }
 
-export async function updateAssignee(
+export const updateAssignee = withResult(async (
   entityType: EntityType,
   entityId: string,
   assigneeId: string | null,
   assigneeName?: string,
-) {
+) => {
   const { claims, supabase } = await requireRole(ENTITY_ROLES[entityType])
   const { data: updated, error } = await supabase
     .from(ENTITY_TABLE[entityType])
@@ -105,9 +121,9 @@ export async function updateAssignee(
   const base = ENTITY_BASE[entityType]
   revalidatePath(`/admin/${base}/${entityId}`)
   revalidatePath(`/admin/${base}`)
-}
+})
 
-export async function addNote(entityType: EntityType, entityId: string, note: string) {
+export const addNote = withResult(async (entityType: EntityType, entityId: string, note: string) => {
   const { claims, supabase } = await requireRole(ENTITY_ROLES[entityType])
   const body = note.trim()
   if (!body) throw new Error("La nota está vacía")
@@ -121,9 +137,9 @@ export async function addNote(entityType: EntityType, entityId: string, note: st
   })
   if (error) throw new Error(error.message)
   revalidatePath(`/admin/${ENTITY_BASE[entityType]}/${entityId}`)
-}
+})
 
-export async function createUser(input: { email: string; password: string; fullName?: string; role: "admin" | "user" }) {
+export const createUser = withResult(async (input: { email: string; password: string; fullName?: string; role: "admin" | "user" }) => {
   const { claims } = await requireRole(["admin"])
   // Defensa en profundidad: valida el rol server-side (el tipo TS no protege una invocación RPC directa).
   if (!(["admin", "user"] as const).includes(input.role)) throw new Error("Rol inválido")
@@ -150,10 +166,11 @@ export async function createUser(input: { email: string; password: string; fullN
     new_value: { email: input.email.trim(), role: input.role },
   })
   revalidatePath("/admin/usuarios")
-}
+})
 
-export async function updateUserRole(userId: string, role: "admin" | "user") {
+export const updateUserRole = withResult(async (userId: string, role: "admin" | "user") => {
   const { claims } = await requireRole(["admin"])
+  if (!(["admin", "user"] as const).includes(role)) throw new Error("Rol inválido")
   const admin = createAdminClient()
   const { data: before } = await admin.from("profiles").select("role").eq("id", userId).single()
   const { error } = await admin.auth.admin.updateUserById(userId, { app_metadata: { role } })
@@ -167,9 +184,9 @@ export async function updateUserRole(userId: string, role: "admin" | "user") {
     old_value: before ?? null, new_value: { role },
   })
   revalidatePath("/admin/usuarios")
-}
+})
 
-export async function setUserActive(userId: string, isActive: boolean) {
+export const setUserActive = withResult(async (userId: string, isActive: boolean) => {
   const { claims } = await requireRole(["admin"])
   const admin = createAdminClient()
   const { error: banErr } = await admin.auth.admin.updateUserById(userId, { ban_duration: isActive ? "none" : "876000h" })
@@ -183,4 +200,4 @@ export async function setUserActive(userId: string, isActive: boolean) {
     new_value: { is_active: isActive },
   })
   revalidatePath("/admin/usuarios")
-}
+})

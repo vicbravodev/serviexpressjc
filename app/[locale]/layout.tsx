@@ -4,10 +4,9 @@ import Script from "next/script"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { notFound } from "next/navigation"
-import { NextIntlClientProvider, hasLocale } from "next-intl"
+import { NextIntlClientProvider } from "next-intl"
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server"
-import { routing } from "@/i18n/routing"
+import { routing, localeParam } from "@/i18n/routing"
 import { pageMetadata } from "@/lib/seo"
 import { organizationSchema } from "@/lib/schema"
 import { yearsInService } from "@/lib/site"
@@ -26,7 +25,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
   display: "swap",
+  // Solo etiquetas pequeñas: no compite con el poster del hero (LCP) por ancho de banda.
+  preload: false,
 })
+
+// Regenera las páginas estáticas a diario: los "años en servicio" cambian el 1 de enero sin necesidad de deploy.
+export const revalidate = 86400
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
@@ -37,7 +41,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
-  const { locale } = await params
+  const locale = await localeParam(params)
   const t = await getTranslations({ locale, namespace: "Metadata" })
 
   return pageMetadata({
@@ -55,8 +59,7 @@ export default async function RootLayout({
   children: React.ReactNode
   params: Promise<{ locale: string }>
 }>) {
-  const { locale } = await params
-  if (!hasLocale(routing.locales, locale)) notFound()
+  const locale = await localeParam(params)
   setRequestLocale(locale)
   const messages = await getMessages()
 

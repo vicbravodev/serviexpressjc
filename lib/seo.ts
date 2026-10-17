@@ -57,7 +57,7 @@ export function pageMetadata({
       description,
       locale: l === "es" ? "es_MX" : "en_US",
       alternateLocale: l === "es" ? "en_US" : "es_MX",
-      images: [{ url: ogImage, width: 1600, height: 829, alt: ogImageAlt }],
+      images: [{ url: ogImage, alt: ogImageAlt }],
     },
     twitter: {
       card: "summary_large_image",
