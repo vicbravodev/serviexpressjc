@@ -315,15 +315,6 @@
     background-size: 24px 24px;
   }
 
-  /* Telemetry: blinking live dot */
-  @keyframes live-blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.25; }
-  }
-  .animate-live-blink {
-    animation: live-blink 1.4s steps(1, end) infinite;
-  }
-
   /* Telemetry: horizontal data ticker (logos / readouts) */
   @keyframes marquee-x {
     from { transform: translateX(0); }
@@ -368,7 +359,6 @@
 
 /* New tech animations also collapse under reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-  .animate-live-blink,
   .animate-marquee,
   .animate-convoy,
   .animate-scan {

@@ -29,7 +29,7 @@ export default async function LandingPage({
       <JsonLd data={localBusinessSchema(tMeta("description", { years }))} />
       <Header />
       <main>
-        <HeroSection years={years} />
+        <HeroSection />
         <StatsSection years={years} />
         <ServicesSection />
         <CoverageLazy />

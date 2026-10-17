@@ -34,9 +34,6 @@ export function CTASection() {
                   <Briefcase aria-hidden className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                    {t("apply.kicker")}
-                  </span>
                   <h2 className="text-xl font-bold leading-tight">{t("apply.title")}</h2>
                   <p className="mt-1 text-sm text-muted-foreground">{t("apply.description")}</p>
                 </div>
