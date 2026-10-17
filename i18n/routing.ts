@@ -1,4 +1,6 @@
+import { hasLocale, type Locale } from "next-intl"
 import { defineRouting } from "next-intl/routing"
+import { notFound } from "next/navigation"
 
 export const routing = defineRouting({
   locales: ["es", "en"],
@@ -69,3 +71,10 @@ export const CONTENT_HREFS = [
 ] as const
 
 export type ContentHref = (typeof CONTENT_HREFS)[number]
+
+/** Valida el segmento [locale] (Next lo tipa como string): 404 si no es un locale soportado. */
+export async function localeParam(params: Promise<{ locale: string }>): Promise<Locale> {
+  const { locale } = await params
+  if (!hasLocale(routing.locales, locale)) notFound()
+  return locale
+}

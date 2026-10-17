@@ -4,8 +4,23 @@ const withNextIntl = createNextIntlPlugin()
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          // Nadie debe enmarcar el sitio: evita clickjacking sobre el panel admin.
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+        ],
+      },
+      {
+        // 18 MB que no cambian entre deploys: sin esto Vercel lo revalida en cada visita.
+        source: "/hero-videop.mp4",
+        headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }],
+      },
+    ]
   },
   images: {
     // Optimización activa (Vercel): AVIF/WebP y tamaños responsivos.

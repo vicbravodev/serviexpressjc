@@ -1,11 +1,12 @@
 import { getTranslations } from "next-intl/server"
+import type { Locale } from "next-intl"
 import type { Faq } from "@/content"
 
 /**
  * Bloque de preguntas frecuentes. Todo el contenido queda visible en el HTML
  * servido (sin acordeones colapsados) para que Google lo indexe completo.
  */
-export async function FaqBlock({ locale, faqs }: { locale: string; faqs: Faq[] }) {
+export async function FaqBlock({ locale, faqs }: { locale: Locale; faqs: Faq[] }) {
   const t = await getTranslations({ locale, namespace: "ContentPage" })
   return (
     <section className="mt-16">

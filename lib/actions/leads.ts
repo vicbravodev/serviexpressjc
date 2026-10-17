@@ -5,6 +5,7 @@ import { cookies } from "next/headers"
 import { createClient } from "@/utils/supabase/server"
 import { sendServerEvent } from "@/lib/meta/capi"
 import { metaRequestContext } from "@/lib/meta/request-context"
+import { hasContact } from "@/lib/site"
 
 export type LoadRequestInput = {
   service: string
@@ -57,8 +58,6 @@ function cleanInt(value: unknown, min: number, max: number): number | null {
   if (!Number.isFinite(n)) return null
   return Math.min(Math.max(Math.round(n), min), max)
 }
-
-const hasContact = (name: string, phone: string) => name.length >= 2 && phone.replace(/\D/g, "").length >= 8
 
 /**
  * Meta CAPI se envía con `after()`: corre después de responder, así el usuario no
@@ -114,7 +113,8 @@ export async function submitLoadRequest(input: LoadRequestInput): Promise<{ ok: 
     if (error) console.error("submitLoadRequest:", error.message)
 
     // Meta Conversions API: Lead (server-side, deduplicado por metaEventId).
-    await sendLeadEventAfterResponse("Lead", input.metaEventId, service, contactPhone, contactName)
+    // Solo si se guardó: un insert fallido no debe contar como conversión.
+    if (!error) await sendLeadEventAfterResponse("Lead", input.metaEventId, service, contactPhone, contactName)
 
     return { ok: !error }
   } catch (e) {
@@ -144,7 +144,8 @@ export async function submitApplication(input: ApplicationInput): Promise<{ ok: 
     if (error) console.error("submitApplication:", error.message)
 
     // Meta Conversions API: SubmitApplication (server-side, deduplicado por metaEventId).
-    await sendLeadEventAfterResponse("SubmitApplication", input.metaEventId, position, phone, name)
+    // Solo si se guardó: un insert fallido no debe contar como conversión.
+    if (!error) await sendLeadEventAfterResponse("SubmitApplication", input.metaEventId, position, phone, name)
 
     return { ok: !error }
   } catch (e) {
@@ -172,7 +173,8 @@ export async function submitPartnerLead(input: PartnerLeadInput): Promise<{ ok: 
     if (error) console.error("submitPartnerLead:", error.message)
 
     // Meta Conversions API: Lead (server-side, deduplicado por metaEventId).
-    await sendLeadEventAfterResponse("Lead", input.metaEventId, "socio_comercial", phone, name)
+    // Solo si se guardó: un insert fallido no debe contar como conversión.
+    if (!error) await sendLeadEventAfterResponse("Lead", input.metaEventId, "socio_comercial", phone, name)
 
     return { ok: !error }
   } catch (e) {

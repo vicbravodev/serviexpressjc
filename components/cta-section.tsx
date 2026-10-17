@@ -20,7 +20,7 @@ export function CTASection() {
               <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
                 {t("quote.kicker")}
               </span>
-              <h3 className="mb-2 mt-2 text-2xl font-bold">{t("quote.title")}</h3>
+              <h2 className="mb-2 mt-2 text-2xl font-bold">{t("quote.title")}</h2>
               <p className="mb-6 text-muted-foreground">{t("quote.description")}</p>
               <QuoteSimulator />
             </Card>
@@ -37,7 +37,7 @@ export function CTASection() {
                   <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                     {t("apply.kicker")}
                   </span>
-                  <h3 className="text-xl font-bold leading-tight">{t("apply.title")}</h3>
+                  <h2 className="text-xl font-bold leading-tight">{t("apply.title")}</h2>
                   <p className="mt-1 text-sm text-muted-foreground">{t("apply.description")}</p>
                 </div>
               </div>
@@ -48,7 +48,7 @@ export function CTASection() {
           {/* Contacto directo */}
           <RevealChild>
             <Card className="surface-steel border border-white/10 p-8 text-center text-white shadow-none">
-              <h3 className="mb-3 text-2xl font-bold">{t("whatsapp.title")}</h3>
+              <h2 className="mb-3 text-2xl font-bold">{t("whatsapp.title")}</h2>
               <p className="mb-6 text-white/70">{t("whatsapp.description")}</p>
               <Pressable className="inline-flex">
                 <Button size="lg" className="h-12 bg-[#25D366] text-white hover:bg-[#20BA5A]" asChild>

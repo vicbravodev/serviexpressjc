@@ -41,7 +41,9 @@ export function RecentLeads({ rows }: { rows: RecentLead[] }) {
           {rows.map((l) => {
             const meta = leadStatusMeta(l.status)
             return (
-              <TableRow key={l.id} className="cursor-pointer" onClick={() => router.push(`/admin/leads/${l.id}`)}>
+              <TableRow key={l.id} className="cursor-pointer" onClick={() => router.push(`/admin/leads/${l.id}`)}
+                    onKeyDown={(e) => e.key === "Enter" && router.push(`/admin/leads/${l.id}`)}
+                    tabIndex={0}>
                 <TableCell>
                   <span className="font-mono text-xs">{l.folio}</span>
                 </TableCell>

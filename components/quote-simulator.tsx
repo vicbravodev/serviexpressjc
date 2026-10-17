@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { MX_CITIES, US_CITIES, cityById, routeDistanceKm, type ServiceType, type UnitType } from "@/lib/quote"
-import { contactPhone as getContactPhone, WHATSAPP_PHONE_MX, WHATSAPP_PHONE_US, whatsappUrl } from "@/lib/site"
+import { contactPhone as getContactPhone, hasContact, WHATSAPP_PHONE_MX, WHATSAPP_PHONE_US, whatsappUrl } from "@/lib/site"
 import { cn } from "@/lib/utils"
 import { submitLoadRequest } from "@/lib/actions/leads"
 import { trackEvent, trackGoogleConversion } from "@/lib/analytics"
@@ -77,8 +77,7 @@ export function QuoteSimulator() {
 
   // Nombre y teléfono son obligatorios para enviar la solicitud (sin ellos el
   // lead no sirve para dar seguimiento).
-  const contactValid =
-    contactName.trim().length > 1 && contactPhone.replace(/\D/g, "").length >= 8
+  const contactValid = hasContact(contactName, contactPhone)
 
   // Listo para enviar: ruta válida + contacto completo.
   const ready = routeReady && contactValid
@@ -222,7 +221,6 @@ export function QuoteSimulator() {
               )}
             >
               <span
-                lang="es"
                 className="min-w-0 break-words hyphens-auto text-center text-xs font-medium leading-tight sm:text-sm"
               >
                 {t(`unit.${u}`)}
@@ -246,6 +244,7 @@ export function QuoteSimulator() {
           max={maxTons}
           step={1}
           aria-label={t("weight")}
+          valueText={t("tons", { tons })}
           className="py-2"
         />
       </div>
@@ -356,6 +355,8 @@ export function QuoteSimulator() {
               ))}
             </motion.dl>
             <p className="text-sm leading-relaxed text-muted-foreground">{t("summaryNote")}</p>
+            {/* Región viva: el lector anuncia el requisito cuando aparece o desaparece. */}
+            <div aria-live="polite">
             <AnimatePresence initial={false}>
               {!contactValid && (
                 <motion.p
@@ -370,6 +371,7 @@ export function QuoteSimulator() {
                 </motion.p>
               )}
             </AnimatePresence>
+            </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               {contactValid ? (
                 <Button size="lg" className="h-12 bg-secondary hover:bg-secondary/90 sm:flex-1" asChild>
@@ -378,17 +380,18 @@ export function QuoteSimulator() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => {
-                      // Conversión Google Ads/GA4 + eventos estándar (GA4 + Vercel + Meta Pixel).
-                      trackGoogleConversion("conversion_event_request_quote")
-                      // metaEventId deduplica el pixel contra la Conversions API server-side.
-                      const metaEventId = trackEvent("generate_lead", { lead_type: "quote", service, unit })
                       trackEvent("whatsapp_click", { source: "quote", service })
                       const signature = JSON.stringify([
                         service, originId, destinationId, unit, tons, urgency, cargoText,
                         contactName.trim(), contactPhone.trim(),
                       ])
+                      // Un reenvío con los mismos datos no cuenta como otro lead.
                       if (lastSubmitted.current === signature) return
                       lastSubmitted.current = signature
+                      // Conversión Google Ads/GA4 + eventos estándar (GA4 + Vercel + Meta Pixel).
+                      trackGoogleConversion("conversion_event_request_quote")
+                      // metaEventId deduplica el pixel contra la Conversions API server-side.
+                      const metaEventId = trackEvent("generate_lead", { lead_type: "quote", service, unit })
                       void submitLoadRequest({
                         service,
                         originId,

@@ -1,11 +1,12 @@
 import { Link } from "@/i18n/navigation"
+import type { Locale } from "next-intl"
 import { getTranslations } from "next-intl/server"
 import { ChevronRight } from "lucide-react"
 
 type Crumb = { label: string }
 
 /** Migas de pan: Inicio → página actual. Server component, texto siempre en HTML. */
-export async function Breadcrumbs({ locale, current }: { locale: string; current: Crumb }) {
+export async function Breadcrumbs({ locale, current }: { locale: Locale; current: Crumb }) {
   const t = await getTranslations({ locale, namespace: "ContentPage" })
   return (
     <nav aria-label={t("breadcrumbsAria")} className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-white/60">

@@ -881,7 +881,7 @@ export default function AdminLoginPage() {
   const [state, formAction, pending] = useActionState<SignInState, FormData>(signIn, {})
   return (
     <div className="mx-auto flex min-h-screen max-w-sm flex-col justify-center px-6">
-      <h1 className="mb-1 text-2xl font-bold">Panel JC Serviexpress</h1>
+      <h1 className="mb-1 text-2xl font-bold">Panel ServiExpress JC</h1>
       <p className="mb-6 text-sm text-muted-foreground">Acceso restringido.</p>
       <form action={formAction} className="space-y-4">
         <div className="space-y-2">

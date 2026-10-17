@@ -93,13 +93,14 @@ export function PartnerLeadsTable({ rows, staff }: Props) {
         </Tabs>
         <div className="flex flex-wrap items-center gap-2">
           <Input
+            aria-label="Buscar nombre, unidad o teléfono"
             placeholder="Buscar nombre, unidad o teléfono"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-64"
           />
           <Select value={asignado} onValueChange={setAsignado}>
-            <SelectTrigger className="w-[200px]">
+            <SelectTrigger className="w-[200px]" aria-label="Asignado a">
               <SelectValue placeholder="Asignado a" />
             </SelectTrigger>
             <SelectContent>
@@ -147,6 +148,8 @@ export function PartnerLeadsTable({ rows, staff }: Props) {
                     key={p.id}
                     className="cursor-pointer"
                     onClick={() => router.push(`/admin/socios/${p.id}`)}
+                    onKeyDown={(e) => e.key === "Enter" && router.push(`/admin/socios/${p.id}`)}
+                    tabIndex={0}
                   >
                     <TableCell>
                       <div className="flex flex-col gap-0.5">

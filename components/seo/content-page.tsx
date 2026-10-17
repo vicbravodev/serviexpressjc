@@ -1,4 +1,5 @@
 import Link from "next/link"
+import type { Locale } from "next-intl"
 import { ArrowRight } from "lucide-react"
 import { getTranslations } from "next-intl/server"
 import { Link as LocaleLink, getPathname } from "@/i18n/navigation"
@@ -51,7 +52,7 @@ function SectionBlock({ section }: { section: Section }) {
  * todo el texto viaja en el HTML inicial. Reusa el lenguaje visual del sitio
  * (banda oscura tipo sala de control + secciones claras).
  */
-export async function ContentPage({ href, locale }: { href: ContentHref; locale: string }) {
+export async function ContentPage({ href, locale }: { href: ContentHref; locale: Locale }) {
   const c = getPageContent(href, locale)
   const t = await getTranslations({ locale, namespace: "ContentPage" })
   const l = locale === "en" ? ("en" as const) : ("es" as const)

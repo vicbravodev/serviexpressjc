@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { localeParam } from "@/i18n/routing"
 import { setRequestLocale } from "next-intl/server"
 import type { ContentHref } from "@/i18n/routing"
 import { getPageContent } from "@/content"
@@ -13,7 +14,7 @@ type Props = { params: Promise<{ locale: string }> }
  */
 export function createContentRoute(href: ContentHref) {
   async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const { locale } = await params
+    const locale = await localeParam(params)
     const c = getPageContent(href, locale)
     return pageMetadata({
       locale,
@@ -26,7 +27,7 @@ export function createContentRoute(href: ContentHref) {
   }
 
   async function Page({ params }: Props) {
-    const { locale } = await params
+    const locale = await localeParam(params)
     setRequestLocale(locale)
     return <ContentPage href={href} locale={locale} />
   }

@@ -134,10 +134,18 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring;
   }
   body {
     @apply bg-background text-foreground;
+  }
+  /* El header fijo (h-24) no debe tapar el elemento enfocado ni el destino de un ancla. */
+  html {
+    scroll-padding-top: 7rem;
+  }
+  /* Secciones que reciben foco programático al navegar por anclas: no son controles. */
+  [tabindex="-1"]:focus {
+    outline: none;
   }
 }
 

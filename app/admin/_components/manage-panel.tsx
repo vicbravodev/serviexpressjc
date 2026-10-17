@@ -30,6 +30,12 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 
+/** Las acciones devuelven `{ error }` en vez de lanzar (Next oculta el mensaje en producción). */
+const ok = ({ error }: { error?: string }) => {
+  if (error) throw new Error(error)
+}
+
+
 type Props = {
   kind: "lead" | "application" | "partner"
   id: string
@@ -53,9 +59,9 @@ export function ManagePanel({ kind, id, status, assigneeId, staff }: Props) {
   const applyStatus = (nuevo: string, razon?: string) =>
     start(async () => {
       try {
-        if (kind === "lead") await updateLeadStatus(id, nuevo, razon)
-        else if (kind === "partner") await updatePartnerStatus(id, nuevo, razon)
-        else await updateApplicationStatus(id, nuevo, razon)
+        if (kind === "lead") ok(await updateLeadStatus(id, nuevo, razon))
+        else if (kind === "partner") ok(await updatePartnerStatus(id, nuevo, razon))
+        else ok(await updateApplicationStatus(id, nuevo, razon))
         toast.success(`Estatus actualizado a ${metaOf(nuevo).label}`)
       } catch (e) {
         toast.error(e instanceof Error ? e.message : "No se pudo actualizar el estatus")
@@ -79,7 +85,7 @@ export function ManagePanel({ kind, id, status, assigneeId, staff }: Props) {
       if (nuevoId === assigneeId) return
       const nombre = staff.find((s) => s.id === nuevoId)?.name
       try {
-        await updateAssignee(entityType, id, nuevoId, nombre)
+        ok(await updateAssignee(entityType, id, nuevoId, nombre))
         toast.success(nuevoId ? `Asignado a ${nombre}` : "Asignación removida")
       } catch (e) {
         toast.error(e instanceof Error ? e.message : "No se pudo asignar")
@@ -91,7 +97,7 @@ export function ManagePanel({ kind, id, status, assigneeId, staff }: Props) {
       const body = nota.trim()
       if (!body) return
       try {
-        await addNote(entityType, id, body)
+        ok(await addNote(entityType, id, body))
         setNota("")
         toast.success("Nota agregada al historial")
       } catch (e) {
@@ -115,9 +121,9 @@ export function ManagePanel({ kind, id, status, assigneeId, staff }: Props) {
       <CardContent>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <Label>Estatus</Label>
+            <Label htmlFor="det-status">Estatus</Label>
             <Select value={status} onValueChange={onStatusChange} disabled={pending}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger id="det-status" className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -130,9 +136,9 @@ export function ManagePanel({ kind, id, status, assigneeId, staff }: Props) {
             </Select>
           </div>
           <div className="flex flex-col gap-1.5">
-            <Label>Asignado a</Label>
+            <Label htmlFor="det-assignee">Asignado a</Label>
             <Select value={assigneeId ?? "sin"} onValueChange={onAssigneeChange} disabled={pending}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger id="det-assignee" className="w-full">
                 <SelectValue placeholder="Sin asignar" />
               </SelectTrigger>
               <SelectContent>

@@ -2,9 +2,8 @@
 
 import { Clock, Truck, ShieldCheck, BadgeCheck } from "lucide-react"
 import { useRef } from "react"
-import { motion, useInView } from "motion/react"
+import { motion, useInView, useReducedMotion } from "motion/react"
 import { useTranslations } from "next-intl"
-import { yearsInService } from "@/lib/site"
 import { useCountUp } from "@/lib/use-count-up"
 
 type Metric = {
@@ -17,8 +16,8 @@ type Metric = {
   suffix?: string
 }
 
-const metrics: Metric[] = [
-  { icon: BadgeCheck, target: yearsInService() },
+const metricsFor = (years: number): Metric[] => [
+  { icon: BadgeCheck, target: years },
   { icon: Clock, target: null, display: "24/7" },
   { icon: Truck, target: 100, suffix: "%" },
   { icon: ShieldCheck, target: null, display: "B1" },
@@ -27,10 +26,11 @@ const metrics: Metric[] = [
 function MetricCell({ metric, active, index }: { metric: Metric; active: boolean; index: number }) {
   const t = useTranslations("Stats")
   const counted = useCountUp(metric.target, active)
+  const reduce = useReducedMotion()
   const Icon = metric.icon
   return (
     <motion.div
-      initial={{ opacity: 0, y: 18 }}
+      initial={reduce ? false : { opacity: 0, y: 18 }}
       animate={active ? { opacity: 1, y: 0 } : undefined}
       transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
       className="group relative flex flex-col gap-3 bg-[oklch(0.16_0.012_255)] px-6 py-7 sm:px-8 sm:py-9 transition-colors hover:bg-[oklch(0.185_0.014_255)]"
@@ -57,8 +57,10 @@ function MetricCell({ metric, active, index }: { metric: Metric; active: boolean
   )
 }
 
-export function StatsSection() {
+/** `years` llega del servidor: calcularlo aquí con `new Date()` desfasa la hidratación al cambiar de año. */
+export function StatsSection({ years }: { years: number }) {
   const t = useTranslations("Stats")
+  const metrics = metricsFor(years)
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.3 })
 

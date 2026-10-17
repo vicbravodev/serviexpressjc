@@ -42,7 +42,7 @@ export const LOCATION = {
 /** Key pública de Maps Embed API. Visible en el iframe (normal); debe ir
  *  restringida por referrer + solo Maps Embed API en Google Cloud. */
 export const GOOGLE_MAPS_EMBED_KEY =
-  process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY ?? "AIzaSyANzhut33GBXlBcMvUzKzWORCAhG08MYdU"
+  process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY ?? "<GOOGLE_MAPS_EMBED_KEY>"
 
 /** URL del iframe de embed apuntando al placeId, con idioma por locale. */
 export const mapsEmbedUrl = (locale: string) =>

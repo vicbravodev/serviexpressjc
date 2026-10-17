@@ -11,6 +11,8 @@ type FleetImageProps = {
   className?: string
   /** Anchos que ocupa la imagen por breakpoint (atributo sizes de next/image). */
   sizes?: string
+  /** Imagen above the fold (candidata a LCP): carga inmediata con alta prioridad. */
+  priority?: boolean
 }
 
 /**
@@ -18,7 +20,7 @@ type FleetImageProps = {
  * steel/blueprint panel with a mono caption so layouts never look broken.
  * Sirve formatos modernos (AVIF/WebP) vía next/image y carga lazy bajo el fold.
  */
-export function FleetImage({ src, alt, caption, className, sizes }: FleetImageProps) {
+export function FleetImage({ src, alt, caption, className, sizes, priority }: FleetImageProps) {
   const [failed, setFailed] = useState(false)
 
   if (failed) {
@@ -29,7 +31,7 @@ export function FleetImage({ src, alt, caption, className, sizes }: FleetImagePr
         role="img"
       >
         <span className="px-6 text-center font-mono text-[11px] uppercase tracking-[0.15em] text-white/45">
-          {caption ?? "Foto de flota"}
+          {caption ?? alt}
         </span>
       </div>
     )
@@ -41,7 +43,8 @@ export function FleetImage({ src, alt, caption, className, sizes }: FleetImagePr
       alt={alt}
       width={1600}
       height={900}
-      loading="lazy"
+      priority={priority}
+      loading={priority ? undefined : "lazy"}
       sizes={sizes ?? "(max-width: 1024px) 100vw, 50vw"}
       onError={() => setFailed(true)}
       className={`object-cover ${className ?? ""}`}

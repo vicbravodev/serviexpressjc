@@ -42,7 +42,10 @@
     "unmuteAria": "Activar sonido del video",
     "fullscreenAria": "Ver presentación en pantalla completa",
     "modalAria": "Presentación de ServiExpress JC",
-    "closeAria": "Cerrar presentación"
+    "closeAria": "Cerrar presentación",
+    "posterAlt": "Flota de tractocamiones de ServiExpress JC en su terminal de Apodaca",
+    "pauseAria": "Pausar video de fondo",
+    "playAria": "Reproducir video de fondo"
   },
   "Stats": {
     "console": "Monitoreo en tiempo real · 24/7",
@@ -277,6 +280,7 @@
     "metaTitle": "Socios Comerciales · ServiExpress JC",
     "metaDescription": "Únete como Socio Comercial de ServiExpress JC: grúas y lavados gratis, financiamiento de diésel, talleres propios, renta con opción a compra y rutas constantes. Aplica hoy.",
     "hero": {
+      "imageAlt": "Tractocamión de la flota de ServiExpress JC",
       "kicker": "Socios comerciales",
       "titleLead": "Súmate como Socio Comercial de",
       "titleAccent": "ServiExpress JC",
