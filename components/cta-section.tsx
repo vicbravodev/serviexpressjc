@@ -11,7 +11,7 @@ import { whatsappUrl } from "@/lib/site"
 export function CTASection() {
   const t = useTranslations("CTA")
   return (
-    <section className="py-24">
+    <section className="bg-muted/30 py-24">
       <div className="container mx-auto px-4">
         <RevealGroup className="mx-auto max-w-3xl space-y-8">
           {/* Cotizador autoservicio — protagonista de la sección */}
@@ -34,9 +34,6 @@ export function CTASection() {
                   <Briefcase aria-hidden className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                    {t("apply.kicker")}
-                  </span>
                   <h2 className="text-xl font-bold leading-tight">{t("apply.title")}</h2>
                   <p className="mt-1 text-sm text-muted-foreground">{t("apply.description")}</p>
                 </div>
@@ -45,13 +42,16 @@ export function CTASection() {
             </Card>
           </RevealChild>
 
-          {/* Contacto directo */}
+          {/* Contacto directo: franja clara, el hero es el único bloque oscuro */}
           <RevealChild>
-            <Card className="surface-steel border border-white/10 p-8 text-center text-white shadow-none">
-              <h2 className="mb-3 text-2xl font-bold">{t("whatsapp.title")}</h2>
-              <p className="mb-6 text-white/70">{t("whatsapp.description")}</p>
-              <Pressable className="inline-flex">
-                <Button size="lg" className="h-12 bg-[#25D366] text-white hover:bg-[#20BA5A]" asChild>
+            <div className="flex flex-col gap-5 rounded-xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+              <div>
+                <h2 className="text-xl font-bold leading-tight">{t("whatsapp.title")}</h2>
+                <p className="mt-1 text-sm text-muted-foreground">{t("whatsapp.description")}</p>
+              </div>
+              <Pressable className="inline-flex shrink-0">
+                {/* Texto oscuro: blanco sobre #25D366 no pasa AA (≈2:1) */}
+                <Button size="lg" className="h-12 bg-[#25D366] text-[oklch(0.2_0.04_155)] hover:bg-[#20BA5A]" asChild>
                 <TrackedLink
                   href={whatsappUrl(t("whatsapp.prefill"))}
                   target="_blank"
@@ -66,7 +66,7 @@ export function CTASection() {
                 </TrackedLink>
                 </Button>
               </Pressable>
-            </Card>
+            </div>
           </RevealChild>
         </RevealGroup>
       </div>
