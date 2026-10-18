@@ -123,22 +123,27 @@
     "teamPhotoAlt": "The ServiExpress JC team"
   },
   "Coverage": {
-    "kicker": "Operating network",
     "title": "We go everywhere",
     "subtitle": "All 32 states of Mexico and the entire continental U.S. If your freight needs to move, we haul it, door to door.",
-    "console": "National & cross-border network",
-    "consoleTag": "MEXICO · USA",
-    "mapAria": "Coverage map of ServiExpress JC across Mexico and the United States, with routes fanning out from Monterrey to both countries",
-    "hubLabel": "Monterrey · Hub",
-    "borderLabel": "MX · USA BORDER",
-    "legendCorridor": "Active corridors",
-    "legendState": "States covered",
-    "mxTitle": "Mexico",
-    "mxCount": "32 states",
-    "usTitle": "United States",
-    "usCount": "48 contiguous states",
-    "reachNote": "Door-to-door service in both countries. Don't see your destination? We cover it too.",
-    "crossingChip": "B1 crossing · dual plates"
+    "mapAria": "Map of Mexico and the United States showing the lanes we run from Monterrey to Laredo, Houston, Dallas and Mexico City",
+    "hubLabel": "Monterrey",
+    "crossingLabel": "Laredo crossing",
+    "searchLabel": "Do we reach your city?",
+    "searchPlaceholder": "Type a city, e.g. Guadalajara",
+    "resultYes": "Yes. {city} is about {km} km by road from Monterrey.",
+    "resultCrossing": "We cross at Laredo with B1-certified drivers and dual-plated trucks.",
+    "resultBase": "That's home: we operate out of Apodaca, in the Monterrey metro area.",
+    "resultOther": "It's not on our quick list, but we cover all 32 states of Mexico and the 48 contiguous U.S. states. Get a quote and we'll confirm the lane.",
+    "quoteThis": "Quote this lane",
+    "quoteAny": "Get a quote",
+    "lanesTitle": "Frequent lanes",
+    "lanes": [
+      { "city": "Laredo", "name": "Monterrey-Laredo", "road": "Highway 85D", "distance": "≈230 km / 145 mi", "time": "2.5-3 h to the border" },
+      { "city": "Houston", "name": "Monterrey-Houston", "road": "85D, I-35 and US-59", "distance": "≈830 km / 515 mi", "time": "1-2 days door to door" },
+      { "city": "Dallas", "name": "Monterrey-Dallas", "road": "85D and I-35", "distance": "≈970 km / 600 mi", "time": "1-2 days door to door" },
+      { "city": "Mexico City", "name": "Monterrey-Mexico City", "road": "Highway 57D", "distance": "≈900 km / 560 mi", "time": "10-12 driving hours" }
+    ],
+    "approxNote": "Approximate distances and times: the border crossing and delivery appointments can vary."
   },
   "Quote": {
     "service": {

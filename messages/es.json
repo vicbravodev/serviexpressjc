@@ -123,22 +123,27 @@
     "teamPhotoAlt": "Equipo de ServiExpress JC"
   },
   "Coverage": {
-    "kicker": "Red de operación",
     "title": "Vamos a todos lados",
     "subtitle": "Los 32 estados de México y toda la Unión Americana. Si tu carga necesita moverse, nosotros la llevamos, de puerta a puerta.",
-    "console": "Red nacional e internacional",
-    "consoleTag": "MÉXICO · USA",
-    "mapAria": "Mapa de cobertura de ServiExpress JC en México y Estados Unidos, con rutas que parten de Monterrey hacia ambos países",
-    "hubLabel": "Monterrey · Hub",
-    "borderLabel": "FRONTERA MX · USA",
-    "legendCorridor": "Corredores activos",
-    "legendState": "Estados con cobertura",
-    "mxTitle": "México",
-    "mxCount": "32 estados",
-    "usTitle": "Estados Unidos",
-    "usCount": "48 estados contiguos",
-    "reachNote": "Servicio puerta a puerta en ambos países. ¿No ves tu destino? También lo cubrimos.",
-    "crossingChip": "Cruce B1 · doble placa"
+    "mapAria": "Mapa de México y Estados Unidos con los corredores que operamos desde Monterrey hacia Laredo, Houston, Dallas y la Ciudad de México",
+    "hubLabel": "Monterrey",
+    "crossingLabel": "Cruce Laredo",
+    "searchLabel": "¿Llegamos a tu ciudad?",
+    "searchPlaceholder": "Escribe una ciudad, p. ej. Guadalajara",
+    "resultYes": "Sí. {city} está a unos {km} km de Monterrey por carretera.",
+    "resultCrossing": "Cruzamos por Laredo con operadores B1 y unidades de doble placa.",
+    "resultBase": "Es nuestra casa: operamos desde Apodaca, en el área metropolitana de Monterrey.",
+    "resultOther": "No está en nuestra lista rápida, pero cubrimos los 32 estados de México y los 48 contiguos de EE. UU. Cotiza y te confirmamos la ruta.",
+    "quoteThis": "Cotiza esta ruta",
+    "quoteAny": "Cotiza tu carga",
+    "lanesTitle": "Corredores frecuentes",
+    "lanes": [
+      { "city": "Laredo", "name": "Monterrey-Laredo", "road": "Autopista 85D", "distance": "≈230 km", "time": "2.5-3 h a la frontera" },
+      { "city": "Houston", "name": "Monterrey-Houston", "road": "85D, I-35 y US-59", "distance": "≈830 km", "time": "1-2 días puerta a puerta" },
+      { "city": "Dallas", "name": "Monterrey-Dallas", "road": "85D e I-35", "distance": "≈970 km", "time": "1-2 días puerta a puerta" },
+      { "city": "CDMX", "name": "Monterrey-CDMX", "road": "Autopista 57D", "distance": "≈900 km", "time": "10-12 h de manejo" }
+    ],
+    "approxNote": "Distancias y tiempos aproximados: el cruce fronterizo y las citas de entrega pueden variar."
   },
   "Quote": {
     "service": {

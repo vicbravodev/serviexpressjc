@@ -111,14 +111,14 @@ Una base neutra fría y tranquila, con un único azul de marca que carga la iden
 ### Named Rules
 **La Regla del Ámbar Escaso.** El ámbar es señal, no decoración. Marca a lo sumo un elemento por pantalla (un énfasis o un estado). Nada de puntos "en vivo" decorativos: si no hay un dato real en vivo detrás, no hay punto. Si aparece en un CTA, un badge y tres bordes a la vez, deja de significar algo. Su rareza es el punto.
 
-**La Regla del Único Bloque Oscuro.** La página es clara. El hero (video + scrim) es el único bloque oscuro y termina en un corte limpio contra el lienzo, sin degradado a gris. Franja de evidencia, tarjeta de WhatsApp y footer viven sobre Lienzo o Bruma. Excepción temporal: la consola del mapa de cobertura sigue oscura hasta su rediseño (Fase 3).
+**La Regla del Único Bloque Oscuro.** La página es clara. El hero (video + scrim) es el único bloque oscuro y termina en un corte limpio contra el lienzo, sin degradado a gris. Franja de evidencia, tarjeta de WhatsApp y footer viven sobre Lienzo o Bruma.
 
 **La Regla de Un Solo Azul.** Azul Ruta y su variante clara son el mismo color. Ningún CTA cambia a teal, verde o morado en una sección tardía. El azul es la casa.
 
 ## 3. Typography
 
 **Display / Body Font:** Geist (con `ui-sans-serif, system-ui, sans-serif` de respaldo), vía `next/font` con `--font-geist-sans`.
-**Label / Mono Font:** Geist Mono (`--font-geist-mono`), reservada para datos puntuales si se necesita. Las etiquetas mono en mayúsculas sobre titulares se limitan a 3 en toda la página (hoy: slogan del hero, Cobertura y Cotizador); más que eso es ritmo de plantilla.
+**Label / Mono Font:** Geist Mono (`--font-geist-mono`), reservada para datos puntuales si se necesita. Las etiquetas mono en mayúsculas sobre titulares se limitan a 3 en toda la página (hoy: slogan del hero y Cotizador); más que eso es ritmo de plantilla.
 
 **Character:** Geist es un sans contemporáneo, geométrico pero legible, sin la frialdad de Helvetica ni la ubicuidad de Inter. Da seriedad sin tiesura. Toda la jerarquía vive en una sola familia: el contraste se logra con escala y peso, jamás inyectando un serif al azar.
 
@@ -139,7 +139,6 @@ Sistema **plano por defecto**. Las superficies descansan al ras sobre el lienzo,
 ### Shadow Vocabulary
 - **Lift de hover** (`hover:-translate-y-1.5` + `shadow-xl`): tarjetas de servicio (nacional / internacional) al pasar el cursor. Comunica que el elemento es interactivo.
 - **Chrome del header** (`shadow-md`): aparece solo cuando el header pasa a estado sólido tras hacer scroll.
-- **Anclaje del mapa** (`shadow-2xl`): la imagen de cobertura, que sí debe sentirse como una pieza física apoyada.
 
 ### Named Rules
 **La Regla del Plano en Reposo.** Ninguna tarjeta nace con sombra. La sombra entra con el hover y se va con él. Sombra permanente sobre cada tarjeta es ruido visual y huele a plantilla.
@@ -177,7 +176,7 @@ Alineados a la izquierda y con escala variada según el peso de la sección, no 
 - **Quiénes Somos:** el más grande (`text-4xl md:text-6xl`), sobre la foto de equipo.
 - **Servicios, Talleres, Ubicación:** headline estándar (`text-3xl md:text-5xl`), subtítulo apilado debajo (máx. 65ch).
 - **Evidencia:** más chico (`text-2xl md:text-4xl`), en columna lateral.
-- **Cobertura:** sigue centrado con su etiqueta mono hasta la Fase 3.
+- **Cobertura:** encabezado a la izquierda, sin etiqueta. Mapa estilo atlas (3/5: tierra gris, límites estatales en blanco, corredores reales en Azul Ruta trazados por sus ciudades de paso) + riel (2/5) con el buscador "¿Llegamos a tu ciudad?" y la lista de corredores frecuentes con carretera, distancia y tiempo publicados en `content/routes.ts`. El ámbar solo aparece en la ruta que busca el visitante. Sin animaciones perpetuas: los corredores se dibujan una vez al entrar.
 
 ### Composición imagen/texto
 Ningún patrón imagen + texto se repite igual:
