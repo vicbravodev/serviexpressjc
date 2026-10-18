@@ -327,41 +327,11 @@
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
     mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
-
-  /* A single dispatch unit traveling the route line */
-  @keyframes convoy {
-    0% { offset-distance: 0%; }
-    100% { offset-distance: 100%; }
-  }
-  .animate-convoy {
-    offset-rotate: auto;
-    animation: convoy 7s var(--ease-out-quart) infinite;
-  }
-
-  /* Faint sweeping scanline for the "live monitor" feel */
-  @keyframes scan-y {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(900%); }
-  }
-  .animate-scan {
-    animation: scan-y 6s linear infinite;
-  }
-
-  /* Coverage map: states brighten on hover for a subtle "live" feel */
-  .coverage-state {
-    transition: fill 0.25s var(--ease-out-quart), stroke 0.25s var(--ease-out-quart);
-  }
-  .coverage-state:hover {
-    fill: oklch(0.85 0.18 90 / 0.22);
-    stroke: oklch(0.85 0.18 90 / 0.55);
-  }
 }
 
 /* New tech animations also collapse under reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee,
-  .animate-convoy,
-  .animate-scan {
+  .animate-marquee {
     animation: none !important;
   }
 }

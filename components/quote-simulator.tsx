@@ -61,6 +61,19 @@ export function QuoteSimulator() {
     setTons((prev) => Math.min(prev, maxTonsFor(next)))
   }
 
+  // El buscador del mapa de cobertura precarga la ruta Monterrey → ciudad buscada.
+  useEffect(() => {
+    const onPrefill = (e: Event) => {
+      const city = cityById((e as CustomEvent<string>).detail)
+      if (!city || city.id === "mty") return
+      pickService(city.country === "US" ? "internacional" : "nacional")
+      setOriginId("mty")
+      setDestinationId(city.id)
+    }
+    window.addEventListener("quote:prefill", onPrefill)
+    return () => window.removeEventListener("quote:prefill", onPrefill)
+  }, [])
+
   const pickOrigin = (next: string) => {
     setOriginId(next)
     if (next === destinationId) setDestinationId("")
