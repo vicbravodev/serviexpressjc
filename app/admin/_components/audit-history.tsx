@@ -1,14 +1,4 @@
-import { Circle } from "lucide-react"
 import { fmtShort, type StatusMeta } from "@/lib/admin/meta"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemGroup,
-  ItemMedia,
-  ItemTitle,
-} from "@/components/ui/item"
 
 export type AuditRow = {
   id: string
@@ -24,13 +14,15 @@ type Entry = { titulo: string; nota: string | null }
 
 function toEntry(row: AuditRow, statusLabel: (s: string) => StatusMeta): Entry {
   if (row.action === "create") {
-    return { titulo: "Recibida desde el formulario del sitio", nota: null }
+    return { titulo: "Llegó desde el formulario del sitio", nota: null }
   }
   if (row.action === "status_change") {
-    const de = row.old_value?.status ? statusLabel(row.old_value.status).label : "—"
-    const a = row.new_value?.status ? statusLabel(row.new_value.status).label : "—"
-    const motivo = row.new_value?.status === "lost" && row.new_value?.lost_reason
-    return { titulo: `Cambió estatus de ${de} a ${a}`, nota: motivo ? `Motivo: ${row.new_value?.lost_reason}` : null }
+    const label = (s?: string) => (s ? statusLabel(s).label : "sin estatus")
+    const reason = row.new_value?.lost_reason
+    return {
+      titulo: `Cambió el estatus de ${label(row.old_value?.status)} a ${label(row.new_value?.status)}`,
+      nota: reason ? `Motivo: ${reason}` : null,
+    }
   }
   if (row.action === "note") {
     const nota = row.note ?? ""
@@ -43,44 +35,36 @@ function toEntry(row: AuditRow, statusLabel: (s: string) => StatusMeta): Entry {
   return { titulo: row.action, nota: row.note }
 }
 
+/** Línea de tiempo del registro de auditoría, lo más reciente arriba. */
 export function AuditHistory({
   rows,
   statusLabel,
+  nameByEmail,
 }: {
   rows: AuditRow[]
   statusLabel: (s: string) => StatusMeta
+  /** Para mostrar "Mariana Salinas" en vez del correo. */
+  nameByEmail: Map<string, string>
 }) {
+  if (rows.length === 0) {
+    return <p className="text-sm text-muted-foreground">Todavía no hay movimientos en esta gestión.</p>
+  }
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Historial</CardTitle>
-        <CardDescription>Registro de auditoría de esta gestión.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        {rows.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Sin eventos registrados.</p>
-        ) : (
-          <ItemGroup>
-            {rows.map((row) => {
-              const e = toEntry(row, statusLabel)
-              return (
-                <Item key={row.id}>
-                  <ItemMedia variant="icon">
-                    <Circle className="fill-current" />
-                  </ItemMedia>
-                  <ItemContent>
-                    <ItemTitle>{e.titulo}</ItemTitle>
-                    {e.nota ? <ItemDescription>{e.nota}</ItemDescription> : null}
-                    <span className="font-mono text-xs text-muted-foreground">
-                      {row.actor_email ?? "sitio-web"} · {fmtShort(row.created_at)}
-                    </span>
-                  </ItemContent>
-                </Item>
-              )
-            })}
-          </ItemGroup>
-        )}
-      </CardContent>
-    </Card>
+    <ol className="relative flex flex-col gap-5 border-l pl-5">
+      {rows.map((row) => {
+        const e = toEntry(row, statusLabel)
+        const actor = row.actor_email ? (nameByEmail.get(row.actor_email) ?? row.actor_email) : "Sitio web"
+        return (
+          <li key={row.id} className="relative flex flex-col gap-1">
+            <span aria-hidden className="absolute top-1.5 -left-[25px] size-2.5 rounded-full border-2 border-background bg-muted-foreground/60" />
+            <p className="text-sm font-medium">{e.titulo}</p>
+            {e.nota ? <p className="max-w-prose text-sm whitespace-pre-line text-muted-foreground">{e.nota}</p> : null}
+            <p className="text-xs text-muted-foreground tabular-nums">
+              {actor}, {fmtShort(row.created_at)}
+            </p>
+          </li>
+        )
+      })}
+    </ol>
   )
 }

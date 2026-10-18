@@ -10,7 +10,6 @@ import {
   LEAD_STATUSES,
 } from "@/lib/admin/meta"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Dialog,
   DialogContent,
@@ -114,11 +113,11 @@ export function ManagePanel({ kind, id, status, assigneeId, staff }: Props) {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Gestión</CardTitle>
-      </CardHeader>
-      <CardContent>
+    <section aria-labelledby="det-gestion" className="rounded-xl border bg-card p-5">
+      <h2 id="det-gestion" className="mb-4 text-sm font-semibold">
+        Gestión
+      </h2>
+      <div>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="det-status">Estatus</Label>
@@ -156,7 +155,7 @@ export function ManagePanel({ kind, id, status, assigneeId, staff }: Props) {
             <Label htmlFor="det-nota">Agregar nota</Label>
             <Textarea
               id="det-nota"
-              placeholder="Escribe el seguimiento de esta gestión"
+              placeholder="Ej. Llamé, pide tarifa con seguro incluido"
               value={nota}
               onChange={(e) => setNota(e.target.value)}
             />
@@ -193,7 +192,7 @@ export function ManagePanel({ kind, id, status, assigneeId, staff }: Props) {
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      </CardContent>
-    </Card>
+      </div>
+    </section>
   )
 }
