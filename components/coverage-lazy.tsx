@@ -67,7 +67,7 @@ export function CoverageLazy() {
   return (
     <section id="cobertura" ref={ref} aria-busy="true" className="py-24">
       <div className="container mx-auto px-4">
-        <div className="min-h-[600px] rounded-2xl border border-white/10 surface-steel animate-shimmer" />
+        <div className="min-h-[600px] rounded-2xl border border-border bg-muted animate-shimmer" />
       </div>
     </section>
   )

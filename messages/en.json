@@ -22,18 +22,16 @@
       "cobertura": "Coverage"
     },
     "apply": "Apply Now",
-    "quote": "Get a Quote",
+    "quote": "Get a quote",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
   },
   "Hero": {
-    "badge": "Live operations",
-    "badgeYears": " · {years} years on the road",
-    "titleLead": "Mexico–U.S. cross-border trucking",
+    "titleLead": "Mexico-U.S. cross-border trucking",
     "titleAccent": "with our own fleet",
     "slogan": "Efficiency on wheels, commitment beyond borders",
-    "subtitle": "Specialized freight transport between Mexico and the United States. Every truck tracked by GPS around the clock, from our control room to your end customer.",
-    "cta": "Request your quote",
+    "subtitle": "B1-certified drivers and every truck GPS-tracked around the clock, from Monterrey to your end customer.",
+    "cta": "Get a quote",
     "watch": "Watch the video",
     "watchMeta": "2 min · Spanish audio",
     "soundOn": "Sound on",
@@ -47,22 +45,23 @@
     "pauseAria": "Pause background video",
     "playAria": "Play background video"
   },
-  "Stats": {
-    "console": "Real-time monitoring · 24/7",
-    "consoleTag": "SERVIEXPRESS·JC / OPS",
-    "metrics": [
-      { "label": "Years on the road", "caption": "Since 2005, nonstop" },
-      { "label": "GPS tracking", "caption": "Real-time visibility" },
-      { "label": "Company-owned fleet", "caption": "We never broker your freight" },
-      { "label": "Drivers", "caption": "Certified for the border crossing" }
+  "Evidence": {
+    "title": "What backs every trip",
+    "subtitle": "Licenses, plates, insurance, and trucks in order. Facts you can check before you request a quote.",
+    "yearsTitle": "{years} years on the road",
+    "yearsDescription": "Moving domestic and cross-border freight since 2005.",
+    "items": [
+      { "title": "Company-owned fleet", "description": "Our own tractors and trailers. We never broker your freight." },
+      { "title": "24/7 GPS tracking", "description": "Every truck tracked in real time, from origin to destination." },
+      { "title": "B1-licensed drivers", "description": "Federal B1 license, certified for the crossing into the United States." },
+      { "title": "Mexico-U.S. dual plates", "description": "Trucks plated in both countries to cross at Laredo, TX." },
+      { "title": "Cargo insurance", "description": "Your goods travel insured from origin to destination." }
     ]
   },
   "Services": {
-    "kicker": "Services",
     "title": "What we haul, proven on the road",
     "subtitle": "Domestic and cross-border freight, with our own trucks and certified drivers end to end.",
     "national": {
-      "badge": "Domestic",
       "imageAlt": "ServiExpress JC Kenworth tractor with a 53-foot dry van loading at a distribution dock",
       "imageCaption": "Domestic freight · dock",
       "title": "Domestic freight",
@@ -71,7 +70,6 @@
       "cta": "Explore domestic trucking"
     },
     "international": {
-      "badge": "Cross-border · MX → USA",
       "imageAlt": "ServiExpress JC tractor at a certified scale in the United States",
       "imageCaption": "Mexico to U.S. crossing",
       "title": "Cross-border freight",
@@ -80,7 +78,6 @@
       "cta": "Explore cross-border trucking"
     },
     "specialized": {
-      "kicker": "Specialized freight",
       "imageAlt": "ServiExpress JC truck hauling rebar and steel profiles",
       "imageCaption": "Steel freight · flatbed",
       "title": "One fleet, many kinds of freight",
@@ -88,9 +85,8 @@
       "tags": ["Steel hauling", "Flatbed & loose freight", "53' dry van", "Oversize loads"]
     },
     "routes": {
-      "kicker": "Lanes",
       "title": "Most requested lanes",
-      "items": ["Monterrey–Laredo freight", "Monterrey–Houston freight", "Monterrey–Dallas freight", "Monterrey–Mexico City freight"]
+      "items": ["Monterrey-Laredo freight", "Monterrey-Houston freight", "Monterrey-Dallas freight", "Monterrey-Mexico City freight"]
     }
   },
   "ContentPage": {
@@ -99,29 +95,17 @@
     "faqTitle": "Frequently asked questions",
     "ctaTitle": "Ready to move your freight?",
     "ctaDescription": "Get a quote in a minute: pick lane, equipment and weight, and an agent confirms rate and schedule over WhatsApp.",
-    "ctaButton": "Request your quote",
+    "ctaButton": "Get a quote",
     "ctaNote": "Same-day response · no strings attached",
     "relatedKicker": "Service network",
     "relatedTitle": "Related services and lanes"
   },
-  "Certifications": {
-    "title": "Certifications & Guarantees",
-    "subtitle": "We meet every quality and safety standard in the industry",
-    "items": [
-      { "title": "B1 Certification", "description": "Drivers certified with a federal B1 license for freight transport" },
-      { "title": "Dual Plates", "description": "Trucks with dual Mexico–U.S. plates for a hassle-free border crossing" },
-      { "title": "Full Cargo Insurance", "description": "Comprehensive cargo insurance coverage to protect your goods" },
-      { "title": "Certified Fleet", "description": "Trucks with current inspections and ongoing preventive maintenance" }
-    ]
-  },
   "Talleres": {
-    "kicker": "Secure yards · in-house upkeep",
     "titleLead": "5 secure storage yards.",
-    "titleAccent": "Total security.",
+    "titleAccent": "Under surveillance.",
     "description": "Five company-owned yards, with surveillance and controlled access, safeguard your freight and our trucks. And since we don't outsource maintenance either, every tractor is serviced in-house by trained people: your goods travel and wait in reliable hands.",
     "imageAlt": "ServiExpress JC classic Kenworth in show condition outside our own facilities",
     "imageCaption": "Classic Kenworth · maintained in-house",
-    "overlay": "Maintained and safeguarded in-house",
     "pillars": [
       { "title": "Secured yards", "caption": "Surveillance and controlled access" },
       { "title": "Freight & truck storage", "caption": "Your goods wait protected" },
@@ -130,31 +114,36 @@
     ]
   },
   "About": {
-    "kicker": "About us",
     "title": "Real people behind every delivery",
     "subtitle": "We have moved domestic and cross-border freight since 2005: {years} years of a company-owned fleet, driven and maintained by our own people.",
     "storyLabel1": "What we do",
     "story1": "We coordinate and monitor every shipment with our own team, from pickup to final destination, so your freight arrives safe and on time, with no middlemen.",
     "storyLabel2": "Where we're headed",
-    "story2": "To be one of the most competitive carriers in Mexico and the United States, growing year after year without losing the direct relationships that got us here."
+    "story2": "To be one of the most competitive carriers in Mexico and the United States, growing year after year without losing the direct relationships that got us here.",
+    "teamPhotoAlt": "The ServiExpress JC team"
   },
   "Coverage": {
-    "kicker": "Operating network",
     "title": "We go everywhere",
     "subtitle": "All 32 states of Mexico and the entire continental U.S. If your freight needs to move, we haul it, door to door.",
-    "console": "National & cross-border network",
-    "consoleTag": "MEXICO · USA",
-    "mapAria": "Coverage map of ServiExpress JC across Mexico and the United States, with routes fanning out from Monterrey to both countries",
-    "hubLabel": "Monterrey · Hub",
-    "borderLabel": "MX · USA BORDER",
-    "legendCorridor": "Active corridors",
-    "legendState": "States covered",
-    "mxTitle": "Mexico",
-    "mxCount": "32 states",
-    "usTitle": "United States",
-    "usCount": "48 contiguous states",
-    "reachNote": "Door-to-door service in both countries. Don't see your destination? We cover it too.",
-    "crossingChip": "B1 crossing · dual plates"
+    "mapAria": "Map of Mexico and the United States showing the lanes we run from Monterrey to Laredo, Houston, Dallas and Mexico City",
+    "hubLabel": "Monterrey",
+    "crossingLabel": "Laredo crossing",
+    "searchLabel": "Do we reach your city?",
+    "searchPlaceholder": "Type a city, e.g. Guadalajara",
+    "resultYes": "Yes. {city} is about {km} km by road from Monterrey.",
+    "resultCrossing": "We cross at Laredo with B1-certified drivers and dual-plated trucks.",
+    "resultBase": "That's home: we operate out of Apodaca, in the Monterrey metro area.",
+    "resultOther": "It's not on our quick list, but we cover all 32 states of Mexico and the 48 contiguous U.S. states. Get a quote and we'll confirm the lane.",
+    "quoteThis": "Quote this lane",
+    "quoteAny": "Get a quote",
+    "lanesTitle": "Frequent lanes",
+    "lanes": [
+      { "city": "Laredo", "name": "Monterrey-Laredo", "road": "Highway 85D", "distance": "≈230 km / 145 mi", "time": "2.5-3 h to the border" },
+      { "city": "Houston", "name": "Monterrey-Houston", "road": "85D, I-35 and US-59", "distance": "≈830 km / 515 mi", "time": "1-2 days door to door" },
+      { "city": "Dallas", "name": "Monterrey-Dallas", "road": "85D and I-35", "distance": "≈970 km / 600 mi", "time": "1-2 days door to door" },
+      { "city": "Mexico City", "name": "Monterrey-Mexico City", "road": "Highway 57D", "distance": "≈900 km / 560 mi", "time": "10-12 driving hours" }
+    ],
+    "approxNote": "Approximate distances and times: the border crossing and delivery appointments can vary."
   },
   "Quote": {
     "service": {
@@ -214,7 +203,6 @@
       "description": "Pick a lane, equipment, and weight: we build your shipment summary and an agent quotes it on WhatsApp."
     },
     "apply": {
-      "kicker": "Drivers · careers",
       "title": "Join our team",
       "description": "We're hiring certified drivers and committed team members.",
       "name": "Full name",
@@ -249,13 +237,11 @@
     }
   },
   "Location": {
-    "kicker": "Location",
     "title": "Where we are",
-    "description": "Our headquarters and shops operate out of Apodaca, Nuevo León — northeastern Mexico's logistics corridor toward the U.S. border.",
+    "description": "Our headquarters and shops operate out of Apodaca, Nuevo León, northeastern Mexico's logistics corridor toward the U.S. border.",
     "addressLine1": "Carr. Mezquital Santa Rosa 3517 Int. C",
     "addressLine2": "Cd. Apodaca, N.L., Mexico",
     "mapAlt": "Map of ServiExpress JC's headquarters in Apodaca, Nuevo León",
-    "cityCaption": "Apodaca, N.L.",
     "directions": "Get directions"
   },
   "Footer": {
@@ -264,7 +250,7 @@
     "servicesTitle": "Services",
     "services": [
       "Domestic trucking in Mexico",
-      "Cross-border trucking MX–USA",
+      "Cross-border trucking MX-USA",
       "Steel hauling",
       "Oversize load transport",
       "53' dry van",

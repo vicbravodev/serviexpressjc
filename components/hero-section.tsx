@@ -5,12 +5,11 @@ import { ArrowRight, Pause, Play, Volume2, VolumeX, Maximize2, X } from "lucide-
 import Link from "next/link"
 import Image from "next/image"
 import { useCallback, useEffect, useRef, useState } from "react"
-import { AnimatePresence, motion, useReducedMotion } from "motion/react"
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { useTranslations } from "next-intl"
 import { trackEvent } from "@/lib/analytics"
 
-/** `years` llega del servidor: calcularlo aquí con `new Date()` desfasa la hidratación al cambiar de año. */
-export function HeroSection({ years }: { years: number }) {
+export function HeroSection() {
   const t = useTranslations("Hero")
   const reduceMotion = useReducedMotion()
   const videoContainerRef = useRef<HTMLDivElement>(null)
@@ -24,25 +23,9 @@ export function HeroSection({ years }: { years: number }) {
   const [soundOn, setSoundOn] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
 
-  // Parallax: drive the oversized video layer a fraction of scroll for depth.
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    let frame = 0
-    const handleScroll = () => {
-      if (frame) return
-      frame = requestAnimationFrame(() => {
-        frame = 0
-        const el = videoContainerRef.current
-        if (!el) return
-        el.style.transform = `translate3d(0, ${window.scrollY * 0.4}px, 0)`
-      })
-    }
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-      if (frame) cancelAnimationFrame(frame)
-    }
-  }, [])
+  // Parallax: la capa de video (sobredimensionada) baja al 40% del scroll, fuera del render de React.
+  const { scrollY } = useScroll()
+  const parallaxY = useTransform(scrollY, (v) => v * 0.4)
 
   useEffect(() => {
     if (videoRef.current && videoRef.current.readyState >= 3) setVideoLoaded(true)
@@ -153,7 +136,11 @@ export function HeroSection({ years }: { years: number }) {
       className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden bg-[oklch(0.12_0.01_240)]"
     >
       {/* Parallax video layer, oversized so movement never reveals the edges */}
-      <div ref={videoContainerRef} className="absolute -inset-x-0 -top-[8%] h-[124%] z-0 parallax-video">
+      <motion.div
+        ref={videoContainerRef}
+        style={reduceMotion ? undefined : { y: parallaxY }}
+        className="absolute -inset-x-0 -top-[8%] h-[124%] z-0 parallax-video"
+      >
         {/* Poster optimizado: es el LCP y pinta de inmediato; el video hace fade-in encima */}
         <Image
           src="/fleet/flota-patio.jpg"
@@ -180,35 +167,22 @@ export function HeroSection({ years }: { years: number }) {
         >
           <source src="/hero-videop.mp4" type="video/mp4" />
         </video>
-      </div>
+      </motion.div>
 
-      {/* Cinematic scrim, guarantees text contrast over any frame */}
-      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/75 via-black/50 to-background" />
+      {/* Cinematic scrim, guarantees text contrast over any frame. Termina oscuro:
+          el hero es el único bloque oscuro y corta limpio contra el lienzo claro. */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/75 via-black/50 to-black/70" />
       <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_25%,rgba(0,0,0,0.55)_100%)]" />
       {/* Faint blueprint grid ties the hero to the control-room language */}
       <div className="absolute inset-0 z-[1] bg-blueprint opacity-[0.18] [mask-image:radial-gradient(ellipse_at_center,#000_30%,transparent_75%)]" />
 
       {/* Content */}
-      <div className="container mx-auto px-4 relative z-10 pt-24 pb-40 sm:pb-44">
+      <div className="container mx-auto px-4 relative z-10 pt-36 pb-24 sm:pt-24 sm:pb-28">
         {/* Entrada por CSS (animate-hero-rise): el texto pinta sin esperar JS */}
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Live operations badge */}
-          <div
-            className="animate-hero-rise inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-8"
-            style={{ animationDelay: "0.15s" }}
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-yellow-accent-bright opacity-75 animate-ping" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-yellow-accent-bright" />
-            </span>
-            <span className="text-xs sm:text-sm font-medium text-white/90 font-mono tracking-wide uppercase">
-              {t("badge")}<span className="hidden sm:inline">{t("badgeYears", { years })}</span>
-            </span>
-          </div>
-
+        <div className="max-w-5xl mx-auto text-center">
           <h1
-            className="animate-hero-rise text-4xl md:text-6xl font-bold mb-5 text-balance leading-[1.08] text-white"
-            style={{ animationDelay: "0.27s" }}
+            className="animate-hero-rise text-4xl md:text-5xl lg:text-[3.5rem] font-bold mb-5 text-balance leading-[1.08] tracking-tight text-white"
+            style={{ animationDelay: "0.15s" }}
           >
             {t("titleLead")}{" "}
             <span className="text-yellow-accent-bright">{t("titleAccent")}</span>
@@ -217,21 +191,21 @@ export function HeroSection({ years }: { years: number }) {
           {/* Slogan histórico: se conserva como subtítulo visual (ya no es el H1) */}
           <p
             className="animate-hero-rise mb-6 font-mono text-xs sm:text-sm uppercase tracking-[0.24em] text-yellow-accent-bright/90"
-            style={{ animationDelay: "0.39s" }}
+            style={{ animationDelay: "0.27s" }}
           >
             {t("slogan")}
           </p>
 
           <p
             className="animate-hero-rise text-xl md:text-2xl text-white/80 mb-10 text-pretty max-w-3xl mx-auto leading-relaxed"
-            style={{ animationDelay: "0.51s" }}
+            style={{ animationDelay: "0.39s" }}
           >
             {t("subtitle")}
           </p>
 
           <div
             className="animate-hero-rise flex flex-col sm:flex-row items-center justify-center gap-4"
-            style={{ animationDelay: "0.63s" }}
+            style={{ animationDelay: "0.51s" }}
           >
             <Button
               size="lg"
@@ -263,8 +237,8 @@ export function HeroSection({ years }: { years: number }) {
         </div>
       </div>
 
-      {/* Ambient video controls: bottom-left on mobile, top-right (under header) on desktop */}
-      <div className="absolute bottom-32 left-4 right-auto top-auto sm:bottom-auto sm:left-auto sm:top-28 sm:right-6 z-10 flex items-center gap-2">
+      {/* Ambient video controls: top-right, under the header (abajo chocaban con "Ver presentación" en móvil) */}
+      <div className="absolute right-4 top-[5.5rem] sm:right-6 sm:top-24 z-10 flex items-center gap-2">
         <button
           type="button"
           onClick={toggleSound}
@@ -273,12 +247,6 @@ export function HeroSection({ years }: { years: number }) {
         >
           {soundOn ? <Volume2 size={16} /> : <VolumeX size={16} />}
           <span className="hidden sm:inline">{soundOn ? t("soundOn") : t("soundOff")}</span>
-          {!soundOn && (
-            <span className="absolute -right-0.5 -top-0.5 flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-yellow-accent-bright opacity-75 animate-ping" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-yellow-accent-bright" />
-            </span>
-          )}
         </button>
         <button
           type="button"

@@ -22,18 +22,16 @@
       "cobertura": "Cobertura"
     },
     "apply": "Postúlate",
-    "quote": "Cotización",
+    "quote": "Cotiza tu carga",
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú"
   },
   "Hero": {
-    "badge": "Operación en vivo",
-    "badgeYears": " · {years} años en ruta",
-    "titleLead": "Transporte de carga México–Estados Unidos",
+    "titleLead": "Transporte de carga México-Estados Unidos",
     "titleAccent": "con flota propia",
     "slogan": "Eficiencia sobre ruedas, compromiso sin fronteras",
-    "subtitle": "Transporte especializado de carga entre México y Estados Unidos. Cada unidad, monitoreada por GPS las 24 horas, desde nuestra sala de control hasta tu cliente final.",
-    "cta": "Solicita tu cotización",
+    "subtitle": "Operadores certificados B1 y cada unidad monitoreada por GPS las 24 horas, de Monterrey hasta tu cliente final.",
+    "cta": "Cotiza tu carga",
     "watch": "Ver presentación",
     "watchMeta": "2 min · con audio",
     "soundOn": "Sonido activo",
@@ -47,22 +45,23 @@
     "pauseAria": "Pausar video de fondo",
     "playAria": "Reproducir video de fondo"
   },
-  "Stats": {
-    "console": "Monitoreo en tiempo real · 24/7",
-    "consoleTag": "SERVIEXPRESS·JC / OPS",
-    "metrics": [
-      { "label": "Años en ruta", "caption": "Desde 2005, sin parar" },
-      { "label": "Monitoreo GPS", "caption": "Rastreo en tiempo real" },
-      { "label": "Flota propia", "caption": "Sin subcontratar tu carga" },
-      { "label": "Operadores", "caption": "Certificados para cruce" }
+  "Evidence": {
+    "title": "Lo que respalda cada viaje",
+    "subtitle": "Licencias, placas, seguro y unidades en regla. Hechos que puedes verificar antes de cotizar.",
+    "yearsTitle": "{years} años en ruta",
+    "yearsDescription": "Moviendo carga nacional e internacional desde 2005.",
+    "items": [
+      { "title": "Flota propia", "description": "Tractos y cajas de la empresa. No subcontratamos tu carga." },
+      { "title": "Monitoreo GPS 24/7", "description": "Cada unidad rastreada en tiempo real, de origen a destino." },
+      { "title": "Operadores con licencia B1", "description": "Licencia federal tipo B1, certificados para el cruce a Estados Unidos." },
+      { "title": "Doble placa México-USA", "description": "Unidades emplacadas en ambos países para cruzar por Laredo, TX." },
+      { "title": "Seguro de carga", "description": "Tu mercancía viaja asegurada de origen a destino." }
     ]
   },
   "Services": {
-    "kicker": "Servicios",
     "title": "Lo que movemos, probado en carretera",
     "subtitle": "Carga nacional e internacional, con unidades propias y operadores certificados de punta a punta.",
     "national": {
-      "badge": "Nacional",
       "imageAlt": "Tractocamión Kenworth de ServiExpress JC con caja seca de 53 pies cargando en un andén de distribución",
       "imageCaption": "Transporte nacional · andén",
       "title": "Transporte nacional",
@@ -71,16 +70,14 @@
       "cta": "Ver transporte nacional"
     },
     "international": {
-      "badge": "Internacional · MX → USA",
       "imageAlt": "Tractor de ServiExpress JC en báscula certificada en Estados Unidos",
       "imageCaption": "Cruce México · USA",
       "title": "Transporte internacional",
       "description": "Servicio transfronterizo puerta a puerta. Cruce por Laredo, TX con operadores certificados B1 y unidades de doble placa.",
       "zones": ["Texas", "Midwest", "Southeast", "West"],
-      "cta": "Ver transporte internacional MX–USA"
+      "cta": "Ver transporte internacional MX-USA"
     },
     "specialized": {
-      "kicker": "Carga especializada",
       "imageAlt": "Unidad de ServiExpress JC transportando varilla y perfiles de acero",
       "imageCaption": "Carga de acero · plataforma",
       "title": "Una flota, muchos tipos de carga",
@@ -88,9 +85,8 @@
       "tags": ["Transporte de acero", "Plataforma y carga suelta", "Caja seca 53'", "Carga sobredimensionada"]
     },
     "routes": {
-      "kicker": "Rutas",
       "title": "Rutas más solicitadas",
-      "items": ["Flete Monterrey–Laredo", "Flete Monterrey–Houston", "Flete Monterrey–Dallas", "Flete Monterrey–CDMX"]
+      "items": ["Flete Monterrey-Laredo", "Flete Monterrey-Houston", "Flete Monterrey-Dallas", "Flete Monterrey-CDMX"]
     }
   },
   "ContentPage": {
@@ -99,29 +95,17 @@
     "faqTitle": "Preguntas frecuentes",
     "ctaTitle": "¿Listo para mover tu carga?",
     "ctaDescription": "Cotiza en un minuto: elige ruta, unidad y peso, y un agente te confirma tarifa y programa por WhatsApp.",
-    "ctaButton": "Solicita tu cotización",
+    "ctaButton": "Cotiza tu carga",
     "ctaNote": "Respuesta el mismo día · sin compromiso",
     "relatedKicker": "Red de servicios",
     "relatedTitle": "Servicios y rutas relacionados"
   },
-  "Certifications": {
-    "title": "Certificaciones y Garantías",
-    "subtitle": "Cumplimos con todos los estándares de calidad y seguridad del sector",
-    "items": [
-      { "title": "Certificación B1", "description": "Operadores certificados con licencia federal tipo B1 para transporte de carga" },
-      { "title": "Doble Placa", "description": "Vehículos con doble placa México-USA para cruce fronterizo sin complicaciones" },
-      { "title": "Seguros Completos", "description": "Cobertura total de seguro de carga para proteger tu mercancía" },
-      { "title": "Flota Certificada", "description": "Unidades con verificación vigente y mantenimiento preventivo constante" }
-    ]
-  },
   "Talleres": {
-    "kicker": "Patios propios · resguardo seguro",
     "titleLead": "5 patios de resguardo.",
-    "titleAccent": "Seguridad total.",
+    "titleAccent": "Bajo vigilancia.",
     "description": "Cinco patios propios, con vigilancia y acceso controlado, resguardan tu carga y nuestras unidades. Y como tampoco subcontratamos el mantenimiento, cada tracto se atiende en casa con gente capacitada: tu mercancía viaja y espera en manos confiables.",
     "imageAlt": "Kenworth clásico de ServiExpress JC, impecable frente a instalaciones propias",
     "imageCaption": "Kenworth clásico · mantenido en casa",
-    "overlay": "Mantenida y resguardada en casa",
     "pillars": [
       { "title": "Patios con seguridad", "caption": "Vigilancia y acceso controlado" },
       { "title": "Resguardo de carga y unidades", "caption": "Tu mercancía espera protegida" },
@@ -130,31 +114,36 @@
     ]
   },
   "About": {
-    "kicker": "Quiénes somos",
     "title": "Gente real detrás de cada entrega",
     "subtitle": "Desde 2005 movemos carga nacional e internacional: {years} años de flota propia, operada y mantenida por nuestra propia gente.",
     "storyLabel1": "Lo que hacemos",
     "story1": "Coordinamos y monitoreamos cada traslado con nuestro propio equipo, de la carga al destino final, para que tu mercancía llegue segura y a tiempo, sin intermediarios.",
     "storyLabel2": "Hacia dónde vamos",
-    "story2": "Ser de las transportistas más competitivas de México y Estados Unidos, creciendo año con año sin perder el trato directo que nos trajo hasta aquí."
+    "story2": "Ser de las transportistas más competitivas de México y Estados Unidos, creciendo año con año sin perder el trato directo que nos trajo hasta aquí.",
+    "teamPhotoAlt": "Equipo de ServiExpress JC"
   },
   "Coverage": {
-    "kicker": "Red de operación",
     "title": "Vamos a todos lados",
     "subtitle": "Los 32 estados de México y toda la Unión Americana. Si tu carga necesita moverse, nosotros la llevamos, de puerta a puerta.",
-    "console": "Red nacional e internacional",
-    "consoleTag": "MÉXICO · USA",
-    "mapAria": "Mapa de cobertura de ServiExpress JC en México y Estados Unidos, con rutas que parten de Monterrey hacia ambos países",
-    "hubLabel": "Monterrey · Hub",
-    "borderLabel": "FRONTERA MX · USA",
-    "legendCorridor": "Corredores activos",
-    "legendState": "Estados con cobertura",
-    "mxTitle": "México",
-    "mxCount": "32 estados",
-    "usTitle": "Estados Unidos",
-    "usCount": "48 estados contiguos",
-    "reachNote": "Servicio puerta a puerta en ambos países. ¿No ves tu destino? También lo cubrimos.",
-    "crossingChip": "Cruce B1 · doble placa"
+    "mapAria": "Mapa de México y Estados Unidos con los corredores que operamos desde Monterrey hacia Laredo, Houston, Dallas y la Ciudad de México",
+    "hubLabel": "Monterrey",
+    "crossingLabel": "Cruce Laredo",
+    "searchLabel": "¿Llegamos a tu ciudad?",
+    "searchPlaceholder": "Escribe una ciudad, p. ej. Guadalajara",
+    "resultYes": "Sí. {city} está a unos {km} km de Monterrey por carretera.",
+    "resultCrossing": "Cruzamos por Laredo con operadores B1 y unidades de doble placa.",
+    "resultBase": "Es nuestra casa: operamos desde Apodaca, en el área metropolitana de Monterrey.",
+    "resultOther": "No está en nuestra lista rápida, pero cubrimos los 32 estados de México y los 48 contiguos de EE. UU. Cotiza y te confirmamos la ruta.",
+    "quoteThis": "Cotiza esta ruta",
+    "quoteAny": "Cotiza tu carga",
+    "lanesTitle": "Corredores frecuentes",
+    "lanes": [
+      { "city": "Laredo", "name": "Monterrey-Laredo", "road": "Autopista 85D", "distance": "≈230 km", "time": "2.5-3 h a la frontera" },
+      { "city": "Houston", "name": "Monterrey-Houston", "road": "85D, I-35 y US-59", "distance": "≈830 km", "time": "1-2 días puerta a puerta" },
+      { "city": "Dallas", "name": "Monterrey-Dallas", "road": "85D e I-35", "distance": "≈970 km", "time": "1-2 días puerta a puerta" },
+      { "city": "CDMX", "name": "Monterrey-CDMX", "road": "Autopista 57D", "distance": "≈900 km", "time": "10-12 h de manejo" }
+    ],
+    "approxNote": "Distancias y tiempos aproximados: el cruce fronterizo y las citas de entrega pueden variar."
   },
   "Quote": {
     "service": {
@@ -214,7 +203,6 @@
       "description": "Elige ruta, unidad y peso: armamos el resumen de tu envío y un agente te lo cotiza por WhatsApp."
     },
     "apply": {
-      "kicker": "Operadores · bolsa de trabajo",
       "title": "Únete a nuestro equipo",
       "description": "Buscamos operadores certificados y personal comprometido.",
       "name": "Nombre completo",
@@ -249,13 +237,11 @@
     }
   },
   "Location": {
-    "kicker": "Ubicación",
     "title": "Dónde estamos",
     "description": "Nuestra sede y talleres operan desde Apodaca, Nuevo León, el corredor logístico del noreste de México hacia la frontera con Estados Unidos.",
     "addressLine1": "Carr. Mezquital Santa Rosa 3517 Int. C",
     "addressLine2": "Cd. Apodaca, N.L., México",
     "mapAlt": "Mapa de la sede de ServiExpress JC en Apodaca, Nuevo León",
-    "cityCaption": "Apodaca, N.L.",
     "directions": "Cómo llegar"
   },
   "Footer": {
@@ -264,7 +250,7 @@
     "servicesTitle": "Servicios",
     "services": [
       "Transporte nacional",
-      "Transporte internacional MX–USA",
+      "Transporte internacional MX-USA",
       "Transporte de acero",
       "Carga sobredimensionada",
       "Caja seca 53'",
