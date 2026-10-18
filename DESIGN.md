@@ -179,7 +179,7 @@ Va justo debajo del hero y fusiona lo que antes eran Stats y Certificaciones. So
 
 ### Encabezados de sección
 Alineados a la izquierda y con escala variada según el peso de la sección, no la fórmula centrada repetida:
-- **Quiénes Somos:** el más grande (`text-4xl md:text-6xl`), sobre la foto de equipo.
+- **Quiénes Somos:** el más grande (`text-4xl md:text-6xl`). Encabezado (6/12) y misión/visión (6/12, dos columnas con regla superior) en una sola fila alineada abajo; la foto de equipo va debajo a todo el ancho. El bloque no depende de la foto: sin ella no queda hueco.
 - **Servicios, Talleres, Ubicación:** headline estándar (`text-3xl md:text-5xl`), subtítulo apilado debajo (máx. 65ch).
 - **Evidencia:** más chico (`text-2xl md:text-4xl`), en columna lateral.
 - **Cobertura:** encabezado a la izquierda, sin etiqueta. Mapa estilo atlas (3/5: tierra gris, límites estatales en blanco, corredores reales en Azul Ruta trazados por sus ciudades de paso) + riel (2/5) con el buscador "¿Llegamos a tu ciudad?" y la lista de corredores frecuentes con carretera, distancia y tiempo publicados en `content/routes.ts`. El ámbar solo aparece en la ruta que busca el visitante. Sin animaciones perpetuas: los corredores se dibujan una vez al entrar.
@@ -191,7 +191,7 @@ Ningún patrón imagen + texto se repite igual:
 - **Ubicación:** apilado. Encabezado y datos de contacto en una fila (7/5), mapa panorámico a lo ancho debajo (`aspect-[21/9]`, `4/3` en móvil).
 
 ### Foto de equipo (Quiénes Somos)
-Slot a ancho de contenedor entre el encabezado y la misión/visión (`aspect-[21/9]`, `4/3` en móvil). La foto la pasa el cliente: gente real de ServiExpress JC, horizontal, ≥2400 px, nunca stock. Mientras `TEAM_PHOTO` sea `null` en `components/about-section.tsx`, se muestra un slot punteado "Pendiente" solo fuera de producción (`VERCEL_ENV !== "production"`); en producción no se renderiza nada.
+Slot a ancho de contenedor debajo del encabezado y la misión/visión (`aspect-[21/9]`, `4/3` en móvil). La foto la pasa el cliente: gente real de ServiExpress JC, horizontal, ≥2400 px, nunca stock. Mientras `TEAM_PHOTO` sea `null` en `components/about-section.tsx`, se muestra un slot punteado "Pendiente" solo fuera de producción (`VERCEL_ENV !== "production"`); en producción no se renderiza nada.
 
 ### Footer
 Claro, integrado al sistema: Lienzo con línea superior, logo sobre blanco, "JC" en Azul Ruta, links en Bruma Texto que pasan a Tinta en hover e íconos de contacto en Azul Ruta. Ya no es una plancha azul corporativa.

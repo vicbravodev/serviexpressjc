@@ -29,8 +29,9 @@ export function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div>
+            {/* El PNG trae ~30% de margen transparente: se agranda y se recorre para alinear el logo con el texto. */}
             <div className="mb-4">
-              <Image src="/logo-white-bg.png" alt="ServiExpress JC" width={48} height={48} className="h-12 w-auto" />
+              <Image src="/logo-white-bg.png" alt="ServiExpress JC" width={142} height={80} className="-ml-7 h-20 w-auto" />
             </div>
             <h3 className="text-2xl font-bold mb-4">
               ServiExpress <span className="text-primary">JC</span>

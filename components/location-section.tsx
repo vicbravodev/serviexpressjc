@@ -20,7 +20,7 @@ export function LocationSection() {
       <div className="container mx-auto px-4">
         <Reveal>
           {/* Datos de la sede arriba, mapa a lo ancho abajo (no otro split imagen/texto) */}
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
             <div className="lg:col-span-7">
               <h2 className="text-3xl font-bold text-balance md:text-5xl">{t("title")}</h2>
               <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty">
