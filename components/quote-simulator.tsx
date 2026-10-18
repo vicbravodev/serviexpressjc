@@ -340,7 +340,7 @@ export function QuoteSimulator({ footer }: { footer?: ReactNode }) {
       {/* Ticket de la solicitud (sin precios), a la misma altura que el formulario */}
       <aside className="flex flex-col rounded-2xl border border-border bg-card p-6 sm:p-8 lg:col-span-5">
         <h3 className="font-semibold">{t("summary.title")}</h3>
-        <dl className="mt-5 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-dashed border-border pt-5">
+        <dl className="mt-5 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-dashed border-border py-5">
           {summaryRows.map((row) => (
             <div key={row.label} className={cn("min-w-0", row.wide && "col-span-2")}>
               <dt className="text-xs text-muted-foreground">{row.label}</dt>
