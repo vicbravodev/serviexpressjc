@@ -168,7 +168,8 @@ export function AdminShell({ user, counts, children }: Props) {
         </SidebarFooter>
       </Sidebar>
 
-      <SidebarInset>
+      {/* min-w-0: sin esto el inset (flex-1) crece con la tabla y desborda la página. */}
+      <SidebarInset className="min-w-0">
         <header className="sticky top-0 z-10 flex h-14 items-center gap-3 border-b bg-background px-4">
           <SidebarTrigger className="size-7" />
           <Separator orientation="vertical" className="!h-4" />

@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { RecentLeads, type RecentLead } from "./_components/recent-leads"
 
 export const dynamic = "force-dynamic"
+export const metadata = { title: { absolute: "Tablero · Panel ServiExpress JC" } }
 
 export default async function AdminHome() {
   const claims = await requireStaff()
