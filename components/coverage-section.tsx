@@ -110,10 +110,7 @@ export function CoverageSection() {
         >
           {/* Console header */}
           <div className="flex items-center justify-between border-b border-white/10 px-5 py-3 sm:px-6">
-            <div className="flex items-center gap-2.5">
-              <span className="h-2 w-2 rounded-full bg-yellow-accent-bright animate-live-blink" />
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/70">{t("console")}</span>
-            </div>
+            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/70">{t("console")}</span>
             <span className="hidden font-mono text-[11px] text-white/60 sm:inline">{t("consoleTag")}</span>
           </div>
 

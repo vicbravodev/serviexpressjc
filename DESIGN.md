@@ -96,7 +96,7 @@ Una base neutra fría y tranquila, con un único azul de marca que carga la iden
 - **Azul Ruta Claro** (`oklch(0.42 0.14 264)`): variante del azul, oscurecida para que el texto blanco de los **CTAs primarios** pase contraste AA. Es el color de los CTAs ("Solicita tu cotización", "Cotización", "Enviar solicitud"). Su trabajo es decir "haz clic aquí".
 
 ### Secondary
-- **Ámbar Señal** (`oklch(0.75 0.15 85)`) y **Ámbar Señal Bright** (`oklch(0.85 0.18 90)`): el acento cálido de señalética. Aparece en el punto del badge del hero, el subrayado de navegación, la palabra enfatizada del titular ("compromiso sin fronteras") y los hovers de borde. Es el contrapunto que humaniza el azul.
+- **Ámbar Señal** (`oklch(0.75 0.15 85)`) y **Ámbar Señal Bright** (`oklch(0.85 0.18 90)`): el acento cálido de señalética. Aparece en el subrayado de navegación, la palabra enfatizada del titular ("con flota propia") y los hovers de borde. Es el contrapunto que humaniza el azul.
 
 ### Neutral
 - **Tinta** (`oklch(0.15 0.01 240)`): texto principal y fondo del hero. Casi negro, tibiamente azulado; nunca `#000`.
@@ -109,14 +109,14 @@ Una base neutra fría y tranquila, con un único azul de marca que carga la iden
 - **Verde WhatsApp** (`#25D366`): exclusivo del botón de WhatsApp. Es marca de terceros; no se usa en ningún otro lugar.
 
 ### Named Rules
-**La Regla del Ámbar Escaso.** El ámbar es señal, no decoración. Marca a lo sumo un elemento por pantalla (un énfasis, un estado, un punto vivo). Si aparece en un CTA, un badge y tres bordes a la vez, deja de significar algo. Su rareza es el punto.
+**La Regla del Ámbar Escaso.** El ámbar es señal, no decoración. Marca a lo sumo un elemento por pantalla (un énfasis o un estado). Nada de puntos "en vivo" decorativos: si no hay un dato real en vivo detrás, no hay punto. Si aparece en un CTA, un badge y tres bordes a la vez, deja de significar algo. Su rareza es el punto.
 
 **La Regla de Un Solo Azul.** Azul Ruta y su variante clara son el mismo color. Ningún CTA cambia a teal, verde o morado en una sección tardía. El azul es la casa.
 
 ## 3. Typography
 
 **Display / Body Font:** Geist (con `ui-sans-serif, system-ui, sans-serif` de respaldo), vía `next/font` con `--font-geist-sans`.
-**Label / Mono Font:** Geist Mono (`--font-geist-mono`), reservada para datos puntuales si se necesita.
+**Label / Mono Font:** Geist Mono (`--font-geist-mono`), reservada para datos puntuales si se necesita. Las etiquetas mono en mayúsculas sobre titulares se limitan a 3 en toda la página (hoy: slogan del hero, Cobertura y Cotizador); más que eso es ritmo de plantilla.
 
 **Character:** Geist es un sans contemporáneo, geométrico pero legible, sin la frialdad de Helvetica ni la ubicuidad de Inter. Da seriedad sin tiesura. Toda la jerarquía vive en una sola familia: el contraste se logra con escala y peso, jamás inyectando un serif al azar.
 
@@ -164,7 +164,7 @@ Filosofía: **cercanos y suaves**. Bordes redondeados generosos, trato amable, n
 - **Focus:** anillo de foco Azul Ruta (`ring-ring`), visible y con contraste AA.
 
 ### Navigation
-- **Style:** header fijo, una sola línea, alto 96px (`h-24`). Transparente sobre el hero (texto blanco), vira a sólido (`bg-background/95` + `backdrop-blur`) tras el scroll, detectado por IntersectionObserver, no por listener de scroll.
+- **Style:** header fijo, una sola línea, alto 72px (`h-[72px]`). Transparente sobre el hero (texto blanco), vira a sólido (`bg-background/95` + `backdrop-blur`) tras el scroll, detectado por IntersectionObserver, no por listener de scroll.
 - **Links:** peso medio; subrayado Ámbar Señal que crece en hover/activo. Móvil: menú hamburguesa.
 
 ### Franja de Confianza (componente firma)

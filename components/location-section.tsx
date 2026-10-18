@@ -29,20 +29,11 @@ export function LocationSection() {
               allowFullScreen
               className="absolute inset-0 h-full w-full"
             />
-            <div className="pointer-events-none absolute bottom-4 left-4 flex items-center gap-2 font-mono text-[11px] text-white/80">
-              <span className="h-1.5 w-1.5 rounded-full bg-yellow-accent-bright animate-live-blink" />
-              <span className="rounded-md border border-white/15 bg-black/50 px-3 py-1.5 backdrop-blur-sm">
-                {t("cityCaption")}
-              </span>
-            </div>
           </div>
 
           {/* Datos de la sede */}
           <div className="order-1 flex flex-col justify-center lg:order-2">
-            <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
-              {t("kicker")}
-            </span>
-            <h2 className="mt-3 text-3xl font-bold text-balance md:text-5xl">{t("title")}</h2>
+            <h2 className="text-3xl font-bold text-balance md:text-5xl">{t("title")}</h2>
             <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty">
               {t("description")}
             </p>

@@ -30,8 +30,7 @@ export function ServicesSection() {
     <section id="servicios" className="py-24 bg-muted/30">
       <div className="container mx-auto px-4">
         <Reveal className="mb-14 text-center">
-          <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">{t("kicker")}</span>
-          <h2 className="mt-3 text-3xl md:text-5xl font-bold text-balance">{t("title")}</h2>
+          <h2 className="text-3xl md:text-5xl font-bold text-balance">{t("title")}</h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground text-pretty">
             {t("subtitle")}
           </p>
@@ -49,9 +48,6 @@ export function ServicesSection() {
                   className="h-full w-full transition-transform duration-500 group-hover:scale-[1.03]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
-                <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-md border border-white/20 bg-black/40 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-white backdrop-blur-sm">
-                  <span className="h-1.5 w-1.5 rounded-full bg-yellow-accent-bright" /> {t("national.badge")}
-                </span>
               </div>
               <div className="flex flex-1 flex-col p-7">
                 <h3 className="text-2xl font-bold">{t("national.title")}</h3>
@@ -62,7 +58,7 @@ export function ServicesSection() {
                   {zoneIndexes.map((i) => (
                     <span
                       key={i}
-                      className="rounded-full border border-border bg-muted/40 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-muted-foreground"
+                      className="rounded-full border border-border bg-muted/40 px-3 py-1 text-xs text-muted-foreground"
                     >
                       {t(`national.zones.${i}`)}
                     </span>
@@ -89,9 +85,6 @@ export function ServicesSection() {
                   className="h-full w-full transition-transform duration-500 group-hover:scale-[1.03]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
-                <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-md border border-white/20 bg-black/40 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-white backdrop-blur-sm">
-                  <span className="h-1.5 w-1.5 rounded-full bg-yellow-accent-bright" /> {t("international.badge")}
-                </span>
               </div>
               <div className="flex flex-1 flex-col p-7">
                 <h3 className="text-2xl font-bold">{t("international.title")}</h3>
@@ -102,7 +95,7 @@ export function ServicesSection() {
                   {zoneIndexes.map((i) => (
                     <span
                       key={i}
-                      className="rounded-full border border-border bg-muted/40 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-muted-foreground"
+                      className="rounded-full border border-border bg-muted/40 px-3 py-1 text-xs text-muted-foreground"
                     >
                       {t(`international.zones.${i}`)}
                     </span>
@@ -131,10 +124,7 @@ export function ServicesSection() {
               />
             </div>
             <div className="flex flex-col justify-center p-8 sm:p-10">
-              <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                {t("specialized.kicker")}
-              </span>
-              <h3 className="mt-3 text-2xl font-bold">{t("specialized.title")}</h3>
+              <h3 className="text-2xl font-bold">{t("specialized.title")}</h3>
               <p className="mt-3 leading-relaxed text-muted-foreground">
                 {t("specialized.description")}
               </p>
@@ -145,7 +135,7 @@ export function ServicesSection() {
                     href={specializedHrefs[i]}
                     className="group/tag flex items-center gap-2 text-sm"
                   >
-                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-yellow-accent" />
+                    <ArrowRight aria-hidden size={14} className="shrink-0 text-muted-foreground transition-transform duration-200 group-hover/tag:translate-x-0.5" />
                     <span className="text-foreground underline-offset-4 transition-colors group-hover/tag:text-yellow-accent group-hover/tag:underline">
                       {t(`specialized.tags.${i}`)}
                     </span>
@@ -159,10 +149,7 @@ export function ServicesSection() {
         {/* Rutas long-tail: enlaces descriptivos a las páginas de ruta */}
         <Reveal className="mt-10">
           <div className="rounded-2xl border border-border bg-card p-7 sm:p-8">
-            <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
-              {t("routes.kicker")}
-            </span>
-            <h3 className="mt-2 text-2xl font-bold">{t("routes.title")}</h3>
+            <h3 className="text-2xl font-bold">{t("routes.title")}</h3>
             <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {routeHrefs.map((href, i) => (
                 <Link
