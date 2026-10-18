@@ -111,14 +111,14 @@ Una base neutra fría y tranquila, con un único azul de marca que carga la iden
 ### Named Rules
 **La Regla del Ámbar Escaso.** El ámbar es señal, no decoración. Marca a lo sumo un elemento por pantalla (un énfasis o un estado). Nada de puntos "en vivo" decorativos: si no hay un dato real en vivo detrás, no hay punto. Si aparece en un CTA, un badge y tres bordes a la vez, deja de significar algo. Su rareza es el punto.
 
-**La Regla del Único Bloque Oscuro.** La página es clara. El hero (video + scrim) es el único bloque oscuro y termina en un corte limpio contra el lienzo, sin degradado a gris. Franja de evidencia, tarjeta de WhatsApp y footer viven sobre Lienzo o Bruma.
+**La Regla del Único Bloque Oscuro.** La página es clara. El hero (video + scrim) es el único bloque oscuro y termina en un corte limpio contra el lienzo, sin degradado a gris. Franja de evidencia, formularios y footer viven sobre Lienzo o Bruma.
 
 **La Regla de Un Solo Azul.** Azul Ruta y su variante clara son el mismo color. Ningún CTA cambia a teal, verde o morado en una sección tardía. El azul es la casa.
 
 ## 3. Typography
 
 **Display / Body Font:** Geist (con `ui-sans-serif, system-ui, sans-serif` de respaldo), vía `next/font` con `--font-geist-sans`.
-**Label / Mono Font:** Geist Mono (`--font-geist-mono`), reservada para datos puntuales si se necesita. Las etiquetas mono en mayúsculas sobre titulares se limitan a 3 en toda la página (hoy: slogan del hero y Cotizador); más que eso es ritmo de plantilla.
+**Label / Mono Font:** Geist Mono (`--font-geist-mono`), reservada para datos puntuales si se necesita. Las etiquetas mono en mayúsculas sobre titulares se limitan a 3 en toda la página (hoy solo el slogan del hero); más que eso es ritmo de plantilla.
 
 **Character:** Geist es un sans contemporáneo, geométrico pero legible, sin la frialdad de Helvetica ni la ubicuidad de Inter. Da seriedad sin tiesura. Toda la jerarquía vive en una sola familia: el contraste se logra con escala y peso, jamás inyectando un serif al azar.
 
@@ -163,6 +163,12 @@ Filosofía: **cercanos y suaves**. Bordes redondeados generosos, trato amable, n
 ### Inputs / Fields
 - **Style:** borde Línea, fondo Lienzo, radio suave. Label siempre arriba del campo, nunca placeholder como label.
 - **Focus:** anillo de foco Azul Ruta (`ring-ring`), visible y con contraste AA.
+- **Validación:** el botón de enviar nunca se deshabilita para "esconder" qué falta. Al intentar enviar se marcan los campos (`aria-invalid` + mensaje debajo con `aria-describedby`) y el foco va al primero con error. Los errores aparecen solo tras el primer intento, no mientras se escribe.
+
+### Formularios (sección de conversión)
+Dos caminos con la misma jerarquía, cada uno con su H2:
+- **Cotizador** (`#cotizacion`): formulario (7/12) + **ticket de la solicitud** (5/12) a la misma altura. El ticket se ve desde el inicio y se completa mientras el visitante llena el formulario (lo pendiente va atenuado); la ruta encabeza en grande. Abajo, lo que falta para enviar, WhatsApp/llamar y el contacto directo por WhatsApp (ya no es una tarjeta aparte). En móvil el ticket va después del formulario.
+- **Postulación** (`#postulate`): split 5/7, texto a la izquierda y formulario 2×2 en tarjeta a la derecha, separado del cotizador por una regla.
 
 ### Navigation
 - **Style:** header fijo, una sola línea, alto 72px (`h-[72px]`). Transparente sobre el hero (texto blanco), vira a sólido (`bg-background/95` + `backdrop-blur`) tras el scroll, detectado por IntersectionObserver, no por listener de scroll.

@@ -191,20 +191,25 @@
       "distance": "Approx. distance"
     },
     "distance": "≈ {km} km by road",
-    "summaryNote": "With these details an agent prepares your quote and sends it to you on WhatsApp.",
-    "empty": "Complete your lane to build your request summary.",
+    "empty": "Pick a destination to complete your lane.",
+    "pendingDestination": "pick a destination",
     "send": "Send request on WhatsApp",
     "whatsappMessage": "Hi, I'd like to request a quote with these details:\n· Name: {name}\n· Phone: {phone}\n· Service: {service}\n· Lane: {origin} → {destination}\n· Equipment: {unit}\n· Weight: {tons} t\n· Urgency: {urgency}\n· Cargo: {cargo}\n· Approx. distance: {distance} km by road\nCan you help me with the quote?"
   },
   "CTA": {
     "quote": {
-      "kicker": "Customers · B2B",
       "title": "Request your quote in one minute",
       "description": "Pick a lane, equipment, and weight: we build your shipment summary and an agent quotes it on WhatsApp."
     },
     "apply": {
       "title": "Join our team",
-      "description": "We're hiring certified drivers and committed team members.",
+      "description": "We're hiring B1 and domestic drivers, shop technicians and office staff. Leave your details and we'll follow up on WhatsApp.",
+      "errors": {
+        "name": "Enter your name.",
+        "phone": "Enter a phone number with at least 8 digits.",
+        "position": "Pick the position you're interested in.",
+        "experience": "Pick your years of experience."
+      },
       "name": "Full name",
       "namePh": "e.g. John Smith",
       "phone": "Phone",
