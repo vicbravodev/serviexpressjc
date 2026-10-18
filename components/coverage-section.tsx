@@ -49,26 +49,23 @@ const polyline = (stops: Stop[]) =>
     })
     .join(" ")
 
-/* Corredores trazados por las ciudades de paso reales de cada carretera, con
-   las mismas cifras publicadas en content/routes.ts. El trazo es aproximado. */
-const LANES: { cityId: string; href: ContentHref; km: number; d: string }[] = [
-  { cityId: "lrd", href: "/rutas/monterrey-laredo", km: 230, d: polyline([MTY, at("lrd")]) },
+/* Corredores trazados por las ciudades de paso reales de cada carretera
+   (rutas de content/routes.ts; sus km viven en LANE_KM). El trazo es aproximado. */
+const LANES: { cityId: string; href: ContentHref; d: string }[] = [
+  { cityId: "lrd", href: "/rutas/monterrey-laredo", d: polyline([MTY, at("lrd")]) },
   {
     cityId: "hou",
     href: "/rutas/monterrey-houston",
-    km: 830,
     d: polyline([MTY, at("lrd"), { lat: 28.8053, lng: -97.0036 } /* Victoria, TX */, at("hou")]),
   },
   {
     cityId: "dal",
     href: "/rutas/monterrey-dallas",
-    km: 970,
     d: polyline([MTY, at("lrd"), at("sat"), { lat: 30.2672, lng: -97.7431 } /* Austin */, at("dal")]),
   },
   {
     cityId: "cdmx",
     href: "/rutas/monterrey-cdmx",
-    km: 900,
     d: polyline([MTY, at("sal"), { lat: 23.6496, lng: -100.6441 } /* Matehuala */, at("slp"), at("qro"), at("cdmx")]),
   },
 ]
@@ -125,9 +122,9 @@ export function CoverageSection() {
   const found = findCity(query)
   const searched = normalize(query).length >= 3
   const lane = found ? LANES.find((l) => l.cityId === found.id) : undefined
-  // Distancia: la publicada del corredor si existe; si no, la misma estimación que muestra el cotizador.
-  const km = lane?.km ?? (found ? routeDistanceKm("mty", found.id) : null)
-  const kmText = km !== null ? (Math.round(km / 10) * 10).toLocaleString(locale === "es" ? "es-MX" : "en-US") : ""
+  // Misma fuente que el cotizador: km publicados en corredores, estimación en el resto.
+  const km = found ? routeDistanceKm("mty", found.id) : null
+  const kmText = km !== null ? km.toLocaleString(locale === "es" ? "es-MX" : "en-US") : ""
   const isHome = found?.id === "mty"
   const foundPath = found && !isHome ? polyline(found.country === "US" ? [MTY, at("lrd"), found] : [MTY, found]) : null
   const foundPoint = found && !isHome && !lane ? project(found.lat, found.lng) : null

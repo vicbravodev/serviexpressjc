@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { WHATSAPP_PHONE_JOBS, hasContact, whatsappUrl } from "@/lib/site"
+import { WHATSAPP_PHONE_JOBS, whatsappUrl } from "@/lib/site"
 import { submitApplication } from "@/lib/actions/leads"
 import { trackEvent } from "@/lib/analytics"
 
@@ -16,6 +16,24 @@ const EXPERIENCES = ["lt2", "2to5", "5to10", "gt10"] as const
 
 type Position = (typeof POSITIONS)[number]
 type Experience = (typeof EXPERIENCES)[number]
+type Field = "name" | "phone" | "position" | "experience"
+
+/** Ids de los controles en orden de aparición: el primero con error recibe el foco. */
+const FIELD_IDS: Record<Field, string> = {
+  name: "apply-name",
+  phone: "apply-phone",
+  position: "apply-position",
+  experience: "apply-experience",
+}
+
+function FieldError({ field, show, message }: { field: Field; show: boolean; message: string }) {
+  if (!show) return null
+  return (
+    <p id={`${FIELD_IDS[field]}-error`} className="text-sm font-medium text-destructive">
+      {message}
+    </p>
+  )
+}
 
 export function ApplyForm() {
   const t = useTranslations("CTA.apply")
@@ -24,15 +42,32 @@ export function ApplyForm() {
   const [phone, setPhone] = useState("")
   const [position, setPosition] = useState<Position | "">("")
   const [experience, setExperience] = useState<Experience | "">("")
+  // Los errores aparecen solo después del primer intento de envío, no mientras escribe.
+  const [tried, setTried] = useState(false)
 
-  const isValid = hasContact(name, phone) && position !== "" && experience !== ""
+  // Mismas reglas que hasContact() en lib/site.ts, separadas por campo para decir qué falta.
+  const errors: Record<Field, boolean> = {
+    name: name.trim().length < 2,
+    phone: phone.replace(/\D/g, "").length < 8,
+    position: position === "",
+    experience: experience === "",
+  }
+  const firstError = (Object.keys(FIELD_IDS) as Field[]).find((f) => errors[f])
+  const show = (f: Field) => tried && errors[f]
+  const invalidProps = (f: Field) =>
+    show(f) ? { "aria-invalid": true, "aria-describedby": `${FIELD_IDS[f]}-error` } : {}
 
   // Evita filas duplicadas si el visitante reenvía los mismos datos (WhatsApp sí se reabre).
   const lastSubmitted = useRef("")
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    if (!isValid) return
+    if (firstError) {
+      setTried(true)
+      document.getElementById(FIELD_IDS[firstError])?.focus()
+      return
+    }
+    if (position === "" || experience === "") return // ya cubierto por firstError; estrecha los tipos
 
     trackEvent("whatsapp_click", { source: "apply" })
 
@@ -67,9 +102,8 @@ export function ApplyForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Campos en fila: 4 en línea en desktop, 2 en tablet, apilados en móvil. */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <form onSubmit={handleSubmit} noValidate className="space-y-6">
+      <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="apply-name">{t("name")}</Label>
           <Input
@@ -81,7 +115,9 @@ export function ApplyForm() {
             onChange={(e) => setName(e.target.value)}
             placeholder={t("namePh")}
             className="h-11"
+            {...invalidProps("name")}
           />
+          <FieldError field="name" show={show("name")} message={t("errors.name")} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="apply-phone">{t("phone")}</Label>
@@ -95,12 +131,18 @@ export function ApplyForm() {
             onChange={(e) => setPhone(e.target.value)}
             placeholder={t("phonePh")}
             className="h-11"
+            {...invalidProps("phone")}
           />
+          <FieldError field="phone" show={show("phone")} message={t("errors.phone")} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="apply-position">{t("position")}</Label>
           <Select value={position} onValueChange={(v) => setPosition(v as Position)}>
-            <SelectTrigger id="apply-position" className="w-full data-[size=default]:h-11">
+            <SelectTrigger
+              id="apply-position"
+              className="w-full data-[size=default]:h-11"
+              {...invalidProps("position")}
+            >
               <SelectValue placeholder={t("positionPh")} />
             </SelectTrigger>
             <SelectContent>
@@ -111,11 +153,16 @@ export function ApplyForm() {
               ))}
             </SelectContent>
           </Select>
+          <FieldError field="position" show={show("position")} message={t("errors.position")} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="apply-experience">{t("experience")}</Label>
           <Select value={experience} onValueChange={(v) => setExperience(v as Experience)}>
-            <SelectTrigger id="apply-experience" className="w-full data-[size=default]:h-11">
+            <SelectTrigger
+              id="apply-experience"
+              className="w-full data-[size=default]:h-11"
+              {...invalidProps("experience")}
+            >
               <SelectValue placeholder={t("experiencePh")} />
             </SelectTrigger>
             <SelectContent>
@@ -126,17 +173,12 @@ export function ApplyForm() {
               ))}
             </SelectContent>
           </Select>
+          <FieldError field="experience" show={show("experience")} message={t("errors.experience")} />
         </div>
       </div>
-      {/* Pie de la franja: nota del CV a la izquierda, CTA a la derecha. */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted-foreground">{t("cvNote")}</p>
-        <Button
-          type="submit"
-          size="lg"
-          disabled={!isValid}
-          className="h-12 w-full bg-secondary hover:bg-secondary/90 sm:w-auto"
-        >
+        <Button type="submit" size="lg" className="h-12 w-full shrink-0 bg-secondary hover:bg-secondary/90 sm:w-auto">
           <MessageCircle aria-hidden className="mr-2 h-5 w-5" />
           {t("submit")}
         </Button>

@@ -191,20 +191,25 @@
       "distance": "Distancia aprox."
     },
     "distance": "≈ {km} km por carretera",
-    "summaryNote": "Con estos datos un agente prepara tu cotización y te la envía por WhatsApp.",
-    "empty": "Completa tu ruta para armar el resumen de tu solicitud.",
+    "empty": "Elige un destino para completar tu ruta.",
+    "pendingDestination": "elige destino",
     "send": "Enviar solicitud por WhatsApp",
     "whatsappMessage": "Hola, quiero solicitar una cotización con estos datos:\n· Nombre: {name}\n· Teléfono: {phone}\n· Servicio: {service}\n· Ruta: {origin} → {destination}\n· Unidad: {unit}\n· Peso: {tons} t\n· Urgencia: {urgency}\n· Mercancía: {cargo}\n· Distancia aprox.: {distance} km por carretera\n¿Me ayudan con la cotización?"
   },
   "CTA": {
     "quote": {
-      "kicker": "Clientes · B2B",
       "title": "Solicita tu cotización en un minuto",
       "description": "Elige ruta, unidad y peso: armamos el resumen de tu envío y un agente te lo cotiza por WhatsApp."
     },
     "apply": {
       "title": "Únete a nuestro equipo",
-      "description": "Buscamos operadores certificados y personal comprometido.",
+      "description": "Buscamos operadores B1 y nacionales, técnicos de taller y personal administrativo. Déjanos tus datos y seguimos por WhatsApp.",
+      "errors": {
+        "name": "Escribe tu nombre.",
+        "phone": "Escribe un teléfono de al menos 8 dígitos.",
+        "position": "Elige el puesto que te interesa.",
+        "experience": "Elige tus años de experiencia."
+      },
       "name": "Nombre completo",
       "namePh": "Ej. Juan Pérez",
       "phone": "Teléfono",

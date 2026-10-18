@@ -80,6 +80,13 @@ export function haversineKm(a: City, b: City) {
 }
 
 /**
+ * Km publicados de los corredores frecuentes desde Monterrey (content/routes.ts).
+ * Mandan sobre la estimación para que cotizador, mapa y páginas de ruta digan
+ * lo mismo. Si cambian, actualizar también `Coverage.lanes` en messages/*.json.
+ */
+export const LANE_KM: Record<string, number> = { lrd: 230, hou: 830, dal: 970, cdmx: 900 }
+
+/**
  * Distancia aproximada por carretera entre dos ciudades del catálogo.
  * Es solo informativa para el recopilado; no calcula ni sugiere precios.
  */
@@ -87,5 +94,7 @@ export function routeDistanceKm(originId: string, destinationId: string): number
   const origin = cityById(originId)
   const destination = cityById(destinationId)
   if (!origin || !destination || origin.id === destination.id) return null
-  return Math.round(haversineKm(origin, destination) * ROAD_FACTOR)
+  const lane = origin.id === "mty" ? LANE_KM[destination.id] : destination.id === "mty" ? LANE_KM[origin.id] : undefined
+  // La estimación se redondea a decenas: precisión de 1 km aquí sería falsa.
+  return lane ?? Math.round((haversineKm(origin, destination) * ROAD_FACTOR) / 10) * 10
 }
