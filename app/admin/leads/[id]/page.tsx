@@ -20,6 +20,10 @@ import { ManagePanel } from "@/app/admin/_components/manage-panel"
 
 export const dynamic = "force-dynamic"
 
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  return { title: folio("COT", (await params).id) }
+}
+
 export default async function LeadDetail({ params }: { params: Promise<{ id: string }> }) {
   await requireStaff()
   const { id } = await params

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { getSessionClaims } from "@/lib/admin/auth"
 import { getPendingCounts } from "@/lib/admin/counts"
@@ -7,6 +8,11 @@ import { AdminShell } from "./_components/admin-shell"
 import "../globals.css"
 
 export const dynamic = "force-dynamic"
+
+export const metadata: Metadata = {
+  title: { template: "%s · Panel ServiExpress JC", default: "Panel ServiExpress JC" },
+  robots: { index: false, follow: false },
+}
 
 const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" })
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" })

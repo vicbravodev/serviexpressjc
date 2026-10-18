@@ -3,9 +3,7 @@
 import { useState, useTransition } from "react"
 import { Plus } from "lucide-react"
 import { toast } from "sonner"
-import { cn } from "@/lib/utils"
 import { createUser, setUserActive, updateUserRole } from "@/lib/actions/admin"
-import { initials } from "@/lib/admin/meta"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,7 +14,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -28,93 +25,106 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+
+// Controles de la lista de Usuarios: cada fila se gestiona en su lugar, sin vista de detalle.
 
 /** Las acciones devuelven `{ error }` en vez de lanzar (Next oculta el mensaje en producción). */
 const ok = ({ error }: { error?: string }) => {
   if (error) throw new Error(error)
 }
 
-export type UserRow = {
-  id: string
-  nombre: string
-  email: string
-  rol: "admin" | "user"
-  activo: boolean
-  alta: string
-}
+type User = { id: string; nombre: string; rol: "admin" | "user"; activo: boolean }
 
-export function UsersTable({ users, selfId }: { users: UserRow[]; selfId: string }) {
+export function RoleSelect({ user, disabled }: { user: User; disabled?: boolean }) {
   const [pending, start] = useTransition()
-  const [inviteOpen, setInviteOpen] = useState(false)
-  const [nombre, setNombre] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [rol, setRol] = useState<"admin" | "user">("user")
-  const [deactUser, setDeactUser] = useState<UserRow | null>(null)
-
-  const activos = users.filter((u) => u.activo).length
-
-  const onRol = (u: UserRow) => (v: string) =>
+  const onChange = (v: string) =>
     start(async () => {
       try {
-        ok(await updateUserRole(u.id, v as "admin" | "user"))
-        toast.success(`Rol actualizado a ${v === "admin" ? "Admin" : "Usuario"}`)
+        ok(await updateUserRole(user.id, v as "admin" | "user"))
+        toast.success(`${user.nombre} ahora es ${v === "admin" ? "Admin" : "Usuario"}`)
       } catch (e) {
         toast.error(e instanceof Error ? e.message : "No se pudo actualizar el rol")
       }
     })
+  return (
+    <Select value={user.rol} onValueChange={onChange} disabled={disabled || pending}>
+      <SelectTrigger size="sm" className="w-[120px]" aria-label={`Rol de ${user.nombre}`}>
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="admin">Admin</SelectItem>
+        <SelectItem value="user">Usuario</SelectItem>
+      </SelectContent>
+    </Select>
+  )
+}
 
-  const onToggle = (u: UserRow) => (checked: boolean) => {
-    if (!checked && u.activo) {
-      setDeactUser(u)
-      return
-    }
+/** Activar es inmediato; desactivar pide confirmación porque corta el acceso al panel. */
+export function ActiveSwitch({ user, disabled }: { user: User; disabled?: boolean }) {
+  const [pending, start] = useTransition()
+  const [confirm, setConfirm] = useState(false)
+
+  const apply = (active: boolean) =>
     start(async () => {
       try {
-        ok(await setUserActive(u.id, checked))
-        toast.success(`${u.nombre} ${checked ? "reactivado" : "desactivado"}`)
+        ok(await setUserActive(user.id, active))
+        toast.success(`${user.nombre} ${active ? "reactivado" : "desactivado"}`)
       } catch (e) {
         toast.error(e instanceof Error ? e.message : "No se pudo actualizar la cuenta")
       }
     })
-  }
 
-  const confirmDeact = () => {
-    const u = deactUser
-    setDeactUser(null)
-    if (!u) return
-    start(async () => {
-      try {
-        ok(await setUserActive(u.id, false))
-        toast.success(`${u.nombre} desactivado`)
-      } catch (e) {
-        toast.error(e instanceof Error ? e.message : "No se pudo desactivar la cuenta")
-      }
-    })
-  }
+  return (
+    <>
+      <label className="flex items-center gap-2">
+        <Switch
+          checked={user.activo}
+          onCheckedChange={(checked) => (checked ? apply(true) : setConfirm(true))}
+          disabled={disabled || pending}
+        />
+        <span className={user.activo ? "text-sm" : "text-sm text-muted-foreground"}>
+          {user.activo ? "Activo" : "Inactivo"}
+        </span>
+      </label>
+      <AlertDialog open={confirm} onOpenChange={setConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>¿Desactivar a {user.nombre}?</AlertDialogTitle>
+            <AlertDialogDescription>
+              La persona perderá acceso al panel de inmediato. Podrás reactivar la cuenta más adelante.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-white hover:bg-destructive/90"
+              onClick={() => apply(false)}
+            >
+              Desactivar cuenta
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
+  )
+}
+
+export function NewUserButton() {
+  const [pending, start] = useTransition()
+  const [open, setOpen] = useState(false)
+  const [nombre, setNombre] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [rol, setRol] = useState<"admin" | "user">("user")
 
   const confirmCreate = () =>
     start(async () => {
       try {
         ok(await createUser({ email, password, fullName: nombre, role: rol }))
         toast.success(`Cuenta creada para ${email.trim()}`)
-        setInviteOpen(false)
+        setOpen(false)
         setNombre("")
         setEmail("")
         setPassword("")
@@ -126,87 +136,11 @@ export function UsersTable({ users, selfId }: { users: UserRow[]; selfId: string
 
   return (
     <>
-      <div className="flex justify-end">
-        <Button onClick={() => setInviteOpen(true)}>
-          <Plus />
-          Nuevo usuario
-        </Button>
-      </div>
-
-      <div className="overflow-x-auto rounded-xl border bg-card">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Usuario</TableHead>
-              <TableHead>Rol</TableHead>
-              <TableHead>Activo</TableHead>
-              <TableHead>Alta</TableHead>
-              <TableHead />
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {users.map((u) => {
-              const isSelf = u.id === selfId
-              return (
-                <TableRow key={u.id}>
-                  <TableCell>
-                    <div className="flex items-center gap-2.5">
-                      <Avatar className="size-8">
-                        <AvatarFallback>{initials(u.nombre)}</AvatarFallback>
-                      </Avatar>
-                      <div className="flex min-w-0 flex-col gap-px">
-                        <span className="whitespace-nowrap text-sm font-medium">{u.nombre}</span>
-                        <span className="font-mono text-xs text-muted-foreground">{u.email}</span>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Select value={u.rol} onValueChange={onRol(u)} disabled={pending || isSelf}>
-                      <SelectTrigger size="sm" className="w-[130px]">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="admin">Admin</SelectItem>
-                        <SelectItem value="user">Usuario</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Switch checked={u.activo} onCheckedChange={onToggle(u)} disabled={pending || isSelf} />
-                      <span
-                        className={cn(
-                          "whitespace-nowrap text-xs",
-                          u.activo ? "text-muted-foreground" : "text-destructive",
-                        )}
-                      >
-                        {u.activo ? "Activo" : "Inactivo"}
-                      </span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <span className="font-mono text-xs text-muted-foreground">{u.alta}</span>
-                  </TableCell>
-                  <TableCell>
-                    {u.activo && !isSelf ? (
-                      <div className="flex justify-end">
-                        <Button variant="ghost" size="sm" onClick={() => setDeactUser(u)} disabled={pending}>
-                          <span className="text-destructive">Desactivar</span>
-                        </Button>
-                      </div>
-                    ) : null}
-                  </TableCell>
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
-        <div className="border-t p-2.5 px-4 font-mono text-xs tracking-[0.08em] text-muted-foreground">
-          {users.length} CUENTAS · {activos} ACTIVAS
-        </div>
-      </div>
-
-      <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
+      <Button onClick={() => setOpen(true)}>
+        <Plus />
+        Nuevo usuario
+      </Button>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[420px]">
           <DialogHeader>
             <DialogTitle>Nuevo usuario</DialogTitle>
@@ -235,8 +169,11 @@ export function UsersTable({ users, selfId }: { users: UserRow[]; selfId: string
                 autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Mínimo 8 caracteres"
+                aria-describedby="inv-pass-help"
               />
+              <p id="inv-pass-help" className="text-xs text-muted-foreground">
+                Mínimo 8 caracteres.
+              </p>
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="inv-rol">Rol</Label>
@@ -252,7 +189,7 @@ export function UsersTable({ users, selfId }: { users: UserRow[]; selfId: string
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setInviteOpen(false)}>
+            <Button variant="outline" onClick={() => setOpen(false)}>
               Cancelar
             </Button>
             <Button onClick={confirmCreate} disabled={pending || !email.trim() || password.length < 8}>
@@ -261,25 +198,6 @@ export function UsersTable({ users, selfId }: { users: UserRow[]; selfId: string
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
-      <AlertDialog open={deactUser !== null} onOpenChange={(open) => !open && setDeactUser(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              {deactUser ? `¿Desactivar a ${deactUser.nombre}?` : "¿Desactivar cuenta?"}
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              La persona perderá acceso al panel de inmediato. Podrás reactivar la cuenta más adelante.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction className="bg-destructive text-white hover:bg-destructive/90" onClick={confirmDeact}>
-              Desactivar cuenta
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </>
   )
 }

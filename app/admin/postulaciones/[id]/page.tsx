@@ -19,6 +19,10 @@ import { ManagePanel } from "@/app/admin/_components/manage-panel"
 
 export const dynamic = "force-dynamic"
 
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  return { title: folio("POS", (await params).id) }
+}
+
 export default async function ApplicationDetail({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin()
   const { id } = await params

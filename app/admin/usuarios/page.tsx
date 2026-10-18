@@ -1,38 +1,112 @@
-import { cookies } from "next/headers"
+import type { Metadata } from "next"
 import { requireAdmin } from "@/lib/admin/auth"
-import { fmtDate } from "@/lib/admin/meta"
-import { createClient } from "@/utils/supabase/server"
-import { UsersTable, type UserRow } from "@/app/admin/_components/users-table"
+import { parseListParams } from "@/lib/admin/list"
+import { queryList, queryStatusCounts } from "@/lib/admin/list-query"
+import { fmtDate, initials } from "@/lib/admin/meta"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { MobileRow, Primary } from "../_components/cells"
+import { ListView, type Column } from "../_components/list-view"
+import { PageBody, PageHeader } from "../_components/page-header"
+import { ActiveSwitch, NewUserButton, RoleSelect } from "../_components/users-table"
 
 export const dynamic = "force-dynamic"
+export const metadata: Metadata = { title: "Usuarios" }
 
-export default async function UsersPage() {
+const BASE = "/admin/usuarios"
+const TABLE = "profiles"
+// En Usuarios la pestaña filtra por rol en vez de estatus.
+const ROLES = ["admin", "user"] as const
+const FILTERS = { textColumns: ["full_name", "email"], statusColumn: "role" }
+
+type Profile = {
+  id: string
+  email: string
+  full_name: string | null
+  role: "admin" | "user"
+  is_active: boolean
+  created_at: string
+}
+
+const toUser = (u: Profile) => ({
+  id: u.id,
+  nombre: u.full_name || u.email.split("@")[0],
+  rol: u.role,
+  activo: u.is_active,
+})
+
+export default async function UsersPage({ searchParams }: { searchParams: Promise<Record<string, string | string[]>> }) {
   const claims = await requireAdmin()
-  const supabase = createClient(await cookies())
-  const { data: users } = await supabase
-    .from("profiles")
-    .select("id, email, full_name, role, is_active, created_at")
-    .order("created_at", { ascending: true })
+  const params = parseListParams(await searchParams, { sorts: ["created_at", "full_name"], statuses: ROLES })
+  const data = queryList<Profile>({
+    table: TABLE,
+    select: "id, email, full_name, role, is_active, created_at",
+    params,
+    filters: FILTERS,
+    basePath: BASE,
+  })
+  const counts = queryStatusCounts({ table: TABLE, statuses: ROLES, params, filters: FILTERS })
 
-  const rows: UserRow[] = (users ?? []).map((u) => ({
-    id: u.id,
-    nombre: u.full_name || u.email.split("@")[0],
-    email: u.email,
-    rol: u.role,
-    activo: u.is_active,
-    alta: fmtDate(u.created_at),
-  }))
+  const columns: Column<Profile>[] = [
+    {
+      key: "usuario",
+      label: "Usuario",
+      sort: "full_name",
+      cell: (u) => (
+        <span className="flex items-center gap-2.5">
+          <Avatar className="size-8">
+            <AvatarFallback>{initials(toUser(u).nombre)}</AvatarFallback>
+          </Avatar>
+          <Primary title={toUser(u).nombre} sub={u.email} />
+        </span>
+      ),
+    },
+    {
+      key: "rol",
+      label: "Rol",
+      cell: (u) => <RoleSelect user={toUser(u)} disabled={u.id === claims.userId} />,
+    },
+    {
+      key: "acceso",
+      label: "Acceso",
+      cell: (u) => <ActiveSwitch user={toUser(u)} disabled={u.id === claims.userId} />,
+    },
+    { key: "alta", label: "Alta", sort: "created_at", cell: (u) => <span className="tabular-nums">{fmtDate(u.created_at)}</span> },
+  ]
 
   return (
-    <div className="mx-auto flex w-full max-w-[1100px] flex-col gap-5 p-6">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div className="flex flex-col gap-1">
-          <span className="font-mono text-[11px] tracking-[0.14em] text-muted-foreground">ADMINISTRACIÓN</span>
-          <h1 className="text-2xl font-semibold tracking-tight">Usuarios</h1>
-          <p className="text-sm text-muted-foreground">Cuentas del equipo operativo y sus permisos.</p>
-        </div>
-      </div>
-      <UsersTable users={rows} selfId={claims.userId} />
-    </div>
+    <PageBody narrow>
+      <PageHeader
+        title="Usuarios"
+        description="Cuentas del equipo y sus permisos. Tu propia cuenta no se puede editar desde aquí."
+        actions={<NewUserButton />}
+      />
+      <ListView
+        basePath={BASE}
+        params={params}
+        tabs={[
+          { value: "admin", label: "Admin" },
+          { value: "user", label: "Usuario" },
+        ]}
+        allLabel="Todos"
+        counts={counts}
+        data={data}
+        columns={columns}
+        rowKey={(u) => u.id}
+        mobileRow={(u) => (
+          <MobileRow
+            title={toUser(u).nombre}
+            detail={u.email}
+            meta={
+              <span className="flex w-full flex-wrap items-center gap-3 pt-1">
+                <RoleSelect user={toUser(u)} disabled={u.id === claims.userId} />
+                <ActiveSwitch user={toUser(u)} disabled={u.id === claims.userId} />
+              </span>
+            }
+          />
+        )}
+        searchLabel="Buscar nombre o correo"
+        noun={{ singular: "cuenta", plural: "cuentas" }}
+      />
+    </PageBody>
   )
 }
