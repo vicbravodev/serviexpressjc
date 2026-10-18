@@ -17,14 +17,29 @@ export function AboutSection() {
   const t = useTranslations("About")
 
   return (
-    <section id="quienes-somos" className="py-24 md:py-32">
+    <section id="quienes-somos" className="py-24">
       <div className="container mx-auto px-4">
-        <Reveal className="max-w-4xl">
-          <h2 className="text-4xl font-bold tracking-tight text-balance md:text-6xl">{t("title")}</h2>
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground text-pretty">
-            {t("subtitle", { years: yearsInService() })}
-          </p>
-        </Reveal>
+        {/* Encabezado y misión/visión en una sola fila: el bloque se sostiene con o
+            sin foto (en producción, mientras no llegue la foto, no queda un hueco). */}
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-12">
+          <Reveal className="lg:col-span-6">
+            <h2 className="text-4xl font-bold tracking-tight text-balance md:text-6xl">{t("title")}</h2>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty">
+              {t("subtitle", { years: yearsInService() })}
+            </p>
+          </Reveal>
+
+          <RevealGroup className="grid gap-8 sm:grid-cols-2 sm:gap-10 lg:col-span-6">
+            <RevealChild className="border-t border-foreground/15 pt-4">
+              <h3 className="font-semibold">{t("storyLabel1")}</h3>
+              <p className="mt-2 leading-relaxed text-foreground/90">{t("story1")}</p>
+            </RevealChild>
+            <RevealChild className="border-t border-foreground/15 pt-4">
+              <h3 className="font-semibold">{t("storyLabel2")}</h3>
+              <p className="mt-2 leading-relaxed text-foreground/90">{t("story2")}</p>
+            </RevealChild>
+          </RevealGroup>
+        </div>
 
         {/* Foto de equipo a ancho completo: la prueba de "gente real" */}
         {TEAM_PHOTO ? (
@@ -52,18 +67,6 @@ export function AboutSection() {
             </div>
           )
         )}
-
-        {/* Misión y visión: prosa directa, desplazada a la derecha bajo la foto */}
-        <RevealGroup className="mt-12 grid gap-10 md:mt-16 md:grid-cols-2 md:gap-14 lg:ml-auto lg:max-w-4xl">
-          <RevealChild>
-            <h3 className="font-semibold">{t("storyLabel1")}</h3>
-            <p className="mt-2 leading-relaxed text-foreground/90">{t("story1")}</p>
-          </RevealChild>
-          <RevealChild>
-            <h3 className="font-semibold">{t("storyLabel2")}</h3>
-            <p className="mt-2 leading-relaxed text-foreground/90">{t("story2")}</p>
-          </RevealChild>
-        </RevealGroup>
       </div>
     </section>
   )
