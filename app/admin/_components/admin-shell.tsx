@@ -1,11 +1,12 @@
 "use client"
 
 import { type ReactNode } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { FileText, Handshake, LayoutDashboard, LogOut, Shield, Users } from "lucide-react"
 import { signOut } from "@/lib/actions/auth"
-import { folio, initials } from "@/lib/admin/meta"
+import { BADGE_NEW, folio, initials } from "@/lib/admin/meta"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
   Breadcrumb,
@@ -26,6 +27,7 @@ import {
   SidebarHeader,
   SidebarInset,
   SidebarMenu,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
@@ -65,20 +67,14 @@ export function AdminShell({ user, counts, children }: Props) {
     <SidebarProvider>
       <Sidebar>
         <SidebarHeader>
-          <div className="surface-steel relative overflow-hidden rounded-lg">
-            <div className="bg-blueprint absolute inset-0" />
-            <div className="relative flex items-center justify-between gap-2 p-3 text-[oklch(0.98_0.005_240)]">
-              <div className="flex flex-col leading-tight">
-                <span className="text-sm font-semibold">ServiExpress JC</span>
-                <span className="font-mono text-[9.5px] tracking-[0.13em] text-[oklch(0.85_0.01_240_/_0.55)]">
-                  SALA DE CONTROL
-                </span>
-              </div>
-              <span className="rounded-md border border-white/20 bg-white/10 px-1.5 py-0.5 font-mono text-[10px] tracking-[0.1em]">
-                {isAdmin ? "ADMIN" : "USER"}
-              </span>
-            </div>
-          </div>
+          <Link href="/admin" className="flex items-center gap-2.5 rounded-md p-1.5 hover:bg-sidebar-accent">
+            {/* El PNG trae margen transparente a los lados: object-cover centra solo el logo. */}
+            <Image src="/logo-white-bg.png" alt="" width={800} height={450} className="h-10 w-12 object-cover" priority />
+            <span className="flex flex-col leading-tight">
+              <span className="text-sm font-semibold">ServiExpress JC</span>
+              <span className="text-xs text-muted-foreground">Panel de operación</span>
+            </span>
+          </Link>
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
@@ -98,18 +94,18 @@ export function AdminShell({ user, counts, children }: Props) {
                     <Link href="/admin/leads">
                       <FileText />
                       <span>Cotizaciones</span>
-                      <span className="ml-auto font-mono text-xs text-muted-foreground">{counts.newLeads}</span>
                     </Link>
                   </SidebarMenuButton>
+                  <PendingBadge n={counts.newLeads} />
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild isActive={section === "socios"}>
                     <Link href="/admin/socios">
                       <Handshake />
                       <span>Socios comerciales</span>
-                      <span className="ml-auto font-mono text-xs text-muted-foreground">{counts.newPartners}</span>
                     </Link>
                   </SidebarMenuButton>
+                  <PendingBadge n={counts.newPartners} />
                 </SidebarMenuItem>
                 {counts.newApplications !== null ? (
                   <SidebarMenuItem>
@@ -117,11 +113,9 @@ export function AdminShell({ user, counts, children }: Props) {
                       <Link href="/admin/postulaciones">
                         <Users />
                         <span>Postulaciones</span>
-                        <span className="ml-auto font-mono text-xs text-muted-foreground">
-                          {counts.newApplications}
-                        </span>
                       </Link>
                     </SidebarMenuButton>
+                    <PendingBadge n={counts.newApplications} />
                   </SidebarMenuItem>
                 ) : null}
               </SidebarMenu>
@@ -152,8 +146,10 @@ export function AdminShell({ user, counts, children }: Props) {
                 <AvatarFallback>{initials(userName || user.email)}</AvatarFallback>
               </Avatar>
               <div className="flex min-w-0 flex-col leading-snug">
-                <span className="text-sm font-medium capitalize">{userName}</span>
-                <span className="truncate text-xs text-muted-foreground">{user.email}</span>
+                <span className="truncate text-sm font-medium capitalize">{userName}</span>
+                <span className="truncate text-xs text-muted-foreground">
+                  {isAdmin ? "Admin" : "Usuario"}, {user.email}
+                </span>
               </div>
             </div>
             <SidebarMenu>
@@ -205,13 +201,20 @@ export function AdminShell({ user, counts, children }: Props) {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="ml-auto flex flex-none items-center gap-2 whitespace-nowrap">
-            <span className="animate-live-blink bg-yellow-accent inline-block size-[7px] rounded-full" />
-            <span className="font-mono text-[10px] tracking-[0.14em] text-muted-foreground">EN VIVO</span>
-          </div>
         </header>
         {children}
       </SidebarInset>
     </SidebarProvider>
+  )
+}
+
+/** Pendientes por revisar (estatus "nuevo"). Sin pendientes no se muestra nada. */
+function PendingBadge({ n }: { n: number | null }) {
+  if (!n) return null
+  return (
+    <SidebarMenuBadge className={`rounded-full px-1.5 ${BADGE_NEW}`}>
+      {n}
+      <span className="sr-only"> {n === 1 ? "nueva" : "nuevas"}</span>
+    </SidebarMenuBadge>
   )
 }

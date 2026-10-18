@@ -6,27 +6,33 @@ export type ApplicationStatus = "new" | "reviewed" | "contacted" | "hired" | "re
 export type StatusMeta = {
   label: string
   variant: "default" | "secondary" | "destructive" | "outline"
-  /** Clases extra sobre el Badge (verde para ganado/contratado, contorno azul para proceso). */
+  /** Clases extra sobre el Badge: el color dice en qué punto del flujo va. */
   className?: string
 }
 
-const BADGE_WON = "border-transparent bg-[oklch(0.52_0.12_155)] text-[oklch(0.99_0.003_155)]"
-const BADGE_PROGRESS = "border-primary text-primary bg-transparent"
+// Lo pendiente es lo único que lleva el ámbar; lo cerrado se apaga a gris. Mismo
+// estatus, mismo color en las tres entidades (todas las combinaciones pasan AA).
+export const BADGE_NEW = "border-transparent bg-[oklch(0.95_0.07_85)] text-[oklch(0.4_0.09_65)]"
+const BADGE_REVIEWED = "border-transparent bg-[oklch(0.95_0.006_240)] text-[oklch(0.35_0.015_240)]"
+const BADGE_CONTACTED = "border-transparent bg-[oklch(0.94_0.03_264)] text-[oklch(0.4_0.12_264)]"
+const BADGE_ACTIVE = "border-transparent bg-primary text-primary-foreground"
+const BADGE_WON = "border-transparent bg-[oklch(0.94_0.05_155)] text-[oklch(0.37_0.09_155)]"
+const BADGE_CLOSED = "border-transparent bg-muted text-muted-foreground"
 
 export const LEAD_STATUS_META: Record<LeadStatus, StatusMeta> = {
-  new: { label: "Nuevo", variant: "default" },
-  contacted: { label: "Contactado", variant: "secondary" },
-  in_progress: { label: "En proceso", variant: "outline", className: BADGE_PROGRESS },
-  won: { label: "Ganado", variant: "secondary", className: BADGE_WON },
-  lost: { label: "Perdido", variant: "destructive" },
+  new: { label: "Nuevo", variant: "outline", className: BADGE_NEW },
+  contacted: { label: "Contactado", variant: "outline", className: BADGE_CONTACTED },
+  in_progress: { label: "En proceso", variant: "outline", className: BADGE_ACTIVE },
+  won: { label: "Ganado", variant: "outline", className: BADGE_WON },
+  lost: { label: "Perdido", variant: "outline", className: BADGE_CLOSED },
 }
 
 export const APPLICATION_STATUS_META: Record<ApplicationStatus, StatusMeta> = {
-  new: { label: "Nuevo", variant: "default" },
-  reviewed: { label: "Revisado", variant: "secondary" },
-  contacted: { label: "Contactado", variant: "outline", className: BADGE_PROGRESS },
-  hired: { label: "Contratado", variant: "secondary", className: BADGE_WON },
-  rejected: { label: "Rechazado", variant: "destructive" },
+  new: { label: "Nuevo", variant: "outline", className: BADGE_NEW },
+  reviewed: { label: "Revisado", variant: "outline", className: BADGE_REVIEWED },
+  contacted: { label: "Contactado", variant: "outline", className: BADGE_CONTACTED },
+  hired: { label: "Contratado", variant: "outline", className: BADGE_WON },
+  rejected: { label: "Rechazado", variant: "outline", className: BADGE_CLOSED },
 }
 
 export const LEAD_STATUSES = Object.keys(LEAD_STATUS_META) as LeadStatus[]
@@ -72,12 +78,13 @@ const PARTNER_UNIT_LABELS: Record<string, string> = {
   ambos: "Tractocamión + plataforma",
 }
 
-export const serviceLabel = (v: string | null) => (v ? (SERVICE_LABELS[v] ?? v) : "—")
-export const unitLabel = (v: string | null) => (v ? (UNIT_LABELS[v] ?? v) : "—")
-export const urgencyLabel = (v: string | null) => (v ? (URGENCY_LABELS[v] ?? v) : "—")
-export const positionLabel = (v: string | null) => (v ? (POSITION_LABELS[v] ?? v) : "—")
-export const experienceLabel = (v: string | null) => (v ? (EXPERIENCE_LABELS[v] ?? v) : "—")
-export const partnerUnitLabel = (v: string | null) => (v ? (PARTNER_UNIT_LABELS[v] ?? v) : "—")
+export const NO_DATA = "Sin dato"
+export const serviceLabel = (v: string | null) => (v ? (SERVICE_LABELS[v] ?? v) : NO_DATA)
+export const unitLabel = (v: string | null) => (v ? (UNIT_LABELS[v] ?? v) : NO_DATA)
+export const urgencyLabel = (v: string | null) => (v ? (URGENCY_LABELS[v] ?? v) : NO_DATA)
+export const positionLabel = (v: string | null) => (v ? (POSITION_LABELS[v] ?? v) : NO_DATA)
+export const experienceLabel = (v: string | null) => (v ? (EXPERIENCE_LABELS[v] ?? v) : NO_DATA)
+export const partnerUnitLabel = (v: string | null) => (v ? (PARTNER_UNIT_LABELS[v] ?? v) : NO_DATA)
 
 /** Folio corto legible derivado del uuid (ej. COT-3F2A91). */
 export function folio(prefix: "COT" | "POS" | "SOC", id: string): string {
@@ -94,7 +101,7 @@ export function initials(name: string): string {
     .toUpperCase()
 }
 
-/** "07 jul · 08:12" en hora de Monterrey. */
+/** "07 jul, 08:12" en hora de Monterrey. */
 export function fmtShort(iso: string): string {
   const d = new Date(iso)
   const fecha = new Intl.DateTimeFormat("es-MX", {
@@ -104,13 +111,14 @@ export function fmtShort(iso: string): string {
   })
     .format(d)
     .replace(".", "")
+    .replace("-", " ")
   const hora = new Intl.DateTimeFormat("es-MX", {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
     timeZone: "America/Monterrey",
   }).format(d)
-  return `${fecha} · ${hora}`
+  return `${fecha}, ${hora}`
 }
 
 /** "12 ene 2025" */
