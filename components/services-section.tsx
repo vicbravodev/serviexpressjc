@@ -29,9 +29,9 @@ export function ServicesSection() {
   return (
     <section id="servicios" className="py-24 bg-muted/30">
       <div className="container mx-auto px-4">
-        <Reveal className="mb-14 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-balance">{t("title")}</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground text-pretty">
+        <Reveal className="mb-12 max-w-3xl">
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-balance">{t("title")}</h2>
+          <p className="mt-4 max-w-2xl text-lg text-muted-foreground text-pretty">
             {t("subtitle")}
           </p>
         </Reveal>

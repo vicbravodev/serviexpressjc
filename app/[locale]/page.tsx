@@ -5,10 +5,9 @@ import { localBusinessSchema } from "@/lib/schema"
 import { yearsInService } from "@/lib/site"
 import { Header } from "@/components/header"
 import { HeroSection } from "@/components/hero-section"
-import { StatsSection } from "@/components/stats-section"
+import { EvidenceSection } from "@/components/evidence-section"
 import { ServicesSection } from "@/components/services-section"
 import { CoverageLazy } from "@/components/coverage-lazy"
-import { CertificationsSection } from "@/components/certifications-section"
 import { TalleresSection } from "@/components/talleres-section"
 import { AboutSection } from "@/components/about-section"
 import { CTASection } from "@/components/cta-section"
@@ -30,10 +29,9 @@ export default async function LandingPage({
       <Header />
       <main>
         <HeroSection />
-        <StatsSection years={years} />
+        <EvidenceSection years={years} />
         <ServicesSection />
         <CoverageLazy />
-        <CertificationsSection />
         <TalleresSection />
         <AboutSection />
         <CTASection />

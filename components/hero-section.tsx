@@ -169,14 +169,15 @@ export function HeroSection() {
         </video>
       </motion.div>
 
-      {/* Cinematic scrim, guarantees text contrast over any frame */}
-      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/75 via-black/50 to-background" />
+      {/* Cinematic scrim, guarantees text contrast over any frame. Termina oscuro:
+          el hero es el único bloque oscuro y corta limpio contra el lienzo claro. */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/75 via-black/50 to-black/70" />
       <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_25%,rgba(0,0,0,0.55)_100%)]" />
       {/* Faint blueprint grid ties the hero to the control-room language */}
       <div className="absolute inset-0 z-[1] bg-blueprint opacity-[0.18] [mask-image:radial-gradient(ellipse_at_center,#000_30%,transparent_75%)]" />
 
       {/* Content */}
-      <div className="container mx-auto px-4 relative z-10 pt-36 pb-40 sm:pt-24 sm:pb-44">
+      <div className="container mx-auto px-4 relative z-10 pt-36 pb-24 sm:pt-24 sm:pb-28">
         {/* Entrada por CSS (animate-hero-rise): el texto pinta sin esperar JS */}
         <div className="max-w-5xl mx-auto text-center">
           <h1

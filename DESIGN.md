@@ -92,24 +92,26 @@ Este sistema rechaza explícitamente cuatro cosas. No es una **startup tech / Sa
 Una base neutra fría y tranquila, con un único azul de marca que carga la identidad y un ámbar cálido reservado para el énfasis.
 
 ### Primary
-- **Azul Ruta** (`oklch(0.45 0.15 264)`): el azul del logo, profundo y serio. Identidad principal: fondo del footer, íconos de credenciales, números de stats, foco de inputs y el anillo de foco.
+- **Azul Ruta** (`oklch(0.45 0.15 264)`): el azul del logo, profundo y serio. Identidad principal: íconos en línea (pilares de Talleres, contacto), la marca "JC" del footer, foco de inputs y el anillo de foco. Ya no es fondo de ninguna superficie grande: el azul plano a sangre es el cliché de transportista genérico.
 - **Azul Ruta Claro** (`oklch(0.42 0.14 264)`): variante del azul, oscurecida para que el texto blanco de los **CTAs primarios** pase contraste AA. Es el color de los CTAs ("Solicita tu cotización", "Cotización", "Enviar solicitud"). Su trabajo es decir "haz clic aquí".
 
 ### Secondary
 - **Ámbar Señal** (`oklch(0.75 0.15 85)`) y **Ámbar Señal Bright** (`oklch(0.85 0.18 90)`): el acento cálido de señalética. Aparece en el subrayado de navegación, la palabra enfatizada del titular ("con flota propia") y los hovers de borde. Es el contrapunto que humaniza el azul.
 
 ### Neutral
-- **Tinta** (`oklch(0.15 0.01 240)`): texto principal y fondo del hero. Casi negro, tibiamente azulado; nunca `#000`.
+- **Tinta** (`oklch(0.15 0.01 240)`): texto principal. El hero usa un tono hermano (`oklch(0.12 0.01 240)`) bajo el video. Casi negro, tibiamente azulado; nunca `#000`.
 - **Lienzo** (`oklch(0.99 0 0)`): fondo base de página y superficie de tarjetas.
-- **Bruma** (`oklch(0.96 0.005 240)`): fondo de secciones alternas (`bg-muted/30`) que separa el ritmo vertical.
+- **Bruma** (`oklch(0.96 0.005 240)`): fondo de secciones alternas (`bg-muted/30`: Servicios, Talleres, CTA) que separa el ritmo vertical.
 - **Bruma Texto** (`oklch(0.42 0.012 240)`): texto secundario, descripciones, labels de apoyo.
-- **Línea** (`oklch(0.9 0.005 240)`): bordes, divisores y los hairlines del panel de certificaciones.
+- **Línea** (`oklch(0.9 0.005 240)`): bordes y divisores. La franja de evidencia usa `foreground/15` para que sus reglas se lean sobre el lienzo.
 
 ### Brand exception
-- **Verde WhatsApp** (`#25D366`): exclusivo del botón de WhatsApp. Es marca de terceros; no se usa en ningún otro lugar.
+- **Verde WhatsApp** (`#25D366`): exclusivo del botón de WhatsApp. Es marca de terceros; no se usa en ningún otro lugar. El texto va oscuro (`oklch(0.2 0.04 155)`): blanco sobre este verde da ≈2:1 y no pasa AA.
 
 ### Named Rules
 **La Regla del Ámbar Escaso.** El ámbar es señal, no decoración. Marca a lo sumo un elemento por pantalla (un énfasis o un estado). Nada de puntos "en vivo" decorativos: si no hay un dato real en vivo detrás, no hay punto. Si aparece en un CTA, un badge y tres bordes a la vez, deja de significar algo. Su rareza es el punto.
+
+**La Regla del Único Bloque Oscuro.** La página es clara. El hero (video + scrim) es el único bloque oscuro y termina en un corte limpio contra el lienzo, sin degradado a gris. Franja de evidencia, tarjeta de WhatsApp y footer viven sobre Lienzo o Bruma. Excepción temporal: la consola del mapa de cobertura sigue oscura hasta su rediseño (Fase 3).
 
 **La Regla de Un Solo Azul.** Azul Ruta y su variante clara son el mismo color. Ningún CTA cambia a teal, verde o morado en una sección tardía. El azul es la casa.
 
@@ -123,7 +125,7 @@ Una base neutra fría y tranquila, con un único azul de marca que carga la iden
 ### Hierarchy
 - **Display** (700, `clamp(2.25rem, 5vw, 3.75rem)`, lh 1.08): titular del hero. Máximo 2 líneas en escritorio; la escala se planea junto al asset, nunca se deja desbordar.
 - **Headline** (700, `clamp(1.875rem, 4vw, 3rem)`, lh 1.1): encabezados de sección ("Nuestros Servicios", "Quiénes Somos").
-- **Title** (600, 1.25rem, lh 1.3): títulos de tarjeta (features, certificaciones, servicios).
+- **Title** (600, 1.25rem, lh 1.3): títulos de tarjeta y de hechos (servicios, evidencia, pilares de Talleres).
 - **Body** (400, 1rem, lh 1.625): párrafos y descripciones. Ancho máximo 65–75ch; los subtítulos largos se contienen con `max-w-2xl/3xl`.
 - **Label** (500, 0.875rem): texto de apoyo, metadatos, atribución de testimonios.
 
@@ -135,7 +137,7 @@ Una base neutra fría y tranquila, con un único azul de marca que carga la iden
 Sistema **plano por defecto**. Las superficies descansan al ras sobre el lienzo, separadas por color de fondo (Bruma) y por la línea de borde, no por sombra. La profundidad es una respuesta al estado, no un adorno permanente: una tarjeta se eleva levemente solo al hacer hover.
 
 ### Shadow Vocabulary
-- **Lift de hover** (`hover:-translate-y-1.5` + `shadow-xl`): tarjetas de features, certificaciones, servicios y stats al pasar el cursor. Comunica que el elemento es interactivo.
+- **Lift de hover** (`hover:-translate-y-1.5` + `shadow-xl`): tarjetas de servicio (nacional / internacional) al pasar el cursor. Comunica que el elemento es interactivo.
 - **Chrome del header** (`shadow-md`): aparece solo cuando el header pasa a estado sólido tras hacer scroll.
 - **Anclaje del mapa** (`shadow-2xl`): la imagen de cobertura, que sí debe sentirse como una pieza física apoyada.
 
@@ -167,8 +169,27 @@ Filosofía: **cercanos y suaves**. Bordes redondeados generosos, trato amable, n
 - **Style:** header fijo, una sola línea, alto 72px (`h-[72px]`). Transparente sobre el hero (texto blanco), vira a sólido (`bg-background/95` + `backdrop-blur`) tras el scroll, detectado por IntersectionObserver, no por listener de scroll.
 - **Links:** peso medio; subrayado Ámbar Señal que crece en hover/activo. Móvil: menú hamburguesa.
 
-### Franja de Confianza (componente firma)
-Las certificaciones NO son un grid de cards repetidas. Son una sola superficie bordeada con celdas separadas por hairlines (`bg-border` + `gap-px` + celdas `bg-card`). Ícono inline, título, descripción. Es la respuesta deliberada a la prohibición de "grids de cards idénticas".
+### Franja de Evidencia (componente firma)
+Va justo debajo del hero y fusiona lo que antes eran Stats y Certificaciones. Sobre Lienzo, sin placa oscura ni números de vitrina: a la izquierda el encabezado (4/12), a la derecha una lista `<dl>` de seis hechos verificables (años en ruta calculados, flota propia, GPS 24/7, licencia B1, doble placa, seguro de carga), cada uno con una regla superior (`border-t`), título y una línea de apoyo. Dos columnas hasta `xl`, tres desde `xl`, una en móvil. Cada credencial aparece una sola vez en la página: no se repite B1 ni doble placa en otra franja. Nada de métricas sin fuente (el antiguo "100%").
+
+### Encabezados de sección
+Alineados a la izquierda y con escala variada según el peso de la sección, no la fórmula centrada repetida:
+- **Quiénes Somos:** el más grande (`text-4xl md:text-6xl`), sobre la foto de equipo.
+- **Servicios, Talleres, Ubicación:** headline estándar (`text-3xl md:text-5xl`), subtítulo apilado debajo (máx. 65ch).
+- **Evidencia:** más chico (`text-2xl md:text-4xl`), en columna lateral.
+- **Cobertura:** sigue centrado con su etiqueta mono hasta la Fase 3.
+
+### Composición imagen/texto
+Ningún patrón imagen + texto se repite igual:
+- **Carga especializada** (Servicios): split dentro de una tarjeta, foto a la izquierda.
+- **Talleres:** foto a sangre en la mitad derecha hasta el borde del viewport (`lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2`); en móvil la foto va arriba a todo el ancho.
+- **Ubicación:** apilado. Encabezado y datos de contacto en una fila (7/5), mapa panorámico a lo ancho debajo (`aspect-[21/9]`, `4/3` en móvil).
+
+### Foto de equipo (Quiénes Somos)
+Slot a ancho de contenedor entre el encabezado y la misión/visión (`aspect-[21/9]`, `4/3` en móvil). La foto la pasa el cliente: gente real de ServiExpress JC, horizontal, ≥2400 px, nunca stock. Mientras `TEAM_PHOTO` sea `null` en `components/about-section.tsx`, se muestra un slot punteado "Pendiente" solo fuera de producción (`VERCEL_ENV !== "production"`); en producción no se renderiza nada.
+
+### Footer
+Claro, integrado al sistema: Lienzo con línea superior, logo sobre blanco, "JC" en Azul Ruta, links en Bruma Texto que pasan a Tinta en hover e íconos de contacto en Azul Ruta. Ya no es una plancha azul corporativa.
 
 ## 6. Do's and Don'ts
 
@@ -178,7 +199,7 @@ Las certificaciones NO son un grid de cards repetidas. Son una sola superficie b
 - **Do** mantener superficies planas en reposo y elevar solo en hover.
 - **Do** sostener cada afirmación con evidencia concreta (B1, doble placa, GPS 24/7, años en ruta calculados desde 2005).
 - **Do** dar prioridad real al móvil: el hero cabe en viewport, los CTAs se ven sin scroll, los formularios se usan con el pulgar.
-- **Do** romper la repetición de layout: cuando una sección use un patrón (grid de cards), la siguiente usa otra familia (franja con hairlines, split, lista).
+- **Do** romper la repetición de layout: cuando una sección use un patrón (grid de cards), la siguiente usa otra familia (lista con reglas, foto a sangre, apilado con mapa panorámico). Nunca tres splits con la imagen del mismo lado.
 
 ### Don't:
 - **Don't** caer en el **transportista genérico**: nada de foto de stock de camión al atardecer como relleno vacío, ni azul corporativo plano de plantilla.
