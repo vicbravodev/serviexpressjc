@@ -48,13 +48,11 @@ export function ListView<R>(props: Props<R>) {
   // La key reinicia el Suspense en cada cambio de filtros para mostrar el skeleton.
   const key = listHref(basePath, params)
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-        <Suspense key={`tabs:${params.q}:${params.asignado}`} fallback={<TabsSkeleton n={props.tabs.length + 1} />}>
-          <StatusTabs {...props} />
-        </Suspense>
-        <ListFilters basePath={basePath} params={params} searchLabel={searchLabel} staff={staff} />
-      </div>
+    <div className="flex flex-col gap-3">
+      <ListFilters basePath={basePath} params={params} searchLabel={searchLabel} staff={staff} />
+      <Suspense key={`tabs:${params.q}:${params.asignado}`} fallback={<TabsSkeleton n={props.tabs.length + 1} />}>
+        <StatusTabs {...props} />
+      </Suspense>
       <Suspense key={key} fallback={<ResultsSkeleton cols={props.columns.length} />}>
         <Results {...props} />
       </Suspense>
@@ -67,7 +65,7 @@ async function StatusTabs<R>({ basePath, params, tabs, counts, allLabel = "Todas
   const all = Object.values(c).reduce((a, b) => a + b, 0)
   const items = [{ value: "todos", label: allLabel, count: all }, ...tabs.map((t) => ({ ...t, count: c[t.value] ?? 0 }))]
   return (
-    <nav aria-label="Estatus" className="-mx-4 overflow-x-auto px-4 lg:mx-0 lg:px-0">
+    <nav aria-label="Estatus" className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
       <ul className="flex min-w-max border-b">
         {items.map((t) => {
           const active = params.status === t.value

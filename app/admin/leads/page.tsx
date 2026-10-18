@@ -71,13 +71,13 @@ export default async function LeadsPage({ searchParams }: { searchParams: Promis
       key: "contacto",
       label: "Contacto",
       sort: "contact_name",
-      className: "max-w-56",
       cell: (l) => <Primary title={contact(l)} sub={l.contact_name ? l.contact_phone : null} />,
     },
     {
       key: "ruta",
       label: "Ruta",
       sort: "origin_name",
+      className: "min-w-44 whitespace-normal",
       cell: (l) => <Primary title={<span className="font-normal">{route(l)}</span>} sub={serviceLabel(l.service)} />,
     },
     {

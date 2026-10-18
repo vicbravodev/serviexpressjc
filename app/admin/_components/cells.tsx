@@ -8,8 +8,8 @@ import { Badge } from "@/components/ui/badge"
 export function Primary({ title, sub }: { title: ReactNode; sub?: ReactNode }) {
   return (
     <div className="flex min-w-0 flex-col gap-0.5">
-      <span className="truncate font-medium">{title}</span>
-      {sub ? <span className="truncate text-muted-foreground tabular-nums">{sub}</span> : null}
+      <span className="font-medium">{title}</span>
+      {sub ? <span className="text-muted-foreground tabular-nums">{sub}</span> : null}
     </div>
   )
 }
@@ -34,11 +34,12 @@ export function StatusBadge({ meta }: { meta: StatusMeta }) {
 export function Assignee({ name }: { name: string | null }) {
   if (!name) return <span className="text-muted-foreground">Sin asignar</span>
   return (
-    <span className="flex items-center gap-2">
+    <span className="flex items-center gap-2" title={name}>
       <Avatar className="size-6 text-[10px]">
         <AvatarFallback>{initials(name)}</AvatarFallback>
       </Avatar>
-      <span className="truncate">{name}</span>
+      {/* En pantallas medianas solo van las iniciales; el nombre sigue para lectores de pantalla. */}
+      <span className="sr-only truncate xl:not-sr-only">{name}</span>
     </span>
   )
 }
