@@ -265,7 +265,7 @@
     "contactTitle": "Contacto",
     "addressLine1": "Carr. Mezquital Santa Rosa 3517 Int. C",
     "addressLine2": "Cd. Apodaca, N.L., México",
-    "rights": "Todos los derechos reservados."
+    "copyright": "© {year} ServiExpress JC, S.A. de C.V. Todos los derechos reservados."
   },
   "Partners": {
     "metaTitle": "Socios Comerciales · ServiExpress JC",

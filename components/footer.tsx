@@ -162,7 +162,8 @@ export function Footer() {
         </div>
 
         <div className="border-t border-border pt-8 text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} ServiExpress JC LLC. {t("rights")}</p>
+          {/* Razón social por mercado: S.A. de C.V. en español (México), LLC en inglés (EE. UU.). */}
+          <p>{t("copyright", { year: new Date().getFullYear() })}</p>
         </div>
       </div>
     </footer>
