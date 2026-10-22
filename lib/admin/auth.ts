@@ -8,6 +8,8 @@ import { SECTIONS, type Section } from "@/lib/admin/meta"
 export type SessionClaims = {
   userId: string
   email: string
+  /** Nombre del perfil (Usuarios → Nombre); null si no se capturó. */
+  name: string | null
   role: "admin" | "user" | "none"
   /** Secciones visibles: todas para admin, las de `profiles.permissions` para user. */
   sections: Section[]
@@ -29,6 +31,7 @@ export const getSessionClaims = cache(async (): Promise<SessionClaims | null> =>
   return {
     userId,
     email: String(claims.email ?? ""),
+    name: profile?.name ?? null,
     role,
     sections: role === "admin" ? [...SECTIONS] : role === "user" ? (profile?.sections ?? []) : [],
   }
@@ -43,17 +46,20 @@ export const getSessionClaims = cache(async (): Promise<SessionClaims | null> =>
  * Devuelve null si no hay fila o no hay service key, y entonces manda el JWT (user sin secciones).
  * ponytail: un admin desactivado conserva acceso por PostgREST hasta que expire su JWT.
  */
-async function currentProfile(userId: string): Promise<{ role: SessionClaims["role"]; sections: Section[] } | null> {
+async function currentProfile(
+  userId: string,
+): Promise<{ role: SessionClaims["role"]; name: string | null; sections: Section[] } | null> {
   if (!userId || !process.env.SUPABASE_SERVICE_ROLE_KEY) return null
   const { data } = await createAdminClient()
     .from("profiles")
-    .select("role, is_active, permissions")
+    .select("role, is_active, permissions, full_name")
     .eq("id", userId)
     .maybeSingle()
   if (!data) return null
-  if (!data.is_active) return { role: "none", sections: [] }
+  const name = data.full_name?.trim() || null
+  if (!data.is_active) return { role: "none", name, sections: [] }
   const perms: string[] = data.permissions ?? []
-  return { role: data.role as SessionClaims["role"], sections: SECTIONS.filter((s) => perms.includes(s)) }
+  return { role: data.role as SessionClaims["role"], name, sections: SECTIONS.filter((s) => perms.includes(s)) }
 }
 
 /** Exige sesión válida con rol admin|user. Redirige a login si no. Devuelve los claims. */

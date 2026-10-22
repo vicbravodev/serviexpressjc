@@ -43,7 +43,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     <html lang="es" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="font-sans antialiased">
         <AdminShell
-          user={{ email: claims.email, role: claims.role as "admin" | "user" }}
+          user={{ email: claims.email, name: claims.name, role: claims.role as "admin" | "user" }}
           counts={counts}
         >
           {children}
