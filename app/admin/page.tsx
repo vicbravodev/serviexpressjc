@@ -27,44 +27,28 @@ type LeadItem = {
 
 export default async function AdminHome() {
   const claims = await requireStaff()
-  const supabase = createClient(await cookies())
-  const isAdmin = claims.role === "admin"
-
-  // Inicio de mes en hora de Monterrey (UTC-6 fijo desde 2022), no en la zona del servidor (UTC).
-  const [y, m] = new Intl.DateTimeFormat("en-CA", { year: "numeric", month: "2-digit", timeZone: "America/Monterrey" })
-    .format(new Date())
-    .split("-")
-  const monthStart = new Date(`${y}-${m}-01T00:00:00-06:00`)
-  const leads = () => supabase.from("load_requests").select("id", { count: "exact", head: true })
+  const hasLeads = claims.sections.includes("leads")
 
   // Los pendientes (status = 'new') vienen memoizados del layout: no se vuelven a consultar.
-  const [pending, unassigned, inProgress, wonMonth, mine, recent] = await Promise.all([
-    getPendingCounts(isAdmin),
-    leads().eq("status", "new").is("assigned_to", null),
-    leads().eq("status", "in_progress"),
-    leads().eq("status", "won").gte("updated_at", monthStart.toISOString()),
-    supabase
-      .from("load_requests")
-      .select(LEAD_COLS)
-      .eq("assigned_to", claims.userId)
-      .in("status", OPEN)
-      .order("created_at", { ascending: false })
-      .limit(6),
-    supabase.from("load_requests").select(LEAD_COLS).order("created_at", { ascending: false }).limit(6),
+  const [pending, board] = await Promise.all([
+    getPendingCounts(claims.sections),
+    hasLeads ? leadBoard(claims.userId) : null,
   ])
-  for (const r of [unassigned, inProgress, wonMonth, mine, recent]) {
-    if (r.error) throw new Error(`No se pudo cargar el tablero (${r.error.message})`)
-  }
 
-  const queue: Array<{ label: string; value: number; href: string }> = [
-    { label: "Cotizaciones nuevas", value: pending.newLeads, href: "/admin/leads?status=new" },
-    { label: "Nuevas sin asignar", value: unassigned.count ?? 0, href: "/admin/leads?status=new&asignado=sin" },
-    { label: "En proceso", value: inProgress.count ?? 0, href: "/admin/leads?status=in_progress" },
-    { label: "Ganadas este mes", value: wonMonth.count ?? 0, href: "/admin/leads?status=won" },
-    { label: "Socios nuevos", value: pending.newPartners, href: "/admin/socios?status=new" },
-  ]
-  if (pending.newApplications !== null) {
-    queue.push({ label: "Postulaciones nuevas", value: pending.newApplications, href: "/admin/postulaciones?status=new" })
+  const queue: Array<{ label: string; value: number; href: string }> = []
+  if (board) {
+    queue.push(
+      { label: "Cotizaciones nuevas", value: pending.leads ?? 0, href: "/admin/leads?status=new" },
+      { label: "Nuevas sin asignar", value: board.unassigned, href: "/admin/leads?status=new&asignado=sin" },
+      { label: "En proceso", value: board.inProgress, href: "/admin/leads?status=in_progress" },
+      { label: "Ganadas este mes", value: board.wonMonth, href: "/admin/leads?status=won" },
+    )
+  }
+  if (pending.socios !== null) {
+    queue.push({ label: "Socios nuevos", value: pending.socios, href: "/admin/socios?status=new" })
+  }
+  if (pending.postulaciones !== null) {
+    queue.push({ label: "Postulaciones nuevas", value: pending.postulaciones, href: "/admin/postulaciones?status=new" })
   }
 
   const hoy = new Intl.DateTimeFormat("es-MX", {
@@ -78,7 +62,13 @@ export default async function AdminHome() {
     <PageBody>
       <PageHeader title="Tablero" description={`Hoy es ${hoy}.`} />
 
-      <section aria-labelledby="tab-pendientes">
+      {queue.length === 0 ? (
+        <p className="rounded-xl border bg-card px-4 py-6 text-sm text-muted-foreground">
+          Tu cuenta aún no tiene secciones asignadas. Pide a un admin que te dé acceso desde Usuarios.
+        </p>
+      ) : null}
+
+      <section aria-labelledby="tab-pendientes" hidden={queue.length === 0}>
         <h2 id="tab-pendientes" className="sr-only">
           Pendientes
         </h2>
@@ -97,22 +87,59 @@ export default async function AdminHome() {
         </ul>
       </section>
 
-      <div className="grid items-start gap-6 lg:grid-cols-2">
-        <LeadList
-          title="Asignadas a ti"
-          empty="No tienes cotizaciones abiertas asignadas."
-          rows={(mine.data ?? []) as LeadItem[]}
-          more={{ href: `/admin/leads?asignado=${claims.userId}`, label: "Ver todas las tuyas" }}
-        />
-        <LeadList
-          title="Últimas cotizaciones"
-          empty="Aún no llegan cotizaciones."
-          rows={(recent.data ?? []) as LeadItem[]}
-          more={{ href: "/admin/leads", label: "Ver todas" }}
-        />
-      </div>
+      {board ? (
+        <div className="grid items-start gap-6 lg:grid-cols-2">
+          <LeadList
+            title="Asignadas a ti"
+            empty="No tienes cotizaciones abiertas asignadas."
+            rows={board.mine}
+            more={{ href: `/admin/leads?asignado=${claims.userId}`, label: "Ver todas las tuyas" }}
+          />
+          <LeadList
+            title="Últimas cotizaciones"
+            empty="Aún no llegan cotizaciones."
+            rows={board.recent}
+            more={{ href: "/admin/leads", label: "Ver todas" }}
+          />
+        </div>
+      ) : null}
     </PageBody>
   )
+}
+
+/** Cola de cotizaciones del tablero (solo para quien tiene la sección). */
+async function leadBoard(userId: string) {
+  const supabase = createClient(await cookies())
+  // Inicio de mes en hora de Monterrey (UTC-6 fijo desde 2022), no en la zona del servidor (UTC).
+  const [y, m] = new Intl.DateTimeFormat("en-CA", { year: "numeric", month: "2-digit", timeZone: "America/Monterrey" })
+    .format(new Date())
+    .split("-")
+  const monthStart = new Date(`${y}-${m}-01T00:00:00-06:00`)
+  const leads = () => supabase.from("load_requests").select("id", { count: "exact", head: true })
+
+  const [unassigned, inProgress, wonMonth, mine, recent] = await Promise.all([
+    leads().eq("status", "new").is("assigned_to", null),
+    leads().eq("status", "in_progress"),
+    leads().eq("status", "won").gte("updated_at", monthStart.toISOString()),
+    supabase
+      .from("load_requests")
+      .select(LEAD_COLS)
+      .eq("assigned_to", userId)
+      .in("status", OPEN)
+      .order("created_at", { ascending: false })
+      .limit(6),
+    supabase.from("load_requests").select(LEAD_COLS).order("created_at", { ascending: false }).limit(6),
+  ])
+  for (const r of [unassigned, inProgress, wonMonth, mine, recent]) {
+    if (r.error) throw new Error(`No se pudo cargar el tablero (${r.error.message})`)
+  }
+  return {
+    unassigned: unassigned.count ?? 0,
+    inProgress: inProgress.count ?? 0,
+    wonMonth: wonMonth.count ?? 0,
+    mine: (mine.data ?? []) as LeadItem[],
+    recent: (recent.data ?? []) as LeadItem[],
+  }
 }
 
 function LeadList({

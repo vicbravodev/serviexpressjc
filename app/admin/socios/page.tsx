@@ -1,8 +1,15 @@
 import type { Metadata } from "next"
-import { requireStaff } from "@/lib/admin/auth"
-import { parseListParams } from "@/lib/admin/list"
+import { requireSection } from "@/lib/admin/auth"
+import { facetOptions, parseListParams, type Facet } from "@/lib/admin/list"
 import { queryList, queryStatusCounts } from "@/lib/admin/list-query"
-import { fmtShort, folio, LEAD_STATUSES, leadStatusMeta, partnerUnitLabel } from "@/lib/admin/meta"
+import {
+  fmtShort,
+  folio,
+  LEAD_STATUSES,
+  leadStatusMeta,
+  PARTNER_UNIT_LABELS,
+  partnerUnitLabel,
+} from "@/lib/admin/meta"
 import { getStaffOptions } from "@/lib/admin/staff"
 import { Assignee, MobileRow, Primary, Received, StatusBadge } from "../_components/cells"
 import { ListView, type Column } from "../_components/list-view"
@@ -14,6 +21,9 @@ export const metadata: Metadata = { title: "Socios comerciales" }
 const BASE = "/admin/socios"
 const TABLE = "partner_leads"
 const FILTERS = { textColumns: ["name"], phoneColumn: "phone" }
+const FACETS: Facet[] = [
+  { key: "unit_type", label: "Unidad", allLabel: "Cualquier unidad", options: facetOptions(PARTNER_UNIT_LABELS) },
+]
 const TABS = [
   { value: "new", label: "Nuevas" },
   { value: "contacted", label: "Contactadas" },
@@ -37,8 +47,12 @@ export default async function PartnerLeadsPage({
 }: {
   searchParams: Promise<Record<string, string | string[]>>
 }) {
-  await requireStaff()
-  const params = parseListParams(await searchParams, { sorts: ["created_at", "name"], statuses: LEAD_STATUSES })
+  await requireSection("socios")
+  const params = parseListParams(await searchParams, {
+    sorts: ["created_at", "name"],
+    statuses: LEAD_STATUSES,
+    facets: FACETS,
+  })
   const staff = await getStaffOptions()
   const data = queryList<Partner>({
     table: TABLE,
@@ -95,6 +109,8 @@ export default async function PartnerLeadsPage({
         )}
         searchLabel="Buscar nombre, teléfono o folio"
         staff={staff.map((s) => ({ id: s.id, name: s.name }))}
+        dates
+        facets={FACETS}
         noun={{ singular: "solicitud", plural: "solicitudes" }}
       />
     </PageBody>

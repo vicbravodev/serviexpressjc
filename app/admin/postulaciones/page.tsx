@@ -1,13 +1,15 @@
 import type { Metadata } from "next"
-import { requireAdmin } from "@/lib/admin/auth"
-import { parseListParams } from "@/lib/admin/list"
+import { requireSection } from "@/lib/admin/auth"
+import { facetOptions, parseListParams, type Facet } from "@/lib/admin/list"
 import { queryList, queryStatusCounts } from "@/lib/admin/list-query"
 import {
   APPLICATION_STATUSES,
   applicationStatusMeta,
+  EXPERIENCE_LABELS,
   experienceLabel,
   fmtShort,
   folio,
+  POSITION_LABELS,
   positionLabel,
 } from "@/lib/admin/meta"
 import { getStaffOptions } from "@/lib/admin/staff"
@@ -21,6 +23,10 @@ export const metadata: Metadata = { title: "Postulaciones" }
 const BASE = "/admin/postulaciones"
 const TABLE = "job_applications"
 const FILTERS = { textColumns: ["name"], phoneColumn: "phone" }
+const FACETS: Facet[] = [
+  { key: "position", label: "Puesto", allLabel: "Cualquier puesto", options: facetOptions(POSITION_LABELS) },
+  { key: "experience", label: "Experiencia", allLabel: "Cualquier experiencia", options: facetOptions(EXPERIENCE_LABELS) },
+]
 const TABS = [
   { value: "new", label: "Nuevas" },
   { value: "reviewed", label: "Revisadas" },
@@ -45,10 +51,11 @@ export default async function ApplicationsPage({
 }: {
   searchParams: Promise<Record<string, string | string[]>>
 }) {
-  await requireAdmin()
+  await requireSection("postulaciones")
   const params = parseListParams(await searchParams, {
     sorts: ["created_at", "name", "position"],
     statuses: APPLICATION_STATUSES,
+    facets: FACETS,
   })
   const staff = await getStaffOptions()
   const data = queryList<Application>({
@@ -110,6 +117,8 @@ export default async function ApplicationsPage({
         )}
         searchLabel="Buscar nombre, teléfono o folio"
         staff={staff.map((s) => ({ id: s.id, name: s.name }))}
+        dates
+        facets={FACETS}
         noun={{ singular: "postulación", plural: "postulaciones" }}
       />
     </PageBody>

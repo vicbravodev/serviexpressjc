@@ -37,7 +37,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     )
   }
 
-  const counts = await getPendingCounts(claims.role === "admin")
+  const counts = await getPendingCounts(claims.sections)
 
   return (
     <html lang="es" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>

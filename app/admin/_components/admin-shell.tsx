@@ -6,7 +6,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { FileText, Handshake, LayoutDashboard, LogOut, Shield, Users } from "lucide-react"
 import { signOut } from "@/lib/actions/auth"
-import { BADGE_NEW, folio, initials } from "@/lib/admin/meta"
+import { BADGE_NEW, folio, initials, SECTION_LABELS, SECTIONS, type Section } from "@/lib/admin/meta"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
   Breadcrumb,
@@ -36,17 +36,14 @@ import {
 
 type Props = {
   user: { email: string; role: "admin" | "user" }
-  counts: { newLeads: number; newApplications: number | null; newPartners: number }
+  /** null en las secciones que la persona no tiene: no se muestran. */
+  counts: Record<Section, number | null>
   children: ReactNode
 }
 
-const SECTION_TITLES: Record<string, string> = {
-  "": "Tablero",
-  leads: "Cotizaciones",
-  postulaciones: "Postulaciones",
-  socios: "Socios comerciales",
-  usuarios: "Usuarios",
-}
+const SECTION_TITLES: Record<string, string> = { "": "Tablero", ...SECTION_LABELS, usuarios: "Usuarios" }
+
+const SECTION_ICONS: Record<Section, typeof FileText> = { leads: FileText, socios: Handshake, postulaciones: Users }
 
 const FOLIO_PREFIX: Record<string, "COT" | "POS" | "SOC"> = {
   postulaciones: "POS",
@@ -89,35 +86,22 @@ export function AdminShell({ user, counts, children }: Props) {
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={section === "leads"}>
-                    <Link href="/admin/leads">
-                      <FileText />
-                      <span>Cotizaciones</span>
-                    </Link>
-                  </SidebarMenuButton>
-                  <PendingBadge n={counts.newLeads} />
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={section === "socios"}>
-                    <Link href="/admin/socios">
-                      <Handshake />
-                      <span>Socios comerciales</span>
-                    </Link>
-                  </SidebarMenuButton>
-                  <PendingBadge n={counts.newPartners} />
-                </SidebarMenuItem>
-                {counts.newApplications !== null ? (
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild isActive={section === "postulaciones"}>
-                      <Link href="/admin/postulaciones">
-                        <Users />
-                        <span>Postulaciones</span>
-                      </Link>
-                    </SidebarMenuButton>
-                    <PendingBadge n={counts.newApplications} />
-                  </SidebarMenuItem>
-                ) : null}
+                {SECTIONS.map((key) => {
+                  const n = counts[key]
+                  if (n === null) return null
+                  const Icon = SECTION_ICONS[key]
+                  return (
+                    <SidebarMenuItem key={key}>
+                      <SidebarMenuButton asChild isActive={section === key}>
+                        <Link href={`/admin/${key}`}>
+                          <Icon />
+                          <span>{SECTION_LABELS[key]}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                      <PendingBadge n={n} />
+                    </SidebarMenuItem>
+                  )
+                })}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>

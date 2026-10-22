@@ -1,4 +1,4 @@
-// Prueba la migración 0004 en Postgres (PGlite) con el entorno de Supabase simulado.
+// Prueba las migraciones 0004 y 0005 en Postgres (PGlite) con el entorno de Supabase simulado.
 // Uso: pnpm test:rls  (PGlite: Postgres en memoria, sin Docker ni Supabase CLI)
 import { PGlite } from "@electric-sql/pglite"
 import { readFileSync } from "node:fs"
@@ -33,6 +33,15 @@ await db.exec(mig("0003_performance_indexes_rls.sql"))
 await db.exec(`insert into public.load_requests (service, contact_name) values ('ftl', repeat('x', 500))`)
 await db.exec(mig("0004_harden_rls.sql"))
 await db.exec(mig("0004_harden_rls.sql")) // idempotente
+// Cuentas existentes antes de 0005: el user debe conservar cotizaciones + socios.
+await db.exec(`insert into public.profiles (id, email, role) values ('${ADMIN}','admin@sx.mx','admin'), ('${USER}','user@sx.mx','user')`)
+await db.exec(mig("0005_section_permissions.sql"))
+const userPerms = async () => (await db.query(`select permissions from public.profiles where id = '${USER}'`)).rows[0].permissions.join(",")
+const backfill = await userPerms()
+await db.exec(`update public.profiles set permissions = '{leads}' where id = '${USER}'`)
+await db.exec(mig("0005_section_permissions.sql")) // idempotente: no vuelve a pisar permisos
+const rerun = await userPerms()
+await db.exec(`update public.profiles set permissions = '{leads,socios}' where id = '${USER}'`)
 
 const claims = { anon: null,
   admin: { sub: ADMIN, email: "admin@sx.mx", role: "authenticated", app_metadata: { role: "admin" } },
@@ -114,6 +123,43 @@ await expect("user NO puede usar el actor_id de otro", false, "user",
 await expect("service_role (acciones de gestión) sigue escribiendo el audit", true, "service",
   `insert into public.audit_log (actor_id, actor_email, entity_type, entity_id, action, new_value)
    values ('${ADMIN}','admin@sx.mx','user','${USER}','role_change','{"role":"user"}')`)
+
+// Permisos por sección (0005)
+const setPerms = (perms, active = true) =>
+  db.exec(`update public.profiles set permissions = '{${perms}}', is_active = ${active} where id = '${USER}'`)
+await expect("0005 conserva el acceso de hoy del user (leads + socios)", true, "service",
+  `select 1`, () => backfill === "leads,socios")
+await expect("re-correr 0005 no pisa los permisos que ajustó un admin", true, "service",
+  `select 1`, () => rerun === "leads")
+const app = (await one(`select id from public.job_applications limit 1`)).id
+await expect("user sin 'postulaciones' NO puede anotar una postulación", false, "user",
+  `insert into public.audit_log (actor_id, actor_email, entity_type, entity_id, action, note)
+   values ('${USER}','user@sx.mx','job_application','${app}','note','x')`)
+await setPerms("leads,socios,postulaciones")
+await expect("user con 'postulaciones' ve y actualiza postulaciones", true, "user",
+  `update public.job_applications set status='contacted' returning id`, (r) => r.rows.length === 1)
+await expect("  ...y puede anotar en su historial", true, "user",
+  `insert into public.audit_log (actor_id, actor_email, entity_type, entity_id, action, note)
+   select '${USER}','user@sx.mx','job_application', id, 'note','Entrevista' from public.job_applications limit 1`)
+await setPerms("postulaciones")
+await expect("user sin 'leads' ya no ve cotizaciones (efecto inmediato)", true, "user",
+  `select id from public.load_requests`, (r) => r.rows.length === 0)
+await expect("  ...ni su historial", true, "user",
+  `select id from public.audit_log where entity_type = 'load_request'`, (r) => r.rows.length === 0)
+await expect("  ...ni puede actualizar socios", true, "user",
+  `update public.partner_leads set status='won' returning id`, (r) => r.rows.length === 0)
+await setPerms("leads,socios,postulaciones", false)
+await expect("cuenta desactivada no ve nada aunque tenga permisos y JWT vigente", true, "user",
+  `select (select count(*) from public.load_requests) + (select count(*) from public.job_applications) as n`,
+  (r) => Number(r.rows[0].n) === 0)
+await expect("admin ve todo sin permisos explícitos", true, "admin",
+  `select (select count(*) from public.load_requests) as l, (select count(*) from public.job_applications) as j`,
+  (r) => Number(r.rows[0].l) > 0 && Number(r.rows[0].j) > 0)
+await expect("permisos fuera de la lista se rechazan", false, "service",
+  `update public.profiles set permissions = '{usuarios}' where id = '${USER}'`)
+await expect("user NO puede darse permisos a sí mismo", true, "user",
+  `update public.profiles set permissions = '{leads,socios,postulaciones}' where id = '${USER}' returning id`,
+  (r) => r.rows.length === 0)
 
 console.log(failed ? `\n${failed} FALLARON` : "\nTodo pasó")
 process.exit(failed ? 1 : 0)

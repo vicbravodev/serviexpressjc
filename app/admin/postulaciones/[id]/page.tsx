@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation"
 import { cookies } from "next/headers"
-import { requireAdmin } from "@/lib/admin/auth"
+import { requireSection } from "@/lib/admin/auth"
 import {
   applicationStatusMeta,
   experienceLabel,
@@ -9,7 +9,7 @@ import {
   NO_DATA,
   positionLabel,
 } from "@/lib/admin/meta"
-import { getStaffOptions } from "@/lib/admin/staff"
+import { canWork, getStaffOptions } from "@/lib/admin/staff"
 import { createClient } from "@/utils/supabase/server"
 import { AuditHistory, type AuditRow } from "@/app/admin/_components/audit-history"
 import { DetailPage, Fields } from "@/app/admin/_components/detail"
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 export default async function ApplicationDetail({ params }: { params: Promise<{ id: string }> }) {
-  await requireAdmin()
+  await requireSection("postulaciones")
   const { id } = await params
   const supabase = createClient(await cookies())
 
@@ -63,7 +63,7 @@ export default async function ApplicationDetail({ params }: { params: Promise<{ 
           id={id}
           status={app.status}
           assigneeId={app.assigned_to}
-          staff={staff.map((s) => ({ id: s.id, name: s.name }))}
+          staff={staff.filter(canWork("postulaciones")).map((s) => ({ id: s.id, name: s.name }))}
         />
       }
       history={

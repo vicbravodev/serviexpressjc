@@ -1,8 +1,18 @@
 import type { Metadata } from "next"
-import { requireStaff } from "@/lib/admin/auth"
-import { parseListParams } from "@/lib/admin/list"
+import { requireSection } from "@/lib/admin/auth"
+import { facetOptions, parseListParams, type Facet } from "@/lib/admin/list"
 import { queryList, queryStatusCounts } from "@/lib/admin/list-query"
-import { fmtShort, folio, LEAD_STATUSES, leadStatusMeta, serviceLabel, unitLabel } from "@/lib/admin/meta"
+import {
+  fmtShort,
+  folio,
+  LEAD_STATUSES,
+  leadStatusMeta,
+  SERVICE_LABELS,
+  serviceLabel,
+  UNIT_LABELS,
+  unitLabel,
+  URGENCY_LABELS,
+} from "@/lib/admin/meta"
 import { getStaffOptions } from "@/lib/admin/staff"
 import { Assignee, MobileRow, Primary, Received, StatusBadge } from "../_components/cells"
 import { ListView, type Column } from "../_components/list-view"
@@ -17,6 +27,11 @@ const FILTERS = {
   textColumns: ["contact_name", "origin_name", "destination_name", "cargo"],
   phoneColumn: "contact_phone",
 }
+const FACETS: Facet[] = [
+  { key: "service", label: "Servicio", allLabel: "Cualquier servicio", options: facetOptions(SERVICE_LABELS) },
+  { key: "unit", label: "Unidad", allLabel: "Cualquier unidad", options: facetOptions(UNIT_LABELS) },
+  { key: "urgency", label: "Urgencia", allLabel: "Cualquier urgencia", options: facetOptions(URGENCY_LABELS) },
+]
 const TABS = [
   { value: "new", label: "Nuevas" },
   { value: "contacted", label: "Contactadas" },
@@ -45,10 +60,11 @@ const route = (l: Lead) => `${l.origin_name || "Sin origen"} → ${l.destination
 const contact = (l: Lead) => l.contact_name || l.contact_phone || "Sin contacto"
 
 export default async function LeadsPage({ searchParams }: { searchParams: Promise<Record<string, string | string[]>> }) {
-  await requireStaff()
+  await requireSection("leads")
   const params = parseListParams(await searchParams, {
     sorts: ["created_at", "contact_name", "origin_name"],
     statuses: LEAD_STATUSES,
+    facets: FACETS,
   })
   // El equipo primero: así las promesas de la lista no quedan rechazadas sin consumidor.
   const staff = await getStaffOptions()
@@ -140,6 +156,8 @@ export default async function LeadsPage({ searchParams }: { searchParams: Promis
         )}
         searchLabel="Buscar nombre, ciudad, teléfono o folio"
         staff={staff.map((s) => ({ id: s.id, name: s.name }))}
+        dates
+        facets={FACETS}
         noun={{ singular: "cotización", plural: "cotizaciones" }}
       />
     </PageBody>

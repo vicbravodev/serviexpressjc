@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache"
 import { createClient } from "@/utils/supabase/server"
 import { createAdminClient } from "@/utils/supabase/admin"
 import { getSessionClaims } from "@/lib/admin/auth"
+import { SECTIONS, type Section } from "@/lib/admin/meta"
 
 const LEAD_STATUSES = ["new", "contacted", "in_progress", "won", "lost"] as const
 const APPLICATION_STATUSES = ["new", "reviewed", "contacted", "hired", "rejected"] as const
@@ -25,18 +26,24 @@ function withResult<A extends unknown[]>(fn: (...args: A) => Promise<void>) {
   }
 }
 
-async function requireRole(roles: Array<"admin" | "user">) {
+/** Sección del panel (admin la tiene siempre) o "admin" para la gestión de usuarios. */
+async function requireAccess(need: Section | "admin") {
   const claims = await getSessionClaims()
-  if (!claims || !roles.includes(claims.role as "admin" | "user")) {
-    throw new Error("No autorizado")
-  }
+  const ok = need === "admin" ? claims?.role === "admin" : claims?.sections.includes(need)
+  if (!claims || !ok) throw new Error("No autorizado")
   const supabase = createClient(await cookies())
   return { claims, supabase }
 }
 
+/** Solo secciones conocidas, sin repetir, en orden fijo (el CHECK de la base rechaza el resto). */
+function cleanSections(input: unknown): Section[] {
+  const list = Array.isArray(input) ? input : []
+  return SECTIONS.filter((s) => list.includes(s))
+}
+
 export const updateLeadStatus = withResult(async (id: string, status: string, lostReason?: string) => {
   if (!LEAD_STATUSES.includes(status as (typeof LEAD_STATUSES)[number])) throw new Error("Status inválido")
-  const { supabase } = await requireRole(["admin", "user"])
+  const { supabase } = await requireAccess("leads")
   const patch: Record<string, unknown> = { status }
   patch.lost_reason = status === "lost" ? (lostReason?.trim() || null) : null
   const { error } = await supabase.from("load_requests").update(patch).eq("id", id)
@@ -47,7 +54,7 @@ export const updateLeadStatus = withResult(async (id: string, status: string, lo
 
 export const updatePartnerStatus = withResult(async (id: string, status: string, lostReason?: string) => {
   if (!LEAD_STATUSES.includes(status as (typeof LEAD_STATUSES)[number])) throw new Error("Status inválido")
-  const { supabase } = await requireRole(["admin", "user"])
+  const { supabase } = await requireAccess("socios")
   const patch: Record<string, unknown> = { status }
   patch.lost_reason = status === "lost" ? (lostReason?.trim() || null) : null
   const { error } = await supabase.from("partner_leads").update(patch).eq("id", id)
@@ -58,7 +65,7 @@ export const updatePartnerStatus = withResult(async (id: string, status: string,
 
 export const updateApplicationStatus = withResult(async (id: string, status: string, reason?: string) => {
   if (!APPLICATION_STATUSES.includes(status as (typeof APPLICATION_STATUSES)[number])) throw new Error("Status inválido")
-  const { claims, supabase } = await requireRole(["admin"])
+  const { claims, supabase } = await requireAccess("postulaciones")
   const { error } = await supabase.from("job_applications").update({ status }).eq("id", id)
   if (error) throw new Error(error.message)
   // job_applications no tiene columna de motivo; el motivo del rechazo queda como nota en el audit.
@@ -89,10 +96,10 @@ const ENTITY_BASE: Record<EntityType, string> = {
   job_application: "postulaciones",
   partner_lead: "socios",
 }
-const ENTITY_ROLES: Record<EntityType, Array<"admin" | "user">> = {
-  load_request: ["admin", "user"],
-  job_application: ["admin"],
-  partner_lead: ["admin", "user"],
+const ENTITY_SECTION: Record<EntityType, Section> = {
+  load_request: "leads",
+  job_application: "postulaciones",
+  partner_lead: "socios",
 }
 
 export const updateAssignee = withResult(async (
@@ -101,7 +108,7 @@ export const updateAssignee = withResult(async (
   assigneeId: string | null,
   assigneeName?: string,
 ) => {
-  const { claims, supabase } = await requireRole(ENTITY_ROLES[entityType])
+  const { claims, supabase } = await requireAccess(ENTITY_SECTION[entityType])
   const { data: updated, error } = await supabase
     .from(ENTITY_TABLE[entityType])
     .update({ assigned_to: assigneeId })
@@ -124,7 +131,7 @@ export const updateAssignee = withResult(async (
 })
 
 export const addNote = withResult(async (entityType: EntityType, entityId: string, note: string) => {
-  const { claims, supabase } = await requireRole(ENTITY_ROLES[entityType])
+  const { claims, supabase } = await requireAccess(ENTITY_SECTION[entityType])
   const body = note.trim()
   if (!body) throw new Error("La nota está vacía")
   const { error } = await supabase.from("audit_log").insert({
@@ -139,8 +146,14 @@ export const addNote = withResult(async (entityType: EntityType, entityId: strin
   revalidatePath(`/admin/${ENTITY_BASE[entityType]}/${entityId}`)
 })
 
-export const createUser = withResult(async (input: { email: string; password: string; fullName?: string; role: "admin" | "user" }) => {
-  const { claims } = await requireRole(["admin"])
+export const createUser = withResult(async (input: {
+  email: string
+  password: string
+  fullName?: string
+  role: "admin" | "user"
+  permissions: Section[]
+}) => {
+  const { claims } = await requireAccess("admin")
   // Defensa en profundidad: valida el rol server-side (el tipo TS no protege una invocación RPC directa).
   if (!(["admin", "user"] as const).includes(input.role)) throw new Error("Rol inválido")
   const admin = createAdminClient()
@@ -158,18 +171,19 @@ export const createUser = withResult(async (input: { email: string; password: st
     full_name: input.fullName?.trim() || null,
     role: input.role,
     is_active: true,
+    permissions: cleanSections(input.permissions),
   })
   if (pErr) throw new Error(pErr.message)
   await admin.from("audit_log").insert({
     actor_id: claims.userId, actor_email: claims.email,
     entity_type: "user", entity_id: data.user.id, action: "user_create",
-    new_value: { email: input.email.trim(), role: input.role },
+    new_value: { email: input.email.trim(), role: input.role, permissions: cleanSections(input.permissions) },
   })
   revalidatePath("/admin/usuarios")
 })
 
 export const updateUserRole = withResult(async (userId: string, role: "admin" | "user") => {
-  const { claims } = await requireRole(["admin"])
+  const { claims } = await requireAccess("admin")
   if (!(["admin", "user"] as const).includes(role)) throw new Error("Rol inválido")
   const admin = createAdminClient()
   const { data: before } = await admin.from("profiles").select("role").eq("id", userId).single()
@@ -186,8 +200,25 @@ export const updateUserRole = withResult(async (userId: string, role: "admin" | 
   revalidatePath("/admin/usuarios")
 })
 
+/** Secciones de una cuenta "user"; efecto inmediato (RLS las lee de profiles). */
+export const updateUserPermissions = withResult(async (userId: string, permissions: Section[]) => {
+  const { claims } = await requireAccess("admin")
+  const next = cleanSections(permissions)
+  const admin = createAdminClient()
+  const { data: before } = await admin.from("profiles").select("permissions").eq("id", userId).single()
+  const { data: updated, error } = await admin.from("profiles").update({ permissions: next }).eq("id", userId).select("id")
+  if (error) throw new Error(error.message)
+  if (!updated || updated.length === 0) throw new Error("Usuario no encontrado")
+  await admin.from("audit_log").insert({
+    actor_id: claims.userId, actor_email: claims.email,
+    entity_type: "user", entity_id: userId, action: "permissions_change",
+    old_value: before ?? null, new_value: { permissions: next },
+  })
+  revalidatePath("/admin/usuarios")
+})
+
 export const setUserActive = withResult(async (userId: string, isActive: boolean) => {
-  const { claims } = await requireRole(["admin"])
+  const { claims } = await requireAccess("admin")
   const admin = createAdminClient()
   const { error: banErr } = await admin.auth.admin.updateUserById(userId, { ban_duration: isActive ? "none" : "876000h" })
   if (banErr) throw new Error(banErr.message)
