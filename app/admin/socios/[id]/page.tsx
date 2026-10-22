@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation"
 import { cookies } from "next/headers"
-import { requireStaff } from "@/lib/admin/auth"
+import { requireSection } from "@/lib/admin/auth"
 import { fmtShort, folio, leadStatusMeta, NO_DATA, partnerUnitLabel } from "@/lib/admin/meta"
-import { getStaffOptions } from "@/lib/admin/staff"
+import { canWork, getStaffOptions } from "@/lib/admin/staff"
 import { createClient } from "@/utils/supabase/server"
 import { AuditHistory, type AuditRow } from "@/app/admin/_components/audit-history"
 import { DetailPage, Fields } from "@/app/admin/_components/detail"
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 export default async function PartnerLeadDetail({ params }: { params: Promise<{ id: string }> }) {
-  await requireStaff()
+  await requireSection("socios")
   const { id } = await params
   const supabase = createClient(await cookies())
 
@@ -59,7 +59,7 @@ export default async function PartnerLeadDetail({ params }: { params: Promise<{ 
           id={id}
           status={lead.status}
           assigneeId={lead.assigned_to}
-          staff={staff.map((s) => ({ id: s.id, name: s.name }))}
+          staff={staff.filter(canWork("socios")).map((s) => ({ id: s.id, name: s.name }))}
         />
       }
       history={

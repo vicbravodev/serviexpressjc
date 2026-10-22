@@ -1,5 +1,18 @@
 // Metadatos compartidos (server + client) para el panel admin: estatus, folios y formato.
 
+/**
+ * Secciones del panel que se pueden dar por persona. Admin las tiene todas (y además
+ * Usuarios); un "user" solo las que tenga en `profiles.permissions`. La misma lista
+ * vive en el CHECK de la migración 0005.
+ */
+export const SECTIONS = ["leads", "socios", "postulaciones"] as const
+export type Section = (typeof SECTIONS)[number]
+export const SECTION_LABELS: Record<Section, string> = {
+  leads: "Cotizaciones",
+  socios: "Socios comerciales",
+  postulaciones: "Postulaciones",
+}
+
 export type LeadStatus = "new" | "contacted" | "in_progress" | "won" | "lost"
 export type ApplicationStatus = "new" | "reviewed" | "contacted" | "hired" | "rejected"
 
@@ -47,32 +60,32 @@ export function applicationStatusMeta(status: string): StatusMeta {
 }
 
 // Los formularios públicos persisten claves crudas; etiquetas para el panel.
-const SERVICE_LABELS: Record<string, string> = {
+export const SERVICE_LABELS: Record<string, string> = {
   nacional: "Nacional",
   internacional: "Internacional",
 }
-const UNIT_LABELS: Record<string, string> = {
+export const UNIT_LABELS: Record<string, string> = {
   dryvan: "Caja seca 53 pies",
   flatbed: "Plataforma",
   oversize: "Sobredimensionada",
 }
-const URGENCY_LABELS: Record<string, string> = {
+export const URGENCY_LABELS: Record<string, string> = {
   normal: "No urgente",
   urgente: "Urgente",
 }
-const POSITION_LABELS: Record<string, string> = {
+export const POSITION_LABELS: Record<string, string> = {
   b1: "Operador B1 (cruce)",
   national: "Operador nacional",
   mechanic: "Técnico de taller",
   admin: "Administrativo",
 }
-const EXPERIENCE_LABELS: Record<string, string> = {
+export const EXPERIENCE_LABELS: Record<string, string> = {
   lt2: "Menos de 2 años",
   "2to5": "2 a 5 años",
   "5to10": "5 a 10 años",
   gt10: "Más de 10 años",
 }
-const PARTNER_UNIT_LABELS: Record<string, string> = {
+export const PARTNER_UNIT_LABELS: Record<string, string> = {
   tractor: "Tractocamión",
   plataforma: "Plataforma",
   ambos: "Tractocamión + plataforma",

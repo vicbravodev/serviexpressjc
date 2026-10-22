@@ -2,7 +2,7 @@ import { Suspense, type ReactNode } from "react"
 import Link from "next/link"
 import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, ChevronsUpDown } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { listHref, PAGE_SIZES, type ListParams } from "@/lib/admin/list"
+import { hasFilters, listHref, PAGE_SIZES, type Facet, type ListParams } from "@/lib/admin/list"
 import { Button } from "@/components/ui/button"
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -35,6 +35,9 @@ type Props<R> = {
   mobileRow: (row: R) => ReactNode
   searchLabel: string
   staff?: Array<{ id: string; name: string }>
+  /** Filtro por fecha de recepción (created_at). */
+  dates?: boolean
+  facets?: Facet[]
   noun: { singular: string; plural: string }
 }
 
@@ -44,13 +47,22 @@ type Props<R> = {
  * la URL, así que atrás/adelante, recargar y compartir el link conservan la vista.
  */
 export function ListView<R>(props: Props<R>) {
-  const { basePath, params, searchLabel, staff } = props
+  const { basePath, params, searchLabel, staff, dates, facets } = props
   // La key reinicia el Suspense en cada cambio de filtros para mostrar el skeleton.
   const key = listHref(basePath, params)
+  // Los conteos de las pestañas solo cambian con los filtros, no con estatus/orden/página.
+  const tabsKey = JSON.stringify([params.q, params.asignado, params.desde, params.hasta, params.f])
   return (
     <div className="flex flex-col gap-3">
-      <ListFilters basePath={basePath} params={params} searchLabel={searchLabel} staff={staff} />
-      <Suspense key={`tabs:${params.q}:${params.asignado}`} fallback={<TabsSkeleton n={props.tabs.length + 1} />}>
+      <ListFilters
+        basePath={basePath}
+        params={params}
+        searchLabel={searchLabel}
+        staff={staff}
+        dates={dates}
+        facets={facets}
+      />
+      <Suspense key={tabsKey} fallback={<TabsSkeleton n={props.tabs.length + 1} />}>
         <StatusTabs {...props} />
       </Suspense>
       <Suspense key={key} fallback={<ResultsSkeleton cols={props.columns.length} />}>
@@ -105,7 +117,7 @@ async function Results<R>({
   noun,
 }: Props<R>) {
   const { rows, total } = await data
-  const filtered = params.status !== "todos" || params.q !== "" || params.asignado !== "todos"
+  const filtered = params.status !== "todos" || hasFilters(params)
 
   if (rows.length === 0) {
     return (
@@ -115,7 +127,7 @@ async function Results<R>({
             <EmptyTitle>{filtered ? "Sin resultados con estos filtros" : `Aún no hay ${noun.plural}`}</EmptyTitle>
             <EmptyDescription>
               {filtered
-                ? "Prueba con otra búsqueda o cambia el estatus o el asignado."
+                ? "Prueba con otra búsqueda, otro rango de fechas o quita algún filtro."
                 : "Aparecerán aquí en cuanto lleguen desde el sitio."}
             </EmptyDescription>
           </EmptyHeader>

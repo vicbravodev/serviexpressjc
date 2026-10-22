@@ -2,12 +2,12 @@ import type { Metadata } from "next"
 import { requireAdmin } from "@/lib/admin/auth"
 import { parseListParams } from "@/lib/admin/list"
 import { queryList, queryStatusCounts } from "@/lib/admin/list-query"
-import { fmtDate, initials } from "@/lib/admin/meta"
+import { fmtDate, initials, SECTIONS } from "@/lib/admin/meta"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { MobileRow, Primary } from "../_components/cells"
 import { ListView, type Column } from "../_components/list-view"
 import { PageBody, PageHeader } from "../_components/page-header"
-import { ActiveSwitch, NewUserButton, RoleSelect } from "../_components/users-table"
+import { ActiveSwitch, NewUserButton, RoleSelect, SectionsMenu } from "../_components/users-table"
 
 export const dynamic = "force-dynamic"
 export const metadata: Metadata = { title: "Usuarios" }
@@ -24,6 +24,7 @@ type Profile = {
   full_name: string | null
   role: "admin" | "user"
   is_active: boolean
+  permissions: string[] | null
   created_at: string
 }
 
@@ -32,6 +33,7 @@ const toUser = (u: Profile) => ({
   nombre: u.full_name || u.email.split("@")[0],
   rol: u.role,
   activo: u.is_active,
+  secciones: SECTIONS.filter((s) => u.permissions?.includes(s)),
 })
 
 export default async function UsersPage({ searchParams }: { searchParams: Promise<Record<string, string | string[]>> }) {
@@ -39,7 +41,7 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
   const params = parseListParams(await searchParams, { sorts: ["created_at", "full_name"], statuses: ROLES })
   const data = queryList<Profile>({
     table: TABLE,
-    select: "id, email, full_name, role, is_active, created_at",
+    select: "id, email, full_name, role, is_active, permissions, created_at",
     params,
     filters: FILTERS,
     basePath: BASE,
@@ -66,6 +68,11 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
       cell: (u) => <RoleSelect user={toUser(u)} disabled={u.id === claims.userId} />,
     },
     {
+      key: "secciones",
+      label: "Secciones",
+      cell: (u) => <SectionsMenu user={toUser(u)} disabled={u.id === claims.userId} />,
+    },
+    {
       key: "acceso",
       label: "Acceso",
       cell: (u) => <ActiveSwitch user={toUser(u)} disabled={u.id === claims.userId} />,
@@ -77,7 +84,7 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
     <PageBody narrow>
       <PageHeader
         title="Usuarios"
-        description="Cuentas del equipo y sus permisos. Tu propia cuenta no se puede editar desde aquí."
+        description="Cuentas del equipo y qué secciones ve cada una. Tu propia cuenta no se puede editar desde aquí."
         actions={<NewUserButton />}
       />
       <ListView
@@ -99,6 +106,7 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
             meta={
               <span className="flex w-full flex-wrap items-center gap-3 pt-1">
                 <RoleSelect user={toUser(u)} disabled={u.id === claims.userId} />
+                <SectionsMenu user={toUser(u)} disabled={u.id === claims.userId} />
                 <ActiveSwitch user={toUser(u)} disabled={u.id === claims.userId} />
               </span>
             }
