@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/sidebar"
 
 type Props = {
-  user: { email: string; role: "admin" | "user" }
+  user: { email: string; name: string | null; role: "admin" | "user" }
   /** null en las secciones que la persona no tiene: no se muestran. */
   counts: Record<Section, number | null>
   children: ReactNode
@@ -55,7 +55,9 @@ export function AdminShell({ user, counts, children }: Props) {
   // /admin[/seccion[/id]]
   const [, , section = "", detailId] = pathname.split("/")
   const isAdmin = user.role === "admin"
-  const userName = user.email.split("@")[0].replace(/[.\-_]/g, " ")
+  // Sin nombre en el perfil, se arma del correo (juan.perez@ → "Juan Perez").
+  const fromEmail = !user.name
+  const userName = user.name || user.email.split("@")[0].replace(/[.\-_]/g, " ")
 
   const crumbTitle = SECTION_TITLES[section] ?? "Tablero"
   const detailFolio = detailId ? folio(FOLIO_PREFIX[section] ?? "COT", detailId) : null
@@ -130,7 +132,7 @@ export function AdminShell({ user, counts, children }: Props) {
                 <AvatarFallback>{initials(userName || user.email)}</AvatarFallback>
               </Avatar>
               <div className="flex min-w-0 flex-col leading-snug">
-                <span className="truncate text-sm font-medium capitalize">{userName}</span>
+                <span className={`truncate text-sm font-medium ${fromEmail ? "capitalize" : ""}`}>{userName}</span>
                 <span className="truncate text-xs text-muted-foreground">
                   {isAdmin ? "Admin" : "Usuario"}, {user.email}
                 </span>
