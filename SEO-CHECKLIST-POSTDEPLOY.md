@@ -14,7 +14,7 @@ Tareas manuales que el código no puede resolver. Marcar cada una al completarla
 - [ ] **Google Business Profile:** crear o reclamar el perfil.
   - Categoría principal: **"Servicio de transporte de carga"** (Trucking company).
   - Dirección: Carretera Mezquital Santa Rosa Km 05, Apodaca, N.L.
-  - Teléfonos: +52 81 1552 6349 (MX) / +1 346 366 9867 (US).
+  - Teléfonos: +52 81 2426 3211 (MX) / +1 346 366 9867 (US).
   - Sitio: https://serviexpressjc.com.mx
   - Subir fotos reales de flota (usar las de `public/fleet/`): patio, unidades, cruce.
   - **Pedir reseñas a clientes clave** (Ternium, Serviacero, Kingspan y clientes frecuentes): las reseñas son el factor #1 del pack local.
