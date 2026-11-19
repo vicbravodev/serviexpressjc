@@ -13,8 +13,8 @@ export const yearsInService = () => new Date().getFullYear() - FOUNDING_YEAR
 export const CONTACT_PHONE_US = "+13463669867"
 export const CONTACT_PHONE_US_DISPLAY = "+1 346 366 9867"
 /** Teléfono México (formato E.164 para tel: y visible). */
-export const CONTACT_PHONE_MX = "+528115526349"
-export const CONTACT_PHONE_MX_DISPLAY = "+52 81 1552 6349"
+export const CONTACT_PHONE_MX = "+528124263211"
+export const CONTACT_PHONE_MX_DISPLAY = "+52 81 2426 3211"
 
 /** Teléfono de contacto según idioma: español → México, inglés → USA. */
 export const contactPhone = (locale: string) =>
@@ -27,8 +27,8 @@ export const CONTACT_EMAIL = "contacto@serviexpressjc.com.mx"
 /** WhatsApp de contacto directo (México): +52 81 1524 8593. Solo dígitos con código de país (formato wa.me); override sin deploy vía env. */
 export const WHATSAPP_PHONE = process.env.NEXT_PUBLIC_WHATSAPP_PHONE ?? "5218115248593"
 
-/** WhatsApp para cotizaciones NACIONALES (México): +52 1 81 1552 6349. */
-export const WHATSAPP_PHONE_MX = process.env.NEXT_PUBLIC_WHATSAPP_PHONE_MX ?? "5218115526349"
+/** WhatsApp para cotizaciones NACIONALES (México): +52 1 81 2426 3211. */
+export const WHATSAPP_PHONE_MX = process.env.NEXT_PUBLIC_WHATSAPP_PHONE_MX ?? "5218124263211"
 
 /** WhatsApp para cotizaciones INTERNACIONALES / USA: +1 346 366 9867. */
 export const WHATSAPP_PHONE_US = process.env.NEXT_PUBLIC_WHATSAPP_PHONE_US ?? "13463669867"
